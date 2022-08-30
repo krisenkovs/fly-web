@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "baseUrl": "./src",
+    "outDir": "./dist/",
+    "strict": true,
+    "alwaysStrict": true,
+    "target": "ES2015",
+    "module": "ESNext",
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictBindCallApply": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "strictFunctionTypes": true,
+    "noImplicitOverride": true,
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
+    "lib": ["es7", "dom"]
+  },
+  "include": ["src", "externals.d.ts"]
+}

@@ -1,0 +1,9 @@
+.diagram {
+  width: 128px;
+  height: 128px;
+}
+.content {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+}

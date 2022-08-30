@@ -1,0 +1,13 @@
+.diagram {
+  position: absolute;
+  left: 30px;
+  top: 30px;
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+}
+.content {
+  position: absolute;
+  left: 42px;
+  top: 42px;
+}

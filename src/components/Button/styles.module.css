@@ -1,0 +1,27 @@
+.button {
+  width: 100%;
+  height: 48px;
+  background: #005eeb;
+  outline: none;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 23px;
+  color: #ffffff;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+.button :focus {
+  background: #003688;
+}
+
+.disabled {
+  pointer-events: none;
+  background: #c2cddb;
+}
