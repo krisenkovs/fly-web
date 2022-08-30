@@ -9,4 +9,5 @@ export enum ROUTES {
   SCANNER = '/scanner',
   STATION = '/station',
   PAYMENT = '/payment',
+  SETTINGS = '/settings',
 }

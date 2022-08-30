@@ -3,8 +3,12 @@ import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { BellIcon, CaretRightIcon, SlidersIcon } from 'icons';
+import { observer } from 'mobx-react';
 import React from 'react';
+import { useNavigate } from 'react-router';
+import { store as mainStore } from 'web/application/store';
 import { Header } from 'web/components/Header';
+import { ROUTES } from 'web/constant';
 
 const DATA = [
   {
@@ -29,10 +33,16 @@ const DATA = [
   },
 ];
 
-export default function Profile() {
+export const ProfilePage = observer(() => {
+  const navigation = useNavigate();
+
+  function handleSettingsClick() {
+    navigation(ROUTES.SETTINGS);
+  }
+
   return (
     <Box flex={1}>
-      <Header title="Профиль" showBackButton />
+      <Header title="Профиль" showBackButton showProfileButton={false}/>
       <Box paddingTop={90} paddingLeft={16} paddingRight={16}>
         <Box
           style={{ position: 'relative' }}
@@ -58,7 +68,7 @@ export default function Profile() {
           >
             <Box height={100} width={100} borderRadius={100} backgroundColor={COLORS.LIGHT_BLUE} />
           </Box>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleSettingsClick}>
             <Box
               height={40}
               width={40}
@@ -89,10 +99,10 @@ export default function Profile() {
             </Box>
           </TouchableOpacity>
           <Typography weight={700} size={16} lineHeight={24} color={COLORS.BLACK} textAlign="center">
-            Алексей Иванов
+            {mainStore.profilePromise?.value?.firstName}
           </Typography>
           <Typography weight={400} size={14} lineHeight={18} color={COLORS.BLACK} textAlign="center">
-            alexivanov@gmail.com
+            {mainStore.profilePromise?.value?.email}
           </Typography>
         </Box>
         <Box flex={1} paddingTop={8}>
@@ -118,4 +128,4 @@ export default function Profile() {
       </Box>
     </Box>
   );
-}
+});

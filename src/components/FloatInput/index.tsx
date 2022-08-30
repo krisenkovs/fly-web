@@ -36,7 +36,7 @@ export const FloatInput: FC<Props> = ({ inputClassName, name, onChange, value, l
         {input}
         <label className={value && styles.floatInputFilled}>{label}</label>
       </div>
-      {hint && <div className={styles.floatInputHint}>{hint}</div>}
+      <div className={styles.floatInputHint}>{hint}</div>
     </div>
   );
 };

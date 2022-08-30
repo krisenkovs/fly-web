@@ -5,7 +5,7 @@ import { COLORS } from 'constant';
 import React from 'react';
 import { useNavigate } from 'react-router';
 
-export default function PayErrorPage() {
+export function PayErrorPage() {
   const navigation = useNavigate();
   function handleTry() {
     navigation(-1);
