@@ -1,14 +1,13 @@
-import { COLORS } from 'constant';
-import React, { FC, useContext, useRef, useState } from 'react';
-import { ThemeApplicationContext } from 'theme/application/ThemeApplication';
-import { Header } from 'theme/components/Header';
-import { ProviderButton } from 'theme/components/ProviderButton';
-
 import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { FloatInput } from 'components/FloatInput';
 import { Link } from 'components/Link';
 import { Typography } from 'components/Typography';
+import { COLORS } from 'constant';
+import React, { FC, useContext, useRef, useState } from 'react';
+import { ThemeApplicationContext } from 'theme/application/ThemeApplication';
+import { Header } from 'theme/components/Header';
+import { ProviderButton } from 'theme/components/ProviderButton';
 
 export const LoginPage: FC = () => {
   const [formValues, setFormValues] = useState<{ username?: string; password?: string }>({});
@@ -43,7 +42,7 @@ export const LoginPage: FC = () => {
           </>
         }
       />
-      <Box flex={1} paddingTop={40} paddingLeft={16} paddingRight={16} paddingBottom={58}>
+      <Box flex={1} paddingTop={24} paddingLeft={16} paddingRight={16} paddingBottom={40}>
         <form action={theme?.url?.action} method="post" ref={formRef}>
           <FloatInput
             hint={formErrors?.username}
@@ -59,7 +58,6 @@ export const LoginPage: FC = () => {
               label="Пароль"
               name="password"
               onChange={handlePasswordChange}
-              style={{ marginTop: '8px' }}
               type="password"
             />
           </Box>
@@ -69,7 +67,7 @@ export const LoginPage: FC = () => {
             Забыли пароль?
           </Link>
         </Box>
-        <Box marginTop={24}>
+        <Box marginTop={16}>
           <Button
             onClick={handleLoginClick}
             label="Войти"
@@ -77,12 +75,16 @@ export const LoginPage: FC = () => {
           />
         </Box>
         <Box flex={1} />
-        <Typography weight={500} size={16} lineHeight={20} textAlign="center" color={COLORS.BLACK}>
-          Или через соц сети
-        </Typography>
-        <Box marginTop={24} justifyContent="center" alignItems="center" marginBottom={32}>
-          <ProviderButton type="google" href="#" />
-        </Box>
+        {!!theme?.url.social?.length && (
+          <>
+            <Typography weight={500} size={16} lineHeight={20} textAlign="center" color={COLORS.BLACK}>
+              Или через соц сети
+            </Typography>
+            <Box marginTop={16} justifyContent="center" alignItems="center" marginBottom={24}>
+              <ProviderButton type="google" href="#" />
+            </Box>
+          </>
+        )}
 
         <Box flexDirection="row" justifyContent="center">
           <Link weight={700} size={16} height={24} href={theme?.url?.registration}>

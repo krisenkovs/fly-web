@@ -1,3 +1,4 @@
+import { store } from './store';
 import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { FloatInput } from 'components/FloatInput';
@@ -5,11 +6,30 @@ import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { store as mainStore } from 'web/application/store';
 import { Header } from 'web/components/Header';
+import { ProfileType } from 'web/types';
 
 export const SettingsPage = observer(() => {
+  const [formValues, setFormValues] = useState<ProfileType | undefined>(undefined);
+
+  useEffect(() => {
+    setFormValues(mainStore.profilePromise?.value);
+  }, [mainStore.profilePromise?.value]);
+
+  useEffect(() => {
+    store.saveProfilePromiseObserver?.fulfilled && mainStore.loadProfile();
+  }, [store.saveProfilePromiseObserver?.fulfilled]);
+
+  function handleSaveClick() {
+    store.saveProfile(formValues);
+  }
+
+  function handleEditField(key: keyof ProfileType, value: string | number | undefined) {
+    setFormValues((prevState) => ({ ...prevState, [key]: value }));
+  }
+
   return (
     <Box flex={1}>
       <Header title="Настройки профиля" showBackButton showProfileButton={false} />
@@ -24,10 +44,30 @@ export const SettingsPage = observer(() => {
             </TouchableOpacity>
           </Box>
         </Box>
-        <FloatInput label="Имя" type="text" value={mainStore?.profilePromise?.value?.firstName} />
-        <FloatInput label="Фамилия" type="text" value={mainStore?.profilePromise?.value?.lastName} />
-        <FloatInput label="Email" type="text" value={mainStore?.profilePromise?.value?.email} />
-        <FloatInput label="телефон" type="text" value={mainStore?.profilePromise?.value?.phone} />
+        <FloatInput
+          label="Имя"
+          type="text"
+          value={formValues?.firstName}
+          onChange={(value) => handleEditField('firstName', value)}
+        />
+        <FloatInput
+          label="Фамилия"
+          type="text"
+          value={formValues?.lastName}
+          onChange={(value) => handleEditField('lastName', value)}
+        />
+        <FloatInput
+          label="Email"
+          type="text"
+          value={formValues?.email}
+          onChange={(value) => handleEditField('email', value)}
+        />
+        <FloatInput
+          label="телефон"
+          type="text"
+          value={formValues?.phone}
+          onChange={(value) => handleEditField('phone', value)}
+        />
         <Box paddingBottom={28}>
           <TouchableOpacity>
             <Typography weight={400} size={16} lineHeight={20} color={COLORS.BLUE}>
@@ -41,7 +81,7 @@ export const SettingsPage = observer(() => {
           </Typography>
         </TouchableOpacity>
         <Box flex={1} />
-        <Button onClick={() => null} label="Сохранить" disabled />
+        <Button onClick={handleSaveClick} label="Сохранить" disabled={store.saveProfilePromiseObserver?.pending} />
       </Box>
     </Box>
   );

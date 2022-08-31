@@ -17,19 +17,16 @@ type Props = {
 export function Input({ value, icon, title, values, onChange }: Props) {
   return (
     <Box>
-      <Box marginLeft={32}>
-        <Typography color={COLORS.LIGHT_BLACK} weight={500} size={12} lineHeight={15}>
-          {title}
-        </Typography>
-      </Box>
-      <Box flexDirection="row" alignItems="center" marginTop={8}>
-        {icon}
+      <Box flexDirection="row" alignItems="flex-end">
+        <Box marginBottom={4}>{icon}</Box>
         <Box marginLeft={8} flex={1}>
-          <input
+          <FloatInput
             type="number"
-            className={styles.input}
-            onChange={(e) => onChange?.(Number(e.target?.value))}
+            label={title}
+            //className={styles.input}
+            onChange={(e) => onChange?.(Number(e))}
             value={value?.toString()}
+            hideHint
           />
         </Box>
       </Box>

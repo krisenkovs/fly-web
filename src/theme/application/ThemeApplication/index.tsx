@@ -13,6 +13,7 @@ type Theme = {
     action: string;
     resource: string;
     base: string;
+    social?:string[]
   };
   message: {
     type: string;

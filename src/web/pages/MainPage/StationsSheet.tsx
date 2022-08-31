@@ -1,5 +1,6 @@
 import styles from './styles.module.css';
 import { Box } from 'components/Box';
+import { Loader } from 'components/Loader';
 import { Pressable } from 'components/Pressable';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
@@ -52,25 +53,29 @@ export const StationsSheet = observer(function StationsSheet({ height }: Props) 
         </Typography>
       </Box>
       <Box flex={1}>
-        <Box className={styles.list}>
-          {store.stationsPromise?.value?.content?.map((item) => (
-            <Pressable onPress={() => handleStationClick(item?.id)} key={item?.id}>
-              <Box className={styles.listItem}>
-                <Typography size={16} lineHeight={20} weight={500} color={COLORS.BLACK}>
-                  {item.address}
-                </Typography>
-                <Box marginTop={4}>
-                  <Typography
-                    size={14}
-                    lineHeight={18}
-                    weight={700}
-                    color={COLORS.LIGHT_BLACK}
-                  >{`№ ${item.id}`}</Typography>
+        {store.stationsPromise?.pending ? (
+          <Loader />
+        ) : (
+          <Box className={styles.list}>
+            {store.stationsPromise?.value?.content?.map((item) => (
+              <Pressable onPress={() => handleStationClick(item?.id)} key={item?.id}>
+                <Box className={styles.listItem}>
+                  <Typography size={16} lineHeight={20} weight={500} color={COLORS.BLACK}>
+                    {item.address}
+                  </Typography>
+                  <Box marginTop={4}>
+                    <Typography
+                      size={14}
+                      lineHeight={18}
+                      weight={700}
+                      color={COLORS.LIGHT_BLACK}
+                    >{`№ ${item.id}`}</Typography>
+                  </Box>
                 </Box>
-              </Box>
-            </Pressable>
-          ))}
-        </Box>
+              </Pressable>
+            ))}
+          </Box>
+        )}
       </Box>
     </Box>
   );

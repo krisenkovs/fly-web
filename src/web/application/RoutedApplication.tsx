@@ -16,7 +16,6 @@ import { ScannerPage } from 'web/pages/ScannerPage';
 import { SettingsPage } from 'web/pages/SettingsPage';
 import { StationPage } from 'web/pages/StationPage';
 
-
 export const RoutedApplication = observer(() => {
   const {
     keycloak: { authenticated, login },
@@ -32,11 +31,7 @@ export const RoutedApplication = observer(() => {
     }
   }, [authenticated, login]);
 
-  if (store.stationsPromise?.pending || store.profilePromise?.pending) {
-    return <Loader />;
-  }
-
-  if (!authenticated || !store.stationsPromise?.fulfilled || !store.profilePromise?.fulfilled) {
+  if (!authenticated ) {
     return null;
   }
 

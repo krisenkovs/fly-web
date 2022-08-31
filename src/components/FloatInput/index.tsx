@@ -12,9 +12,20 @@ type Props = {
   type?: 'text' | 'password' | 'number';
   style?: CSSProperties;
   inputClassName?: string;
+  hideHint?: boolean;
 };
 
-export const FloatInput: FC<Props> = ({ inputClassName, name, onChange, value, label, hint, type = 'text', style }) => {
+export const FloatInput: FC<Props> = ({
+  inputClassName,
+  name,
+  onChange,
+  value,
+  label,
+  hint,
+  type = 'text',
+  style,
+  hideHint,
+}) => {
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       onChange?.(e.target.value);
@@ -36,7 +47,7 @@ export const FloatInput: FC<Props> = ({ inputClassName, name, onChange, value, l
         {input}
         <label className={value && styles.floatInputFilled}>{label}</label>
       </div>
-      <div className={styles.floatInputHint}>{hint}</div>
+      {!hideHint && <div className={styles.floatInputHint}>{hint}</div>}
     </div>
   );
 };
