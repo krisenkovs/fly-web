@@ -15,9 +15,11 @@ type Props = PropsWithChildren<{
 }>;
 
 export function Modal({ title, visible, children, onClose }: Props) {
-  return visible ? (
+  return (
     <>
-      <Box backgroundColor={COLORS.BLACK} className={styles.overlay} />
+      {visible && (
+        <div  className={styles.overlay}  />
+      )}
       <Box
         backgroundColor={COLORS.WHITE}
         className={styles.content}
@@ -25,6 +27,7 @@ export function Modal({ title, visible, children, onClose }: Props) {
         paddingBottom={24}
         paddingLeft={24}
         paddingRight={24}
+        style={{ transform: visible ? 'translateY(0)' : 'translateY(100%)' }}
       >
         <Box flexDirection="row" alignItems="center">
           <Box flex={1}>
@@ -48,5 +51,5 @@ export function Modal({ title, visible, children, onClose }: Props) {
         <Box>{children}</Box>
       </Box>
     </>
-  ) : null;
+  );
 }

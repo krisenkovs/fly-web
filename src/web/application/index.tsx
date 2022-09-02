@@ -2,11 +2,10 @@ import { container } from '../container';
 import { store } from './store';
 import { AuthClientTokens } from '@react-keycloak/core';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
-import { Box } from 'components/Box';
 import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react';
 import React, { useCallback, useEffect, Suspense } from 'react';
-import { RoutedApplication } from 'web/application/RoutedApplication';
+import { Keycloak } from 'web/application/Keycloak';
 
 export const Application = observer(() => {
   useEffect(() => {
@@ -30,7 +29,7 @@ export const Application = observer(() => {
             silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
           }}
         >
-          <RoutedApplication />
+          <Keycloak />
         </ReactKeycloakProvider>
       )}
     </Suspense>

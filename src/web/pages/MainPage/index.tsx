@@ -2,40 +2,41 @@ import { StationsSheet } from './StationsSheet';
 import styles from './styles.module.css';
 import { Box } from 'components/Box';
 import { Pressable } from 'components/Pressable';
+import Skeleton from 'components/Skeleton';
 import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { BatteryFly, BellIcon, CaretRightIcon, WarningIcon } from 'icons';
 import { observer } from 'mobx-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { store, store as mainStore } from 'web/application/store';
 import { ROUTES } from 'web/constant';
 
 export const MainPage = observer(() => {
   const [height, setHeight] = useState<number | undefined>(0);
   const ref = useRef<HTMLDivElement>(null);
-  const navigation = useNavigate();
+  const { push } = useHistory();
 
   useEffect(() => {
     ref?.current && setHeight(ref?.current?.clientHeight);
   }, [ref.current]);
 
   function handleScannerPress() {
-    navigation(ROUTES.SCANNER);
+    push(ROUTES.SCANNER);
   }
 
   function handleTransaction() {
-    navigation(`${ROUTES.CHARGE}`);
+    push(`${ROUTES.CHARGE}`);
   }
 
   function handleUserPress() {
-    navigation(ROUTES.PROFILE);
+    push(ROUTES.PROFILE);
   }
 
   return (
     <>
-      <Box flex={1} style={{ position: 'relative' }}>
+      <Box flex={1} position="relative">
         <Box
           paddingLeft={16}
           paddingRight={16}
@@ -44,29 +45,41 @@ export const MainPage = observer(() => {
           alignItems="center"
           flexDirection="row"
         >
-          <TouchableOpacity onPress={handleUserPress}>
-            <Box
-              width={48}
-              height={48}
-              borderRadius={24}
-              justifyContent="center"
-              alignItems="center"
-              backgroundColor={COLORS.PALE_BLUE}
-            >
-              <Typography weight={700} size={18} lineHeight={18} color={COLORS.BLUE}>
-                {mainStore.profilePromise?.value?.firstName?.substr(0, 1).toUpperCase()}
-              </Typography>
+          {mainStore.profilePromise?.pending ? (
+            <Skeleton.Avatar size={48} />
+          ) : (
+            <TouchableOpacity onPress={handleUserPress}>
+              <Box
+                width={48}
+                height={48}
+                borderRadius={24}
+                justifyContent="center"
+                alignItems="center"
+                backgroundColor={COLORS.PALE_BLUE}
+              >
+                <Typography weight={700} size={18} lineHeight={18} color={COLORS.BLUE}>
+                  {mainStore.profilePromise?.value?.firstName?.substr(0, 1).toUpperCase()}
+                </Typography>
+              </Box>
+            </TouchableOpacity>
+          )}
+          {mainStore.profilePromise?.pending ? (
+            <Box marginLeft={12} flex={1}>
+              <Skeleton.Row height={40} />
             </Box>
-          </TouchableOpacity>
-          <Box marginLeft={12} flex={1} flexDirection="column">
-            <Typography weight={800} size={20} lineHeight={25} color={COLORS.BLACK}>
-              {mainStore.profilePromise?.value?.firstName}
-            </Typography>
-            <Typography weight={400} size={12} lineHeight={15} color={COLORS.LIGHT_BLACK}>
-              Добро пожаловать
-            </Typography>
-          </Box>
-          <BellIcon width={32} height={32} />
+          ) : (
+            <>
+              <Box marginLeft={12} flex={1} flexDirection="column">
+                <Typography weight={800} size={20} lineHeight={25} color={COLORS.BLACK}>
+                  {mainStore.profilePromise?.value?.firstName}
+                </Typography>
+                <Typography weight={400} size={12} lineHeight={15} color={COLORS.LIGHT_BLACK}>
+                  Добро пожаловать
+                </Typography>
+              </Box>
+              <BellIcon width={32} height={32} />
+            </>
+          )}
         </Box>
 
         <Box height={188} marginTop={100} style={{ position: 'relative' }}>
@@ -105,7 +118,9 @@ export const MainPage = observer(() => {
           )}
         </Box>
         <Box flex={1} refContainer={ref} />
-        {!!height && store?.currentTransactionPromise?.value?.status === 'CREATED' && <StationsSheet height={height} />}
+        {!!height /*&& store?.currentTransactionPromise?.value?.status !== 'CREATED'*/ && (
+          <StationsSheet height={height} />
+        )}
       </Box>
     </>
   );

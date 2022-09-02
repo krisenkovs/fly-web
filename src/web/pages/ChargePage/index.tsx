@@ -9,21 +9,21 @@ import { COLORS } from 'constant';
 import { CrossIcon } from 'icons';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
 import { ROUTES } from 'web/constant';
 
 export const ChargePage = observer(() => {
   const [visible, setVisible] = useState(false);
-  const navigation = useNavigate();
+  const { push } = useHistory();
 
   useEffect(() => {
-    const interval = setInterval(() => mainStore.currentStation?.id && mainStore.loadCurrentTransaction(), 5000);
+    const interval = setInterval(() => mainStore.loadCurrentTransaction(), 5000);
     return () => clearInterval(interval);
-  }, [mainStore.currentStation?.id]);
+  }, []);
 
   function handleCancel() {
-    navigation(ROUTES.MAIN);
+    push(ROUTES.MAIN);
   }
 
   function handleStart() {
@@ -54,7 +54,7 @@ export const ChargePage = observer(() => {
               </Box>
             </TouchableOpacity>
           </Box>
-          <Box marginTop={22}>
+          <Box marginTop={12}>
             <Typography weight={800} size={24} lineHeight={30} color={COLORS.BLACK} textAlign="center">
               Идёт зарядка батареи
             </Typography>
@@ -64,7 +64,7 @@ export const ChargePage = observer(() => {
           </Box>
         </Box>
         <Box
-          marginTop={146}
+          marginTop={126}
           paddingLeft={28}
           paddingRight={26}
           flexDirection="row"
@@ -94,16 +94,13 @@ export const ChargePage = observer(() => {
             </Typography>
           </Box>
         </Box>
-        <Box marginTop={24} paddingLeft={16} paddingRight={16}>
+        <Box marginTop={12} paddingLeft={16} paddingRight={16}>
           <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
-            Выполняется зарядка, не отсоединяйте коннектор от авто
+            Выполняется зарядка
           </Typography>
         </Box>
-        <Box marginTop={24} paddingLeft={16} paddingRight={16} justifyContent="center" flexDirection="row">
-          <TouchableOpacity
-            onPress={() => setVisible(true)}
-            //disabled={!store?.transactionPromise?.value?.id}
-          >
+        <Box marginTop={12} paddingLeft={16} paddingRight={16} justifyContent="center" flexDirection="row">
+          <TouchableOpacity onPress={() => setVisible(true)}>
             <Typography weight={700} size={16} lineHeight={20} color={COLORS.BLUE} textAlign="center">
               Подробнее о заправке
             </Typography>
@@ -114,7 +111,7 @@ export const ChargePage = observer(() => {
           <Button
             label="Остановить"
             onClick={handleStart}
-            disabled={!mainStore?.currentTransactionPromise?.value?.id}
+            loading={mainStore?.currentTransactionPromise?.pending || mainStore?.transactionPromise?.pending}
           />
         </Box>
         <Modal onClose={() => setVisible(false)} title="Информация о заправке" visible={visible}>

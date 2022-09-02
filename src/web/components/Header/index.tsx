@@ -4,7 +4,7 @@ import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { UserIcon, BackIcon } from 'icons';
 import React from 'react';
-import { useNavigate } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { ROUTES } from 'web/constant';
 
 type Props = {
@@ -15,14 +15,14 @@ type Props = {
 };
 
 export function Header({ title, showBackButton, showProfileButton = true, height = 56 }: Props) {
-  const navigation = useNavigate();
+  const { push, goBack } = useHistory();
 
   function handleProfilePress() {
-    navigation(ROUTES.PROFILE);
+    push(ROUTES.PROFILE);
   }
 
   function handleBackPress() {
-    navigation(-1);
+    goBack();
   }
 
   return (

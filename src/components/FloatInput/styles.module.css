@@ -5,6 +5,7 @@
   border-bottom: 1px solid #c2cddb;
   transition: border-bottom 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
   padding-bottom: 8px;
+  box-sizing: border-box;
 }
 
 .float-input-error {
@@ -58,6 +59,7 @@
   outline: none;
   box-shadow: none;
   background: transparent;
+  box-sizing: border-box;
   transition: 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 

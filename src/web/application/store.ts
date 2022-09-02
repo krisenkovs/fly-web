@@ -1,5 +1,5 @@
 import Keycloak, { KeycloakInstance } from 'keycloak-js';
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
+import { action, makeObservable, observable, reaction } from 'mobx';
 import { API } from 'web/constant';
 import { fromPromise, PromiseObserver } from 'web/helpers/PromiseObserver';
 import { SimpleStore } from 'web/helpers/SimpleStore';
@@ -9,14 +9,10 @@ class Store extends SimpleStore {
   stationsPromise?: PromiseObserver<Page<StationType>> = undefined;
   connectorsPromise?: PromiseObserver<ConnectorType[]> = undefined;
   currentTransactionPromise?: PromiseObserver<TransactionType> = undefined;
+  saveProfilePromise?: PromiseObserver<void> = undefined;
   transactionPromise?: PromiseObserver<TransactionType> = undefined;
   profilePromise?: PromiseObserver<ProfileType> = undefined;
   keycloak?: KeycloakInstance = undefined;
-
-  selectedStation?: number = undefined;
-  selectedConnector?: number = undefined;
-  selectedSum: number = 0;
-  selectedPower: number = 0;
 
   constructor() {
     super();
@@ -27,48 +23,30 @@ class Store extends SimpleStore {
       currentTransactionPromise: observable,
       transactionPromise: observable,
       profilePromise: observable,
-      selectedStation: observable,
-      selectedConnector: observable,
-      selectedSum: observable,
-      selectedPower: observable,
-      currentStation: computed,
+      saveProfilePromise: observable,
       init: action.bound,
       loadStations: action.bound,
       loadConnectors: action.bound,
       loadCurrentTransaction: action.bound,
       loadProfile: action.bound,
-      setSelectedStation: action.bound,
-      setSelectedConnector: action.bound,
-      setSelectedSum: action.bound,
-      setSelectedPower: action.bound,
       startTransaction: action.bound,
       stopTransaction: action.bound,
+      saveProfile: action.bound,
+      clearTransaction: action.bound,
       destroy: action.bound,
     });
-
-    reaction(
-      () => this.selectedStation,
-      (value) => {
-        this.selectedConnector = undefined;
-        this.selectedSum = 0;
-        this.selectedPower = 0;
-        value && this.loadConnectors(value);
-      },
-    );
-
-    reaction(
-      () => this.selectedConnector,
-      (value) => {
-        this.selectedSum = 0;
-        this.selectedPower = 0;
-      },
-    );
 
     reaction(
       () => this.transactionPromise?.fulfilled,
       (value) => {
         value && this.loadCurrentTransaction();
-        //this.transactionPromise = undefined;
+      },
+    );
+
+    reaction(
+      () => this.saveProfilePromise?.fulfilled,
+      (value) => {
+        value && this.loadProfile();
       },
     );
   }
@@ -101,12 +79,12 @@ class Store extends SimpleStore {
     this.currentTransactionPromise = fromPromise(this.httpService.get(`${API.TRANSACTION}/current`));
   }
 
-  startTransaction() {
+  startTransaction(connectorId: number, price: number, amount: number) {
     this.transactionPromise = fromPromise(
       this.httpService.post(`/api/transaction/start`, {
-        connectorId: this.selectedConnector,
-        price: this.currentStation?.rate,
-        amount: this.selectedSum,
+        connectorId,
+        price,
+        amount,
       }),
     );
   }
@@ -115,24 +93,12 @@ class Store extends SimpleStore {
     this.transactionPromise = fromPromise(this.httpService.post(`/api/transaction/stop`, {}));
   }
 
-  get currentStation() {
-    return this.stationsPromise?.value?.content?.find((item) => item?.id === this.selectedStation);
+  saveProfile(values?: ProfileType) {
+    this.saveProfilePromise = fromPromise(this.httpService.put(`${API.USER}/profile`, values));
   }
 
-  setSelectedStation(id: number) {
-    this.selectedStation = id;
-  }
-
-  setSelectedConnector(id: number) {
-    this.selectedConnector = id;
-  }
-
-  setSelectedSum(value: number) {
-    this.selectedSum = value;
-  }
-
-  setSelectedPower(value: number) {
-    this.selectedPower = value;
+  clearTransaction() {
+    this.transactionPromise = undefined;
   }
 
   destroy() {
@@ -140,12 +106,9 @@ class Store extends SimpleStore {
     this.connectorsPromise = undefined;
     this.currentTransactionPromise = undefined;
     this.profilePromise = undefined;
-    this.selectedStation = undefined;
-    this.selectedConnector = undefined;
     this.transactionPromise = undefined;
-    this.selectedSum = 0;
-    this.selectedPower = 0;
     this.keycloak = undefined;
+    this.saveProfilePromise = undefined;
   }
 }
 

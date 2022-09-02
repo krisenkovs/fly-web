@@ -22,6 +22,7 @@ type Props = PropsWithChildren<
     borderRadius?: number;
     borderBottomRightRadius?: number;
     borderBottomLeftRadius?: number;
+    position?: CSSProperties['position'];
     overflow?: CSSProperties['overflow'];
     refContainer?: LegacyRef<HTMLDivElement> | null;
   } & React.HTMLAttributes<HTMLDivElement>
@@ -50,6 +51,7 @@ export function Box({
   borderRadius,
   overflow,
   refContainer,
+  position,
   ...rest
 }: Props) {
   const styles = useMemo(() => {
@@ -111,6 +113,9 @@ export function Box({
     if (borderBottomLeftRadius !== undefined) {
       values['borderBottomLeftRadius'] = `${borderBottomLeftRadius}px`;
     }
+    if (position !== undefined) {
+      values['position'] = position;
+    }
     values['flexDirection'] = flexDirection;
 
     return { ...values, ...style };
@@ -134,6 +139,7 @@ export function Box({
     borderBottomRightRadius,
     borderBottomLeftRadius,
     overflow,
+    position,
     style,
   ]);
 

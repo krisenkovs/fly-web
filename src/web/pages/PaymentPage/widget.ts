@@ -11,22 +11,22 @@ export function Payment() {
         amount: 1,
         currency: 'BYN',
         description: 'Привязка карты',
-        tracking_id: 'my_transaction_id',
+        tracking_id: 'my_transaction_id'
       },
       settings: {
         save_card_toggle: {
           display: false,
         },
-        /*another_card_toggle:{
-          display:false
-        },*/
+        another_card_toggle: {
+          display: false,
+        },
         return_url: 'https://localhost:8000',
         success_url: 'https://localhost:8000',
         button_text: 'Привязать карту',
         language: 'ru',
-        /*payment_method: {
-          types: ['credit_card'],
-        },*/
+      },
+      payment_method: {
+        types: ['credit_card'],
       },
     },
     closeWidget: function (status: unknown) {

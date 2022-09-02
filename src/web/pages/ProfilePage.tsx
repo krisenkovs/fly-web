@@ -5,7 +5,7 @@ import { COLORS } from 'constant';
 import { BellIcon, CaretRightIcon, SlidersIcon } from 'icons';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { useNavigate } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
@@ -34,15 +34,15 @@ const DATA = [
 ];
 
 export const ProfilePage = observer(() => {
-  const navigation = useNavigate();
+  const { push } = useHistory();
 
   function handleSettingsClick() {
-    navigation(ROUTES.SETTINGS);
+    push(ROUTES.SETTINGS);
   }
 
   return (
     <Box flex={1}>
-      <Header title="Профиль" showBackButton showProfileButton={false}/>
+      <Header title="Профиль" showBackButton showProfileButton={false} />
       <Box paddingTop={90} paddingLeft={16} paddingRight={16}>
         <Box
           style={{ position: 'relative' }}

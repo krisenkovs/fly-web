@@ -2,13 +2,14 @@ import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
+import { observer } from 'mobx-react';
 import React from 'react';
-import { useNavigate } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
-export function PayErrorPage() {
-  const navigation = useNavigate();
+export const PayErrorPage = observer(() => {
+  const { goBack } = useHistory();
   function handleTry() {
-    navigation(-1);
+    goBack();
   }
 
   return (
@@ -249,4 +250,4 @@ export function PayErrorPage() {
       </Box>
     </>
   );
-}
+});

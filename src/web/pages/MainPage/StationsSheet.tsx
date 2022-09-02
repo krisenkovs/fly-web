@@ -1,12 +1,12 @@
 import styles from './styles.module.css';
 import { Box } from 'components/Box';
-import { Loader } from 'components/Loader';
 import { Pressable } from 'components/Pressable';
+import Skeleton from 'components/Skeleton';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useHistory, generatePath } from 'react-router-dom';
 import { store } from 'web/application/store';
 import { ROUTES } from 'web/constant';
 
@@ -17,7 +17,7 @@ type Props = {
 export const StationsSheet = observer(function StationsSheet({ height }: Props) {
   const [h, setH] = useState<string | number>(height);
   const [isFull, setFull] = useState(false);
-  const navigate = useNavigate();
+  const { push } = useHistory();
 
   function toFull() {
     setH('100%');
@@ -28,9 +28,8 @@ export const StationsSheet = observer(function StationsSheet({ height }: Props) 
     setFull(false);
   }
 
-  function handleStationClick(id: number) {
-    store.setSelectedStation(id);
-    navigate(ROUTES.STATION);
+  function handleStationClick(id: string | number) {
+    push(generatePath(ROUTES.STATION, { stationId: id }));
   }
 
   return (
@@ -54,7 +53,9 @@ export const StationsSheet = observer(function StationsSheet({ height }: Props) 
       </Box>
       <Box flex={1}>
         {store.stationsPromise?.pending ? (
-          <Loader />
+          <Box className={styles.list}>
+            <Skeleton.Row height={24} />
+          </Box>
         ) : (
           <Box className={styles.list}>
             {store.stationsPromise?.value?.content?.map((item) => (

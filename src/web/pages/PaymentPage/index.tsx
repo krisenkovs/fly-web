@@ -1,4 +1,3 @@
-
 import { Input } from './Input';
 import { Payment } from './widget';
 import { Box } from 'components/Box';
@@ -8,21 +7,19 @@ import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { CoinIcon, LightIcon } from 'icons';
 import { observer } from 'mobx-react';
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router';
-import { store as mainStore } from 'web/application/store';
+import React, { useState } from 'react';
+import { generatePath, useHistory, useParams } from 'react-router-dom';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
 
 export const PaymentPage = observer(() => {
-  const navigation = useNavigate();
-
-  /*useEffect(() => {
-    mainStore?.currentTransactionPromise?.value?.status === 'CREATED' && navigation(ROUTES.MAIN);
-  }, [mainStore?.currentTransactionPromise?.value]);*/
+  const [sum, setSum] = useState(0);
+  const [power, setPower] = useState(0);
+  const { push } = useHistory();
+  const params = useParams<{ stationId: string; connectorId: string }>();
 
   function handlePress() {
-    navigation(`${ROUTES.PAY}`);
+    push(`${generatePath(ROUTES.PAY, { ...params, cardId: 1 })}?sum=${sum}&power=${power}`);
   }
 
   function handleAddCardPress() {
@@ -35,21 +32,9 @@ export const PaymentPage = observer(() => {
         <Header showProfileButton={false} showBackButton title="Цена и киловаты" />
         <Box flex={1} paddingLeft={16} paddingRight={16} paddingBottom={48}>
           <Box flex={1} />
-          <Input
-            icon={<CoinIcon />}
-            title="BYN"
-            values={[15, 25, 50, 75]}
-            onChange={mainStore.setSelectedSum}
-            value={mainStore.selectedSum}
-          />
+          <Input icon={<CoinIcon />} title="BYN" values={[15, 25, 50, 75]} onChange={setSum} value={sum} />
           <Box marginTop={40}>
-            <Input
-              icon={<LightIcon />}
-              title="Киловаты"
-              values={[15, 25, 50, 75]}
-              onChange={mainStore.setSelectedPower}
-              value={mainStore.selectedPower}
-            />
+            <Input icon={<LightIcon />} title="Киловаты" values={[15, 25, 50, 75]} onChange={setPower} value={power} />
           </Box>
           <Box flex={1} />
           <Box paddingLeft={16} paddingRight={16}>
@@ -69,7 +54,7 @@ export const PaymentPage = observer(() => {
             </Pressable>
           </Box>
           <Box flex={1} />
-          <Button label="Далее" disabled={!mainStore.selectedPower || !mainStore.selectedSum} onClick={handlePress} />
+          <Button label="Далее" disabled={!sum || !power} onClick={handlePress} />
         </Box>
       </Box>
     </>

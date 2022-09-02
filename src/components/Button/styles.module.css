@@ -15,6 +15,7 @@
   cursor: pointer;
   border: none;
   font-family: inherit;
+  position: relative;
 }
 
 .button :focus {
@@ -24,4 +25,8 @@
 .disabled {
   pointer-events: none;
   background: #c2cddb;
+}
+
+.loading {
+  pointer-events: none;
 }

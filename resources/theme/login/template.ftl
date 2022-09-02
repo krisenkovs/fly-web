@@ -15,6 +15,11 @@
             </#list>
         </#if>
         <style>
+              * {
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+              }
+
               html,
               body {
                 margin: 0;

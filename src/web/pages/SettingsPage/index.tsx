@@ -1,4 +1,3 @@
-import { store } from './store';
 import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { FloatInput } from 'components/FloatInput';
@@ -18,12 +17,8 @@ export const SettingsPage = observer(() => {
     setFormValues(mainStore.profilePromise?.value);
   }, [mainStore.profilePromise?.value]);
 
-  useEffect(() => {
-    store.saveProfilePromiseObserver?.fulfilled && mainStore.loadProfile();
-  }, [store.saveProfilePromiseObserver?.fulfilled]);
-
   function handleSaveClick() {
-    store.saveProfile(formValues);
+    mainStore.saveProfile(formValues);
   }
 
   function handleEditField(key: keyof ProfileType, value: string | number | undefined) {
@@ -81,7 +76,7 @@ export const SettingsPage = observer(() => {
           </Typography>
         </TouchableOpacity>
         <Box flex={1} />
-        <Button onClick={handleSaveClick} label="Сохранить" disabled={store.saveProfilePromiseObserver?.pending} />
+        <Button loading={mainStore.saveProfilePromise?.pending} onClick={handleSaveClick} label="Сохранить" />
       </Box>
     </Box>
   );
