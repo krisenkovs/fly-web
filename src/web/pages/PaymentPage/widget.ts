@@ -1,8 +1,8 @@
-export function Payment() {
-  var params = {
+export function Payment(onClose: (status: string) => void) {
+  const params = {
     checkout_url: 'https://checkout.bepaid.by',
     checkout: {
-      iframe: true,
+      iframe: false,
       test: true,
       transaction_type: 'tokenization',
       public_key:
@@ -11,7 +11,7 @@ export function Payment() {
         amount: 1,
         currency: 'BYN',
         description: 'Привязка карты',
-        tracking_id: 'my_transaction_id'
+        tracking_id: Math.floor(Math.random() * 1000000),
       },
       settings: {
         save_card_toggle: {
@@ -20,8 +20,8 @@ export function Payment() {
         another_card_toggle: {
           display: false,
         },
-        return_url: 'https://localhost:8000',
-        success_url: 'https://localhost:8000',
+        //return_url: 'https://localhost:8000/card',
+        //success_url: 'https://localhost:8000/card',
         button_text: 'Привязать карту',
         language: 'ru',
       },
@@ -29,7 +29,7 @@ export function Payment() {
         types: ['credit_card'],
       },
     },
-    closeWidget: function (status: unknown) {
+    closeWidget: function (status: string) {
       // возможные значения status
       // successful - операция успешна
       // failed - операция не успешна
@@ -37,7 +37,7 @@ export function Payment() {
       // redirected - пользователь отправлен на внешнюю платежную систему
       // error - ошибка (в параметрах/сети и тд)
       // null - виджет закрыли без запуска оплаты
-      console.debug('close widget callback');
+      onClose(status);
     },
   };
 

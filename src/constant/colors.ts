@@ -9,4 +9,5 @@ export enum COLORS {
   ADDITIONAL_GREY='additional-grey',
   GREEN = 'green',
   RED = 'red',
+  BG_RED = 'bg-red'
 }

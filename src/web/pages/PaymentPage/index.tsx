@@ -15,15 +15,19 @@ import { ROUTES } from 'web/constant';
 export const PaymentPage = observer(() => {
   const [sum, setSum] = useState(0);
   const [power, setPower] = useState(0);
-  const { push } = useHistory();
+  const history = useHistory();
   const params = useParams<{ stationId: string; connectorId: string }>();
 
   function handlePress() {
-    push(`${generatePath(ROUTES.PAY, { ...params, cardId: 1 })}?sum=${sum}&power=${power}`);
+    history.push(`${generatePath(ROUTES.PAY, { ...params, cardId: 1 })}?sum=${sum}&power=${power}`);
+  }
+
+  function handleWidgetClose(status: string) {
+    console.log(status);
   }
 
   function handleAddCardPress() {
-    Payment();
+    Payment(handleWidgetClose);
   }
 
   return (

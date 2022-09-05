@@ -11,3 +11,4 @@ export { default as LightIcon } from './LightIcon';
 export { default as BatteryFly } from './BatteryFly';
 export { default as CSSConnector } from './CSSConnector';
 export { default as SlidersIcon } from './SlidersIcon';
+export { default as Avatar1 } from './Avatar1';

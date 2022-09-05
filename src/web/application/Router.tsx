@@ -2,8 +2,9 @@ import { store } from './store';
 import { Box } from 'components/Box';
 import { observer } from 'mobx-react';
 import React, { useEffect, useMemo } from 'react';
-import { matchPath, Route, Switch, useLocation } from 'react-router-dom';
+import { matchPath, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ROUTES } from 'web/constant';
+import { CardPage } from 'web/pages/CardPage';
 import { ChargePage } from 'web/pages/ChargePage';
 import { MainPage } from 'web/pages/MainPage';
 import { PayErrorPage } from 'web/pages/PayErrorPage';
@@ -49,6 +50,7 @@ export const Router = observer(() => {
         <Route path={ROUTES.PROFILE} component={ProfilePage} />
         <Route path={ROUTES.SCANNER} component={ScannerPage} />
         <Route path={ROUTES.SETTINGS} component={SettingsPage} />
+        <Route path={ROUTES.CARD} component={CardPage} />
       </Switch>
     </Box>
   );

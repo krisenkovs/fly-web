@@ -47,6 +47,9 @@ module.exports = merge(common, {
           from: 'public/silent-check-sso.html',
         },
         {
+          from: 'public/widget.html',
+        },
+        {
           from: resolve(__dirname, 'public/fonts'),
           to: 'fonts',
         },
