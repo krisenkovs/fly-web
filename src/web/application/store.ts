@@ -14,6 +14,7 @@ class Store extends SimpleStore {
   profilePromise?: PromiseObserver<ProfileType> = undefined;
   keycloak?: KeycloakInstance = undefined;
   saveFilePromise?: PromiseObserver<string> = undefined;
+  transactionsPromise?: PromiseObserver<Page<TransactionType>> = undefined;
 
   constructor() {
     super();
@@ -26,6 +27,7 @@ class Store extends SimpleStore {
       profilePromise: observable,
       saveProfilePromise: observable,
       saveFilePromise: observable,
+      transactionsPromise: observable,
       init: action.bound,
       loadStations: action.bound,
       loadConnectors: action.bound,
@@ -37,6 +39,7 @@ class Store extends SimpleStore {
       clearTransaction: action.bound,
       saveFile: action.bound,
       destroy: action.bound,
+      loadTransactions: action.bound,
     });
 
     reaction(
@@ -102,6 +105,10 @@ class Store extends SimpleStore {
 
   clearTransaction() {
     this.transactionPromise = undefined;
+  }
+
+  loadTransactions() {
+    this.transactionsPromise = fromPromise(this.httpService.get(`${API.TRANSACTION}/by-user`));
   }
 
   saveFile(file: File) {

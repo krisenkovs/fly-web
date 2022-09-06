@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://batteryfly.io",
+    "changeOrigin": true,
+    "ws": true,
+    "secure": false
+  }
+}

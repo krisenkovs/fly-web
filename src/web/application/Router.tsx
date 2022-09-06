@@ -1,3 +1,4 @@
+import { HistoryPage } from "web/pages/HistoryPage";
 import { store } from './store';
 import { Box } from 'components/Box';
 import { observer } from 'mobx-react';
@@ -51,6 +52,7 @@ export const Router = observer(() => {
         <Route path={ROUTES.SCANNER} component={ScannerPage} />
         <Route path={ROUTES.SETTINGS} component={SettingsPage} />
         <Route path={ROUTES.CARD} component={CardPage} />
+        <Route path={ROUTES.HISTORY} component={HistoryPage} />
       </Switch>
     </Box>
   );

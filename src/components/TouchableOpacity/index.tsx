@@ -6,11 +6,16 @@ type Props = PropsWithChildren<{
   onPress?: () => void;
   style?: CSSProperties;
   className?: string;
+  disabled?: boolean;
 }>;
 
-export function TouchableOpacity({ children, onPress, style, className }: Props) {
+export function TouchableOpacity({ children, onPress, style, className, disabled }: Props) {
   return (
-    <div onClick={onPress} className={classNames(styles.container, className)} style={style} >
+    <div
+      onClick={onPress}
+      className={classNames(styles.container, className, { [`${styles.disabled}`]: disabled })}
+      style={style}
+    >
       {children}
     </div>
   );

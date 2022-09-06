@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { API_PATH } from 'web/constant';
 
 export class HTTPService {
-  private instance = axios.create({ baseURL: API_PATH });
+  private instance = axios.create();
 
   constructor() {
     this.instance.interceptors.response.use(

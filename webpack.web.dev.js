@@ -5,6 +5,7 @@ const common = require('./webpack.common.js');
 const { join, resolve } = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const proxy = require('./proxy.json');
 const port = 8000;
 
 module.exports = merge(common, {
@@ -21,6 +22,7 @@ module.exports = merge(common, {
     open: true,
     compress: true,
     server: 'https',
+    proxy: proxy,
     client: {
       logging: 'none',
       overlay: false,

@@ -11,4 +11,5 @@ export enum ROUTES {
   PAYMENT = '/station/:stationId/connector/:connectorId',
   SETTINGS = '/settings',
   CARD = '/card',
+  HISTORY='/history'
 }

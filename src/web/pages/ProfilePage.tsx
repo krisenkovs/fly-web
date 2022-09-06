@@ -7,6 +7,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
+import { AvatarView } from 'web/components/AvatarView';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
 
@@ -14,22 +15,28 @@ const DATA = [
   {
     id: 'history',
     title: 'История заправок',
+    route: ROUTES.HISTORY,
+    disabled: false,
   },
   {
     id: 'model',
     title: 'Tesla Model X',
+    disabled: true,
   },
   {
     id: 'payment',
     title: 'Платежная информация',
+    disabled: true,
   },
   {
     id: 'about',
     title: 'О приложении',
+    disabled: true,
   },
   {
     id: 'help',
     title: 'Помощь',
+    disabled: true,
   },
 ];
 
@@ -38,6 +45,10 @@ export const ProfilePage = observer(() => {
 
   function handleSettingsClick() {
     push(ROUTES.SETTINGS);
+  }
+
+  function handleItemRoute(route?: ROUTES) {
+    route && push(route);
   }
 
   return (
@@ -66,6 +77,11 @@ export const ProfilePage = observer(() => {
               alignItems: 'center',
             }}
           >
+            <AvatarView
+              size={100}
+              photoId={mainStore.profilePromise?.value?.photoId}
+              avatarCode={mainStore.profilePromise?.value?.avatarCode}
+            />
             <Box height={100} width={100} borderRadius={100} backgroundColor={COLORS.LIGHT_BLUE} />
           </Box>
           <TouchableOpacity onPress={handleSettingsClick}>
@@ -107,7 +123,7 @@ export const ProfilePage = observer(() => {
         </Box>
         <Box flex={1} paddingTop={8}>
           {DATA.map((item) => (
-            <TouchableOpacity onPress={() => null}>
+            <TouchableOpacity onPress={() => handleItemRoute(item?.route)} disabled={item?.disabled}>
               <Box
                 paddingTop={24}
                 paddingBottom={24}

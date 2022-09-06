@@ -1,6 +1,6 @@
 import { Box } from 'components/Box';
 import React, { MouseEvent, TouchEvent, useEffect, useRef, useState } from 'react';
-import { API, API_PATH } from 'web/constant';
+import { API } from 'web/constant';
 
 type Props = {
   data: { id?: number; imageId?: string }[];
@@ -103,7 +103,7 @@ export function Carousel({ data }: Props) {
             }}
           >
             <img
-              src={`${API_PATH}/${API.IMAGE}/${item.imageId}`}
+              src={`${API.IMAGE}/${item.imageId}`}
               alt=""
               style={{ objectFit: 'cover', height: '100%', width: '100%' }}
             />
