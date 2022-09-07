@@ -1,12 +1,13 @@
-import { HistoryPage } from "web/pages/HistoryPage";
 import { store } from './store';
 import { Box } from 'components/Box';
 import { observer } from 'mobx-react';
 import React, { useEffect, useMemo } from 'react';
 import { matchPath, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ROUTES } from 'web/constant';
+import { CarPage } from 'web/pages/CarPage';
 import { CardPage } from 'web/pages/CardPage';
 import { ChargePage } from 'web/pages/ChargePage';
+import { HistoryPage } from 'web/pages/HistoryPage';
 import { MainPage } from 'web/pages/MainPage';
 import { PayErrorPage } from 'web/pages/PayErrorPage';
 import { PayPage } from 'web/pages/PayPage';
@@ -53,6 +54,7 @@ export const Router = observer(() => {
         <Route path={ROUTES.SETTINGS} component={SettingsPage} />
         <Route path={ROUTES.CARD} component={CardPage} />
         <Route path={ROUTES.HISTORY} component={HistoryPage} />
+        <Route path={ROUTES.CAR} component={CarPage} />
       </Switch>
     </Box>
   );

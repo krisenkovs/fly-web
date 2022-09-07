@@ -10,10 +10,12 @@ import React, { useEffect, useState } from 'react';
 import { store as mainStore } from 'web/application/store';
 import { AvatarView } from 'web/components/AvatarView';
 import { Header } from 'web/components/Header';
+import { PasswordModal } from 'web/pages/SettingsPage/PasswordModal';
 import { PhotoModal } from 'web/pages/SettingsPage/PhotoModal';
 
 export const SettingsPage = observer(() => {
   const [visible, setVisible] = useState(false);
+  const [visiblePassword, setVisiblePassword] = useState(false);
   const { values, errors, hasError, changed, validateFields, setFieldValue, resetFields } = useForm({
     firstName: { required: { message: 'Заполните имя' } },
     lastName: { required: { message: 'Заполните фамилию' } },
@@ -85,7 +87,7 @@ export const SettingsPage = observer(() => {
           onChange={(value) => setFieldValue('phone', value)}
         />
         <Box paddingBottom={28}>
-          <TouchableOpacity disabled>
+          <TouchableOpacity onPress={() => setVisiblePassword(true)}>
             <Typography weight={400} size={16} lineHeight={20} color={COLORS.BLUE}>
               Изменить пароль
             </Typography>
@@ -112,6 +114,7 @@ export const SettingsPage = observer(() => {
         onChangePhoto={handlePhotoChange}
         onChangeAvatar={handleAvatarChange}
       />
+      <PasswordModal visible={visiblePassword} onClose={() => setVisiblePassword(false)} />
     </Box>
   );
 });

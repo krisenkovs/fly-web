@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { UserIcon, BackIcon } from 'icons';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ROUTES } from 'web/constant';
 
@@ -12,9 +12,10 @@ type Props = {
   showBackButton?: boolean;
   showProfileButton?: boolean;
   height?: number;
+  style?: CSSProperties;
 };
 
-export function Header({ title, showBackButton, showProfileButton = true, height = 56 }: Props) {
+export function Header({ title, showBackButton, showProfileButton = true, height = 56, style }: Props) {
   const { push, goBack } = useHistory();
 
   function handleProfilePress() {
@@ -35,7 +36,7 @@ export function Header({ title, showBackButton, showProfileButton = true, height
       borderBottomLeftRadius={12}
       flexDirection="column"
       paddingTop={12}
-      style={{ boxSizing: 'border-box' }}
+      style={{ ...style, boxSizing: 'border-box' }}
     >
       <Box flexDirection="row" alignItems="center">
         {showBackButton && (

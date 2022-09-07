@@ -20,8 +20,9 @@ const DATA = [
   },
   {
     id: 'model',
-    title: 'Tesla Model X',
-    disabled: true,
+    title: 'Мой автомобиль',
+    route: ROUTES.CAR,
+    disabled: false,
   },
   {
     id: 'payment',

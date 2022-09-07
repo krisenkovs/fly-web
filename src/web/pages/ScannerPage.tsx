@@ -1,5 +1,4 @@
 import { Box } from 'components/Box';
-import { COLORS } from 'constant';
 import { observer } from 'mobx-react';
 import React from 'react';
 // @ts-ignore
@@ -16,13 +15,14 @@ export const ScannerPage = observer(() => {
 
   return (
     <Box flex={1}>
-      <Header showProfileButton={false} showBackButton title="Отсканируйте QR код" />
-      <Box flex={1} style={{ position: 'relative' }}>
+      <Header showProfileButton={false} showBackButton title="Отсканируйте QR код" style={{ zIndex: 1 }} />
+      <Box flex={1} style={{ position: 'relative' }} marginTop={-12}>
         <QrReader
           delay={100}
-          style={{ height: '100%', width: '100%', objectFit: 'cover' }}
+          style={{ height: '100%', width: '100%', objectFit: 'cover', marginTop: '-12px' }}
           onError={handleError}
           onScan={handleScan}
+          facingMode="rear"
         />
         <Box
           style={{

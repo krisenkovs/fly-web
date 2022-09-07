@@ -13,6 +13,7 @@ type Props = {
   style?: CSSProperties;
   inputClassName?: string;
   hideHint?: boolean;
+  onClick?: () => void;
 };
 
 export const FloatInput: FC<Props> = ({
@@ -25,6 +26,7 @@ export const FloatInput: FC<Props> = ({
   type = 'text',
   style,
   hideHint,
+  onClick,
 }) => {
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +44,7 @@ export const FloatInput: FC<Props> = ({
   }, [type, onChange, name, value, handleChange, inputClassName]);
 
   return (
-    <div style={style}>
+    <div style={style} onClick={onClick}>
       <div className={`${styles.floatInput} ${hint && styles.floatInputError} `}>
         {input}
         <label className={value && styles.floatInputFilled}>{label}</label>
