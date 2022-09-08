@@ -1,0 +1,29 @@
+.content {
+  display: flex;
+  align-items: center;
+}
+
+.content input {
+  appearance: none;
+  background-color: var(--color-white);
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.content input:hover {
+  transition: border 100ms ease;
+  border: 5px solid var(--color-blue);
+}
+
+.content input:checked {
+  border: 5px solid var(--color-blue);
+  --background: var(--color-blue);
+}

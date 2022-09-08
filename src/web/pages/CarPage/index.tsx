@@ -25,6 +25,11 @@ export const CarPage = observer(() => {
     validateFields().then();
   }
 
+  function handleConnectorChange(value: string) {
+    setFieldValue('capacity', value);
+    setVisible(false);
+  }
+
   return (
     <Box flex={1} position="relative">
       <Header title="Мой автомобиль" showBackButton showProfileButton={false} />
@@ -38,6 +43,7 @@ export const CarPage = observer(() => {
         paddingRight={16}
         paddingBottom={16}
         paddingLeft={16}
+        borderRadius={12}
       >
         <FloatInput
           label="Марка авто"
@@ -49,10 +55,9 @@ export const CarPage = observer(() => {
         <FloatInput
           label="Разъём"
           type="text"
-          value={values?.capacity1}
-          //hint={errors?.capacity}
+          value={values?.capacity}
+          hint={errors?.capacity}
           onClick={() => setVisible(true)}
-          //onChange={(value) => setFieldValue('capacity', value)}
         />
         <FloatInput
           label="Емкость батареи (kW*h)"
@@ -73,7 +78,7 @@ export const CarPage = observer(() => {
       <Box marginLeft={16} marginRight={16} marginBottom={48}>
         <Button onClick={handleSave} label="Сохранить" disabled={hasError || !changed} />
       </Box>
-      <ConnectorModal visible={visible} onClose={() => setVisible(false)} />
+      <ConnectorModal visible={visible} onClose={() => setVisible(false)} onSelect={handleConnectorChange} />
     </Box>
   );
 });

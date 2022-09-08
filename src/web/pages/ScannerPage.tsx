@@ -9,9 +9,6 @@ export const ScannerPage = observer(() => {
   function handleScan(data: string) {
     console.log(data);
   }
-  function handleError(err: unknown) {
-    console.error(err);
-  }
 
   return (
     <Box flex={1}>
@@ -20,7 +17,6 @@ export const ScannerPage = observer(() => {
         <QrReader
           delay={100}
           style={{ height: '100%', width: '100%', objectFit: 'cover', marginTop: '-12px' }}
-          onError={handleError}
           onScan={handleScan}
           facingMode="rear"
         />

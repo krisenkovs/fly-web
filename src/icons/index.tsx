@@ -19,3 +19,5 @@ export { default as Avatar5 } from './Avatar5';
 export { default as Avatar6 } from './Avatar6';
 export { default as Avatar7 } from './Avatar7';
 export { default as Avatar8 } from './Avatar8';
+export { default as ChatCircleDots } from './ChatCircleDots';
+export { default as Fly } from './Fly';

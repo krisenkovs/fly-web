@@ -1,6 +1,6 @@
 import { Box } from 'components/Box';
+import { Loader } from 'components/Loader';
 import { Pressable } from 'components/Pressable';
-import Skeleton from 'components/Skeleton';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react';
@@ -32,9 +32,7 @@ export const HistoryPage = observer(() => {
     <Box flex={1} position="relative">
       <Header title="История заправок" showBackButton showProfileButton={false} />
       {store.transactionsPromise?.pending ? (
-        <Box paddingTop={16} paddingLeft={16} paddingRight={16}>
-          <Skeleton.Row />
-        </Box>
+        <Loader />
       ) : (
         <Box flex={1} marginLeft={16} marginRight={16}>
           {store.transactionsPromise?.value?.content?.map((item) => (

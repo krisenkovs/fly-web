@@ -1,12 +1,10 @@
-import { COLORS } from 'constant';
-import { CrossIcon } from 'icons';
-import React, { PropsWithChildren } from 'react';
-
+import styles from './styles.module.css';
 import { Box } from 'components/Box';
 import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
-
-import styles from './styles.module.css';
+import { COLORS } from 'constant';
+import { CrossIcon } from 'icons';
+import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 
 type Props = PropsWithChildren<{
   visible?: boolean;
@@ -15,11 +13,36 @@ type Props = PropsWithChildren<{
 }>;
 
 export function Modal({ title, visible, children, onClose }: Props) {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (visible) {
+      setShow(true);
+    }
+  }, [visible]);
+
+  function handleClose() {
+    setShow(false);
+    setTimeout(() => {
+      onClose?.();
+    }, 150);
+  }
+
+  const overlayStyle = useMemo(() => {
+    return { opacity: show ? 0.1 : 0 };
+  }, [show]);
+
+  const contentStyle = useMemo(() => {
+    return { transform: show ? 'translateY(0)' : 'translateY(100%)' };
+  }, [show]);
+
+  if (!visible) {
+    return null;
+  }
+
   return (
     <>
-      {visible && (
-        <div  className={styles.overlay}  />
-      )}
+      <div className={styles.overlay} style={overlayStyle} />
       <Box
         backgroundColor={COLORS.WHITE}
         className={styles.content}
@@ -27,7 +50,7 @@ export function Modal({ title, visible, children, onClose }: Props) {
         paddingBottom={24}
         paddingLeft={24}
         paddingRight={24}
-        style={{ transform: visible ? 'translateY(0)' : 'translateY(100%)' }}
+        style={contentStyle}
       >
         <Box flexDirection="row" alignItems="center">
           <Box flex={1}>
@@ -35,7 +58,7 @@ export function Modal({ title, visible, children, onClose }: Props) {
               {title}
             </Typography>
           </Box>
-          <TouchableOpacity onPress={onClose}>
+          <TouchableOpacity onPress={handleClose}>
             <Box
               height={32}
               width={32}

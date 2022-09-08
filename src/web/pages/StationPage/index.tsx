@@ -1,7 +1,7 @@
 import { Carousel } from './Carousel';
 import { Connector } from './Connector';
 import { Box } from 'components/Box';
-import Skeleton from 'components/Skeleton';
+import { Loader } from 'components/Loader';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react';
@@ -27,7 +27,7 @@ export const StationPage = observer(() => {
     <Box flex={1}>
       <Header showProfileButton={false} showBackButton title="Выберите колонку" height={126} />
       {mainStore.connectorsPromise?.pending ? (
-        <Skeleton.Row height={40} />
+        <Loader />
       ) : (
         <Box paddingLeft={16} paddingRight={16}>
           <Carousel data={station?.images || []} />

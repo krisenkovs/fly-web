@@ -2,13 +2,17 @@ import { store } from './store';
 import { Box } from 'components/Box';
 import { observer } from 'mobx-react';
 import React, { useEffect, useMemo } from 'react';
-import { matchPath, Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { matchPath, Route, Switch, useLocation } from 'react-router-dom';
 import { ROUTES } from 'web/constant';
+import { AboutPage } from 'web/pages/AboutPage';
 import { CarPage } from 'web/pages/CarPage';
 import { CardPage } from 'web/pages/CardPage';
+import { CardsPage } from 'web/pages/CardsPage';
 import { ChargePage } from 'web/pages/ChargePage';
+import { HelpPage } from 'web/pages/HelpPage';
 import { HistoryPage } from 'web/pages/HistoryPage';
 import { MainPage } from 'web/pages/MainPage';
+import { NotificationPage } from 'web/pages/NotificationPage';
 import { PayErrorPage } from 'web/pages/PayErrorPage';
 import { PayPage } from 'web/pages/PayPage';
 import { PaymentPage } from 'web/pages/PaymentPage';
@@ -55,6 +59,10 @@ export const Router = observer(() => {
         <Route path={ROUTES.CARD} component={CardPage} />
         <Route path={ROUTES.HISTORY} component={HistoryPage} />
         <Route path={ROUTES.CAR} component={CarPage} />
+        <Route path={ROUTES.HELP} component={HelpPage} />
+        <Route path={ROUTES.ABOUT} component={AboutPage} />
+        <Route path={ROUTES.CARDS} component={CardsPage} />
+        <Route path={ROUTES.NOTIFICATION} component={NotificationPage} />
       </Switch>
     </Box>
   );

@@ -10,7 +10,7 @@ import { BatteryFly, BellIcon, CaretRightIcon, WarningIcon } from 'icons';
 import { observer } from 'mobx-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { store, store as mainStore } from 'web/application/store';
+import { store as mainStore } from 'web/application/store';
 import { ROUTES } from 'web/constant';
 
 export const MainPage = observer(() => {
@@ -32,6 +32,10 @@ export const MainPage = observer(() => {
 
   function handleUserPress() {
     push(ROUTES.PROFILE);
+  }
+
+  function handleNotificationPress() {
+    push(ROUTES.NOTIFICATION);
   }
 
   return (
@@ -77,7 +81,11 @@ export const MainPage = observer(() => {
                   Добро пожаловать
                 </Typography>
               </Box>
-              <BellIcon width={32} height={32} />
+              <TouchableOpacity onPress={handleNotificationPress}>
+                <Box width={40} height={40} borderRadius={20} backgroundColor={COLORS.WHITE}>
+                  <BellIcon width={32} height={32} />
+                </Box>
+              </TouchableOpacity>
             </>
           )}
         </Box>

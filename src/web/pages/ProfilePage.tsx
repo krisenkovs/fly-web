@@ -27,17 +27,20 @@ const DATA = [
   {
     id: 'payment',
     title: 'Платежная информация',
-    disabled: true,
+    disabled: false,
+    route: ROUTES.CARDS,
   },
   {
     id: 'about',
     title: 'О приложении',
-    disabled: true,
+    disabled: false,
+    route: ROUTES.ABOUT,
   },
   {
     id: 'help',
     title: 'Помощь',
-    disabled: true,
+    disabled: false,
+    route: ROUTES.HELP,
   },
 ];
 
@@ -46,6 +49,10 @@ export const ProfilePage = observer(() => {
 
   function handleSettingsClick() {
     push(ROUTES.SETTINGS);
+  }
+
+  function handleNotificationClick() {
+    push(ROUTES.NOTIFICATION);
   }
 
   function handleItemRoute(route?: ROUTES) {
@@ -102,7 +109,7 @@ export const ProfilePage = observer(() => {
               <SlidersIcon />
             </Box>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleNotificationClick}>
             <Box
               height={40}
               width={40}
