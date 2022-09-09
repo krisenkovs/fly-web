@@ -20,7 +20,7 @@ export const PasswordInput: FC<Props> = ({ value, onChange, name }) => {
       <input
         type={hidden ? 'password' : 'text'}
         value={value || ''}
-        onChange={onChange}
+        onInput={onChange}
         name={name}
         autoComplete="none"
         id={name}

@@ -1,7 +1,8 @@
-import { Router } from "web/application/Router";
 import { useKeycloak } from '@react-keycloak/web';
+import { Loader } from "components/Loader";
 import { observer } from 'mobx-react';
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
+import { Router } from 'web/application/Router';
 
 export const Keycloak = observer(() => {
   const {
@@ -18,5 +19,9 @@ export const Keycloak = observer(() => {
     return null;
   }
 
-  return <Router />;
+  return (
+    <Suspense fallback={<Loader/>}>
+      <Router />
+    </Suspense>
+  );
 });

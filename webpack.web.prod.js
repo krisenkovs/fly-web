@@ -7,6 +7,7 @@ const common = require('./webpack.common.js');
 const { join, resolve } = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -33,6 +34,22 @@ module.exports = merge(common, {
           to: 'images',
         },
       ],
+    }),
+    new CompressionPlugin({
+      test: /\.js(\?.*)?$/i,
+      filename: '[path][base].gz[query]',
+      algorithm: 'gzip',
+      minRatio: 0.8,
+      deleteOriginalAssets: false,
+    }),
+    new CompressionPlugin({
+      test: /\.js(\?.*)?$/i,
+      filename: '[path][base].br[query]',
+      compressionOptions: { level: 11 },
+      threshold: 10240,
+      algorithm: 'brotliCompress',
+      minRatio: 0.8,
+      deleteOriginalAssets: false,
     }),
   ],
   optimization: {

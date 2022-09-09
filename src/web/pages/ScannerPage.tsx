@@ -1,67 +1,45 @@
 import { Box } from 'components/Box';
 import { observer } from 'mobx-react';
 import React from 'react';
-// @ts-ignore
-import QrReader from 'react-qr-scanner';
+import { QrReader } from 'react-qr-reader';
 import { Header } from 'web/components/Header';
 
 export const ScannerPage = observer(() => {
-  function handleScan(data: string) {
-    console.log(data);
-  }
-
   return (
-    <Box flex={1}>
+    <Box flex={1} position="relative">
       <Header showProfileButton={false} showBackButton title="Отсканируйте QR код" style={{ zIndex: 1 }} />
-      <Box flex={1} style={{ position: 'relative' }} marginTop={-12}>
-        <QrReader
-          delay={100}
-          style={{ height: '100%', width: '100%', objectFit: 'cover', marginTop: '-12px' }}
-          onScan={handleScan}
-          facingMode="rear"
-        />
-        <Box
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            right: 0,
-            bottom: 0,
-            justifyContent: 'center',
-            alignItems: 'center',
-            opacity: 0.5,
-          }}
-        >
-          <Box borderRadius={12}>
-            <svg width="203" height="200" viewBox="0 0 203 200" fill="none">
-              <path
-                d="M201 62V22C201 10.9543 192.046 2 181 2H141"
-                stroke={`var(--color-blue)`}
-                strokeWidth="4"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M2 138L2 178C2 189.046 10.9543 198 22 198L62 198"
-                stroke={`var(--color-blue)`}
-                strokeWidth="4"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M2 62V22C2 10.9543 10.9543 2 22 2H62"
-                stroke={`var(--color-blue)`}
-                strokeWidth="4"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M201 138L201 178C201 189.046 192.046 198 181 198L141 198"
-                stroke={`var(--color-blue)`}
-                strokeWidth="4"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </Box>
-        </Box>
-      </Box>
+      <QrReader
+        constraints={{ facingMode: 'environment' }}
+        scanDelay={1000}
+        onResult={(result, error) => {
+          if (result) {
+            console.log(result?.getText());
+          }
+
+          if (error?.message) {
+            console.info(error?.message);
+          }
+        }}
+        videoStyle={{ objectFit: 'cover' }}
+        containerStyle={{ marginTop: '-12px', position: 'relative', height: '100%' }}
+        videoContainerStyle={{ height: '100%', paddingTop: 0 }}
+        ViewFinder={() => (
+          <div
+            style={{
+              width: '250px',
+              height: '250px',
+              background: 'rgba(0,0,0,0.2)',
+              position: 'absolute',
+              overflow: 'hidden',
+              top: 'calc(50% - 125px)',
+              left: 'calc(50% - 125px)',
+              borderRadius: '12px',
+              border: '4px solid white',
+              zIndex: '1',
+            }}
+          />
+        )}
+      />
     </Box>
   );
 });

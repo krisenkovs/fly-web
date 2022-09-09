@@ -12,7 +12,7 @@ export const StringInput: FC<Props> = ({ className, value, onChange, name, type 
   return (
     <input
       value={value || ''}
-      onChange={onChange}
+      onInput={onChange}
       name={name}
       autoComplete="none"
       id={name}

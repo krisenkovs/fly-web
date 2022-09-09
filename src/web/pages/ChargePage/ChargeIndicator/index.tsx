@@ -4,7 +4,6 @@ import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { LightIcon } from 'icons';
 import React from 'react';
-import { PieChart } from 'recharts';
 
 type Props = {
   time?: number;
