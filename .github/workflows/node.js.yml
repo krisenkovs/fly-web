@@ -23,6 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm i
+      - run: npm i preact
       - run: npm run build_web
       - name: Deploy file
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
