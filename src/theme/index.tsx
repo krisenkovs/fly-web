@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { render } from 'react-dom';
 import { ThemeApplication } from 'theme/application/ThemeApplication';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(<ThemeApplication />);
+render(<ThemeApplication />, document.getElementById('root'));

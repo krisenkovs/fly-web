@@ -1,4 +1,3 @@
-import { container } from '../container';
 import { store } from './store';
 import { AuthClientTokens } from '@react-keycloak/core';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
@@ -14,7 +13,7 @@ export const Application = observer(() => {
   }, []);
 
   const handleTokens = useCallback(async (data: AuthClientTokens) => {
-    container.setToken(data?.token);
+    data?.token && store.setToken(data?.token);
   }, []);
 
   return (

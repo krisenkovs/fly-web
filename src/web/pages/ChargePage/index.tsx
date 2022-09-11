@@ -108,11 +108,7 @@ export const ChargePage = observer(() => {
         </Box>
         <Box flex={1} />
         <Box paddingLeft={16} paddingRight={16}>
-          <Button
-            label="Остановить"
-            onClick={handleStart}
-            loading={mainStore?.currentTransactionPromise?.pending || mainStore?.transactionPromise?.pending}
-          />
+          <Button label="Остановить" onClick={handleStart} loading={mainStore?.transactionPromise?.pending} />
         </Box>
         <Modal onClose={() => setVisible(false)} title="Информация о заправке" visible={visible}>
           <Box marginTop={20}>

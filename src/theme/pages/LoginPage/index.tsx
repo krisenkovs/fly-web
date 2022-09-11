@@ -4,27 +4,36 @@ import { FloatInput } from 'components/FloatInput';
 import { Link } from 'components/Link';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
-import React, { FC, useContext, useRef, useState } from 'react';
+import { useForm } from 'hooks/useForm';
+import React, { FC, useContext, useEffect, useRef } from 'react';
 import { ThemeApplicationContext } from 'theme/application/ThemeApplication';
 import { Header } from 'theme/components/Header';
 import { ProviderButton } from 'theme/components/ProviderButton';
 
 export const LoginPage: FC = () => {
-  const [formValues, setFormValues] = useState<{ username?: string; password?: string }>({});
-  const [formErrors] = useState<{ username?: string; password?: string }>({});
+  const { values, errors, hasError, changed, validateFields, setFieldValue, resetFields } = useForm({
+    password: {
+      required: { message: 'Укажите пароль' },
+    },
+    username: {
+      required: { message: 'Укажите email' },
+      pattern: {
+        value:
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        message: 'УКажите валидный email',
+      },
+    },
+  });
+
   const theme = useContext(ThemeApplicationContext);
   const formRef = useRef<HTMLFormElement>(null);
 
-  function handleUsernameChange(username?: string) {
-    setFormValues((prevValue) => ({ ...prevValue, username }));
-  }
-
-  function handlePasswordChange(password?: string) {
-    setFormValues((prevValue) => ({ ...prevValue, password }));
-  }
+  useEffect(() => {
+    resetFields();
+  }, []);
 
   function handleLoginClick() {
-    formRef?.current?.submit();
+    validateFields().then(() => formRef?.current?.submit());
   }
 
   return (
@@ -45,19 +54,19 @@ export const LoginPage: FC = () => {
       <Box flex={1} paddingTop={24} paddingLeft={16} paddingRight={16} paddingBottom={40}>
         <form action={theme?.url?.action} method="post" ref={formRef}>
           <FloatInput
-            hint={formErrors?.username}
-            value={formValues?.username}
+            hint={errors?.username}
+            value={values?.username}
             label="Email или телефон"
             name="username"
-            onChange={handleUsernameChange}
+            onChange={(value) => setFieldValue('username', value)}
           />
           <Box marginTop={8}>
             <FloatInput
-              hint={formErrors?.password}
-              value={formValues?.password}
+              hint={errors?.password}
+              value={values?.password}
               label="Пароль"
               name="password"
-              onChange={handlePasswordChange}
+              onChange={(value) => setFieldValue('password', value)}
               type="password"
             />
           </Box>
@@ -68,11 +77,7 @@ export const LoginPage: FC = () => {
           </Link>
         </Box>
         <Box marginTop={16}>
-          <Button
-            onClick={handleLoginClick}
-            label="Войти"
-            disabled={!formValues?.username || !formValues.password || !!formErrors?.password || !!formErrors?.username}
-          />
+          <Button onClick={handleLoginClick} label="Войти" disabled={hasError || !changed} />
         </Box>
         <Box flex={1} />
         {!!theme?.url.social?.length && (

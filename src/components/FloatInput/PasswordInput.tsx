@@ -1,6 +1,6 @@
+import { EyeClosedIcon } from 'icons/EyeClosedIcon';
+import { EyeIcon } from 'icons/EyeIcon';
 import React, { ChangeEvent, FC, useState } from 'react';
-
-import { EyeClosedIcon, EyeIcon } from '../../icons';
 
 type Props = {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;

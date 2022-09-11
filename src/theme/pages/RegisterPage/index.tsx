@@ -1,55 +1,61 @@
-import { COLORS } from 'constant';
-import React, { FC, useContext, useRef, useState } from 'react';
-import { ThemeApplicationContext } from 'theme/application/ThemeApplication';
-import { Header } from 'theme/components/Header';
-import { ProviderButton } from 'theme/components/ProviderButton';
-
 import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { FloatInput } from 'components/FloatInput';
 import { Link } from 'components/Link';
 import { Typography } from 'components/Typography';
+import { COLORS } from 'constant';
+import { useForm } from 'hooks/useForm';
+import React, { FC, useContext, useEffect, useRef, useState } from 'react';
+import { ThemeApplicationContext } from 'theme/application/ThemeApplication';
+import { Header } from 'theme/components/Header';
+import { ProviderButton } from 'theme/components/ProviderButton';
 
 export const RegisterPage: FC = () => {
-  const [formValues, setFormValues] = useState<{
-    email?: string;
-    password?: string;
-    phoneNumber?: string;
-    firstName?: string;
-    lastName?: string;
-  }>({});
-  const [formErrors] = useState<{
-    email?: string;
-    password?: string;
-    phoneNumber?: string;
-    firstName?: string;
-    lastName?: string;
-  }>({});
   const [step, setStep] = useState(1);
   const theme = useContext(ThemeApplicationContext);
   const formRef = useRef<HTMLFormElement>(null);
 
-  function handleEmailChange(email?: string) {
-    setFormValues((prevValue) => ({ ...prevValue, email }));
-  }
+  const { values, errors, hasError, changed, validateFields, setFieldValue, resetFields } = useForm({
+    password: {
+      required: { message: 'Укажите пароль' },
+    },
+    firstName: {
+      required: { message: 'Укажите имя' },
+      pattern: {
+        value: /^[а-яА-я-]{3,}$/,
+        message: 'Укажите корректное имя',
+      },
+    },
+    lastName: {
+      required: { message: 'Укажите фамилию' },
+      pattern: {
+        value: /^[а-яА-я-]{3,}$/,
+        message: 'Укажите корректную фамилию',
+      },
+    },
+    phoneNumber: {
+      required: { message: 'Укажите телефон' },
+      pattern: {
+        value: /^\+?375(29|33|44|25)[0-9]{7}$/,
+        message: 'Укажите корректный телефон',
+      },
+    },
+    email: {
+      required: { message: 'Укажите email' },
+      pattern: {
+        value:
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        message: 'УКажите валидный email',
+      },
+    },
+  });
 
-  function handleFirstNameChange(firstName?: string) {
-    setFormValues((prevValue) => ({ ...prevValue, firstName }));
-  }
-
-  function handleLastNameChange(lastName?: string) {
-    setFormValues((prevValue) => ({ ...prevValue, lastName }));
-  }
-
-  function handlePhoneNumberChange(phoneNumber?: string) {
-    setFormValues((prevValue) => ({ ...prevValue, phoneNumber }));
-  }
-
-  function handlePasswordChange(password?: string) {
-    setFormValues((prevValue) => ({ ...prevValue, password }));
-  }
+  useEffect(() => {
+    resetFields();
+  }, []);
 
   function handleLoginClick() {
+    validateFields().then(() => formRef?.current?.submit());
     formRef?.current?.submit();
   }
 
@@ -83,70 +89,71 @@ export const RegisterPage: FC = () => {
           )
         }
       />
-      <Box flex={1} paddingTop={40} paddingLeft={16} paddingRight={16} paddingBottom={58}>
+      <Box flex={1} paddingTop={24} paddingLeft={16} paddingRight={16} paddingBottom={40}>
         <form action={theme?.url?.action} method="post" ref={formRef}>
           {step === 2 && (
             <>
               <FloatInput
-                hint={formErrors?.firstName}
-                value={formValues?.firstName}
+                hint={errors?.firstName}
+                value={values?.firstName}
                 label="Имя"
                 name="firstName"
-                onChange={handleFirstNameChange}
+                onChange={(value) => setFieldValue('firstName', value)}
               />
               <Box marginTop={8}>
                 <FloatInput
-                  hint={formErrors?.lastName}
-                  value={formValues?.lastName}
+                  hint={errors?.lastName}
+                  value={values?.lastName}
                   label="Фамилия"
                   name="lastName"
-                  onChange={handleLastNameChange}
+                  onChange={(value) => setFieldValue('lastName', value)}
                 />
               </Box>
-              <input hidden name="email" id="email" value={formValues?.email} />
+              <input hidden name="email" id="email" value={values?.email} />
               <input
                 hidden
                 name="user.attributes.phoneNumber"
                 id="user.attributes.phoneNumber"
-                value={formValues?.phoneNumber}
+                value={values?.phoneNumber}
               />
-              <input hidden name="password" id="password" value={formValues?.password} />
+              <input hidden name="password" id="password" value={values?.password} />
             </>
           )}
           {step === 1 && (
             <>
               <Box marginTop={8}>
                 <FloatInput
-                  hint={formErrors?.email}
-                  value={formValues?.email}
+                  hint={errors?.email}
+                  value={values?.email}
                   label="Email"
                   name="email"
-                  onChange={handleEmailChange}
+                  onChange={(value) => setFieldValue('email', value)}
                 />
               </Box>
               <Box marginTop={8}>
                 <FloatInput
-                  hint={formErrors?.phoneNumber}
-                  value={formValues?.phoneNumber}
+                  hint={errors?.phoneNumber}
+                  value={values?.phoneNumber}
+                  type="number"
                   label="Телефон"
                   name="user.attributes.phoneNumber"
-                  onChange={handlePhoneNumberChange}
+                  onChange={(value) => setFieldValue('phoneNumber', value)}
                 />
               </Box>
               <Box marginTop={8}>
                 <FloatInput
-                  hint={formErrors?.password}
-                  value={formValues?.password}
+                  hint={errors?.password}
+                  value={values?.password}
                   label="Пароль"
                   name="password"
-                  onChange={handlePasswordChange}
+                  onChange={(value) => setFieldValue('password', value)}
                   type="password"
                 />
               </Box>
             </>
           )}
 
-          <input hidden name="password-confirm" id="password-confirm" value={formValues?.password} />
+          <input hidden name="password-confirm" id="password-confirm" value={values?.password} />
         </form>
 
         {step === 1 ? (
@@ -155,33 +162,28 @@ export const RegisterPage: FC = () => {
               onClick={handleNextClick}
               label="Далее"
               disabled={
-                !formValues?.email ||
-                !formValues.password ||
-                !formValues.phoneNumber ||
-                !!formErrors?.password ||
-                !!formErrors?.email ||
-                !!formErrors.phoneNumber
+                !values?.email ||
+                !values.password ||
+                !values.phoneNumber ||
+                !!errors?.password ||
+                !!errors?.email ||
+                !!errors.phoneNumber ||
+                !changed
               }
             />
           </Box>
         ) : (
           <Box marginTop={24}>
-            <Button
-              onClick={handleLoginClick}
-              label="Закончить регистрацию"
-              disabled={
-                !formValues.firstName || !formValues.lastName || !!formErrors.firstName || !!formErrors.lastName
-              }
-            />
+            <Button onClick={handleLoginClick} label="Закончить регистрацию" disabled={hasError || !changed} />
           </Box>
         )}
-        {step === 1 && (
+        {step === 1 && !!theme?.url.social?.length && (
           <>
             <Box flex={1} />
             <Typography weight={500} size={16} lineHeight={20} textAlign="center" color={COLORS.BLACK}>
               Или через соц сети
             </Typography>
-            <Box marginTop={24} justifyContent="center" alignItems="center" marginBottom={32}>
+            <Box marginTop={24} justifyContent="center" alignItems="center" marginBottom={24}>
               <ProviderButton type="google" href="#" />
             </Box>
 

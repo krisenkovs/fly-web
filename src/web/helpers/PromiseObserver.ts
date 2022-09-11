@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+//import { AxiosResponse } from 'axios';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 
 enum PROMISE_TYPE {
@@ -19,25 +19,31 @@ export class PromiseObserver<T> {
       fulfilled: computed,
       error: computed,
       onResolve: action.bound,
+      onReject: action.bound,
     });
 
-    promise
-      .then((response: unknown) => this.onResolve(response as AxiosResponse<T>))
-      .catch(() =>
-        runInAction(() => {
-          this.state = PROMISE_TYPE.ERROR;
-        }),
-      );
+    promise.then((response: T) => this.onResolve(response)).catch((error) => this.onReject(error));
   }
 
-  onResolve(response: AxiosResponse<T>) {
-    if (response.status === 200) {
-      this.state = PROMISE_TYPE.FULFILLED;
-      this.value = (response as AxiosResponse<T>)?.data;
-    } else {
-      this.state = PROMISE_TYPE.ERROR;
-      this.value = (response as AxiosResponse<T>)?.data;
-    }
+  onResolve(response: T) {
+    //if (response.status === 200) {
+    this.state = PROMISE_TYPE.FULFILLED;
+    this.value = response;
+    //} else {
+    //this.state = PROMISE_TYPE.ERROR;
+    //this.value = response;
+    //}
+  }
+
+  onReject(error: any) {
+    //if (response.status === 200) {
+    console.log(error);
+    this.state = PROMISE_TYPE.ERROR;
+    //this.value = response;
+    //} else {
+    //this.state = PROMISE_TYPE.ERROR;
+    //this.value = response;
+    //}
   }
 
   get pending() {

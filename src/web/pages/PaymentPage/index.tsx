@@ -7,8 +7,9 @@ import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { CoinIcon, LightIcon } from 'icons';
 import { observer } from 'mobx-react';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router-dom';
+import { store as mainStore } from 'web/application/store';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
 
@@ -17,6 +18,10 @@ export const PaymentPage = observer(() => {
   const [power, setPower] = useState(0);
   const history = useHistory();
   const params = useParams<{ stationId: string; connectorId: string }>();
+
+  const station = useMemo(() => {
+    return mainStore.stationsPromise?.value?.content?.find((item) => item?.id === +params?.stationId);
+  }, [params, mainStore.stationsPromise?.value]);
 
   function handlePress() {
     history.push(`${generatePath(ROUTES.PAY, { ...params, cardId: 1 })}?sum=${sum}&power=${power}`);
@@ -30,15 +35,35 @@ export const PaymentPage = observer(() => {
     Payment(handleWidgetClose);
   }
 
+  function handleChangeSum(value: number) {
+    setSum(value);
+    if (station?.rate) {
+      setPower(Math.trunc(value / station?.rate));
+    }
+  }
+
+  function handleChangePower(value: number) {
+    setPower(value);
+    if (station?.rate) {
+      setPower(Math.trunc(value * station?.rate));
+    }
+  }
+
   return (
     <>
       <Box flex={1}>
         <Header showProfileButton={false} showBackButton title="Цена и киловаты" />
         <Box flex={1} paddingLeft={16} paddingRight={16} paddingBottom={48}>
           <Box flex={1} />
-          <Input icon={<CoinIcon />} title="BYN" values={[15, 25, 50, 75]} onChange={setSum} value={sum} />
+          <Input icon={<CoinIcon />} title="BYN" values={[15, 25, 50, 75]} onChange={handleChangeSum} value={sum} />
           <Box marginTop={40}>
-            <Input icon={<LightIcon />} title="Киловаты" values={[15, 25, 50, 75]} onChange={setPower} value={power} />
+            <Input
+              icon={<LightIcon />}
+              title="Киловаты"
+              values={[15, 25, 50, 75]}
+              onChange={handleChangePower}
+              value={power}
+            />
           </Box>
           <Box flex={1} />
           <Box paddingLeft={16} paddingRight={16}>

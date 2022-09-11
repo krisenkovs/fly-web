@@ -1,25 +1,29 @@
-import { COLORS } from 'constant';
-import React, { FC, useContext, useRef, useState } from 'react';
-import { ThemeApplicationContext } from 'theme/application/ThemeApplication';
-import { Header } from 'theme/components/Header';
-
 import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { FloatInput } from 'components/FloatInput';
 import { Typography } from 'components/Typography';
+import { COLORS } from 'constant';
+import { useForm } from 'hooks/useForm';
+import React, { FC, useContext, useRef } from 'react';
+import { ThemeApplicationContext } from 'theme/application/ThemeApplication';
+import { Header } from 'theme/components/Header';
 
 export const ForgotPage: FC = () => {
-  const [formValues, setFormValues] = useState<{ username?: string }>({});
-  const [formErrors] = useState<{ username?: string }>({});
+  const { values, errors, hasError, changed, validateFields, setFieldValue } = useForm({
+    username: {
+      required: { message: 'Укажите email' },
+      pattern: {
+        value:
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        message: 'УКажите валидный email',
+      },
+    },
+  });
   const theme = useContext(ThemeApplicationContext);
   const formRef = useRef<HTMLFormElement>(null);
 
-  function handleUsernameChange(username?: string) {
-    setFormValues((prevValue) => ({ ...prevValue, username }));
-  }
-
   function handleFormClick() {
-    formRef?.current?.submit();
+    validateFields().then(() => formRef?.current?.submit());
   }
 
   return (
@@ -41,19 +45,15 @@ export const ForgotPage: FC = () => {
         <Box flex={1} />
         <form action={theme?.url?.action} method="post" ref={formRef}>
           <FloatInput
-            hint={formErrors?.username}
-            value={formValues?.username}
+            hint={errors?.username}
+            value={values?.username}
             label="Email или телефон"
             name="username"
-            onChange={handleUsernameChange}
+            onChange={(value) => setFieldValue('username', value)}
           />
         </form>
-        <Box marginTop={24}>
-          <Button
-            onClick={handleFormClick}
-            label="Отправить ссылку"
-            disabled={!formValues?.username || !!formErrors?.username}
-          />
+        <Box marginTop={16}>
+          <Button onClick={handleFormClick} label="Отправить ссылку" disabled={!changed || hasError} />
         </Box>
         <Box flex={1} />
       </Box>

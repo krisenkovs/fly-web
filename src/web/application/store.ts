@@ -1,11 +1,13 @@
 import Keycloak, { KeycloakInstance } from 'keycloak-js';
 import { action, makeObservable, observable, reaction } from 'mobx';
+import { HTTPService } from 'web/HTTPService';
 import { API } from 'web/constant';
 import { fromPromise, PromiseObserver } from 'web/helpers/PromiseObserver';
-import { SimpleStore } from 'web/helpers/SimpleStore';
 import { ConnectorType, Page, ProfileType, StationType, TransactionType } from 'web/types';
 
-class Store extends SimpleStore {
+class Store {
+  protected readonly httpService = new HTTPService();
+
   stationsPromise?: PromiseObserver<Page<StationType>> = undefined;
   connectorsPromise?: PromiseObserver<ConnectorType[]> = undefined;
   currentTransactionPromise?: PromiseObserver<TransactionType> = undefined;
@@ -18,7 +20,6 @@ class Store extends SimpleStore {
   transactionsPromise?: PromiseObserver<Page<TransactionType>> = undefined;
 
   constructor() {
-    super();
     makeObservable(this, {
       keycloak: observable,
       stationsPromise: observable,
@@ -80,7 +81,8 @@ class Store extends SimpleStore {
     );
   }
 
-  loadProfile() {
+  async loadProfile() {
+    console.log(await this.httpService.get(`${API.USER}/profile`));
     this.profilePromise = fromPromise(this.httpService.get(`${API.USER}/profile`));
   }
 
@@ -122,13 +124,11 @@ class Store extends SimpleStore {
     const formData = new FormData();
     formData.append('image', file);
 
-    this.saveFilePromise = fromPromise(
-      this.httpService.post(`${API.IMAGE}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }),
-    );
+    this.saveFilePromise = fromPromise(this.httpService.post(`${API.IMAGE}`, formData, 'multipart/form-data'));
+  }
+
+  setToken(token: string) {
+    this.httpService.setToken(token);
   }
 
   destroy() {
