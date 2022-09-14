@@ -25,7 +25,8 @@ jobs:
       - run: npm i
       - run: npm i preact
       - run: npm run build_web
-      - name: Deploy file
+      - run: npm run build_theme
+      - name: Deploy mobile
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           username: ${{ secrets.FTP_USERNAME }}
@@ -33,5 +34,15 @@ jobs:
           port: ${{ secrets.FTP_PORT }}
           local_path: './build/*'
           remote_path: '/var/www/html/mobile'
+          sftp_only: true
+          password: ${{ secrets.FTP_PASSWORD }}
+      - name: Deploy theme
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: ${{ secrets.FTP_USERNAME }}
+          server: ${{ secrets.FTP_SERVER }}
+          port: ${{ secrets.FTP_PORT }}
+          local_path: './theme/*'
+          remote_path: '/var/www/html/theme/bFly'
           sftp_only: true
           password: ${{ secrets.FTP_PASSWORD }}
