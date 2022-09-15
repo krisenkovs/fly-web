@@ -1,0 +1,9 @@
+.content {
+  border: 1px solid var(--color-additional-grey);
+}
+
+.image {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}

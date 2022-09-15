@@ -13,15 +13,27 @@ export class HTTPService {
   ) {
     const body = contentType === 'application/json' ? JSON.stringify(data) : data;
 
+    const contentHeader: Record<string, string> = contentType === 'none' ? {} : { 'content-type': contentType };
+
     return fetch(url, {
       method,
       body: body,
-      headers: { Authorization: `Bearer ${this.token}`, 'content-type': contentType },
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        ...contentHeader,
+      },
     })
-      .then((data) => {
+      .then(async (data) => {
+
         if (data.status == 200) {
           if (data.headers.get('content-type') === 'application/json') {
-            return data.json();
+            const text = await data.text();
+
+            try {
+              return JSON.parse(text);
+            } catch (e) {
+              return text;
+            }
           } else {
             return data.text();
           }

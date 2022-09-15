@@ -124,7 +124,7 @@ class Store {
     const formData = new FormData();
     formData.append('image', file);
 
-    this.saveFilePromise = fromPromise(this.httpService.post(`${API.IMAGE}`, formData, 'multipart/form-data'));
+    this.saveFilePromise = fromPromise(this.httpService.post(`${API.IMAGE}`, formData, 'none'));
   }
 
   setToken(token: string) {
