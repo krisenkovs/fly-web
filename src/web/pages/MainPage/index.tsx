@@ -22,6 +22,11 @@ export const MainPage = observer(() => {
     ref?.current && setHeight(ref?.current?.clientHeight);
   }, [ref.current]);
 
+  useEffect(() => {
+    const interval = setInterval(() => mainStore.loadCurrentTransaction(), 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   function handleScannerPress() {
     push(ROUTES.SCANNER);
   }

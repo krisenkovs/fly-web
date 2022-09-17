@@ -38,7 +38,7 @@ export function Connector({ onPress, item }: Props) {
         </Box>
         <Box marginLeft={30} flex={1}>
           <Typography color={COLORS.BLACK} weight={700} size={14} lineHeight={18}>
-            Разъем CCS
+            {`Разъем ${item?.type}`}
           </Typography>
           <Box marginTop={8}>
             <Typography color={item?.availability ? COLORS.GREEN : COLORS.RED} weight={500} size={12} lineHeight={15}>
