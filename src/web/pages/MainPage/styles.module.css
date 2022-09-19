@@ -33,11 +33,16 @@
   z-index: 1;
   flex-direction: column;
   flex: 1;
+  transition: all 300ms ease;
+}
+.touch {
+  cursor: pointer;
 }
 .list {
   margin-top: 4px;
   padding-left: 16px;
-  padding-right: 16px;
+  padding-right: 4px;
+  margin-right: 16px;
 }
 .listItem {
   background-color: var(--color-white);

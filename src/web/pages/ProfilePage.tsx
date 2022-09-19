@@ -90,7 +90,6 @@ export const ProfilePage = observer(() => {
               photoId={mainStore.profilePromise?.value?.photoId}
               avatarCode={mainStore.profilePromise?.value?.avatarCode}
             />
-            <Box height={100} width={100} borderRadius={100} backgroundColor={COLORS.LIGHT_BLUE} />
           </Box>
           <TouchableOpacity onPress={handleSettingsClick}>
             <Box

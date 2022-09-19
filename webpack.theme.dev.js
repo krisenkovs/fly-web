@@ -2,8 +2,9 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 
 const common = require('./webpack.common.js');
-const { join } = require('path');
+const { join, resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const port = 8091;
 
 module.exports = merge(common, {
@@ -40,6 +41,14 @@ module.exports = merge(common, {
       title: 'Webpack App Theme',
       inject: true,
       template: join(__dirname, 'public', 'theme.html'),
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: resolve(__dirname, 'public/fonts'),
+          to: 'fonts',
+        },
+      ],
     }),
   ],
 });

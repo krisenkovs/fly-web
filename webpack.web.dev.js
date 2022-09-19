@@ -56,6 +56,10 @@ module.exports = merge(common, {
           to: 'fonts',
         },
         {
+          from: resolve(__dirname, 'public/locales'),
+          to: 'locales',
+        },
+        {
           from: resolve(__dirname, 'public/images'),
           to: 'images',
         },

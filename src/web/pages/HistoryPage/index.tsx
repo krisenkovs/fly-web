@@ -29,12 +29,12 @@ export const HistoryPage = observer(() => {
   }
 
   return (
-    <Box flex={1} position="relative">
+    <Box flex={1} position="relative" overflow="hidden">
       <Header title="История заправок" showBackButton showProfileButton={false} />
       {store.transactionsPromise?.pending ? (
         <Loader />
       ) : (
-        <Box flex={1} marginLeft={16} marginRight={16}>
+        <Box flex={1} marginLeft={16} marginRight={8} paddingRight={8} overflow="auto">
           {store.transactionsPromise?.value?.content?.map((item) => (
             <Pressable onPress={() => handleItemPress(item)} key={item?.id}>
               <Box

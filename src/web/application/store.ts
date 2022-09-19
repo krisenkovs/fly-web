@@ -1,9 +1,10 @@
 import Keycloak, { KeycloakInstance } from 'keycloak-js';
-import { action, makeObservable, observable, reaction } from 'mobx';
+import { action, makeObservable, observable, reaction, runInAction } from 'mobx';
 import { HTTPService } from 'web/HTTPService';
 import { API } from 'web/constant';
 import { fromPromise, PromiseObserver } from 'web/helpers/PromiseObserver';
 import { ConnectorType, Page, ProfileType, StationType, TransactionType } from 'web/types';
+import { Translate } from 'web/types/translate';
 
 class Store {
   protected readonly httpService = new HTTPService();
@@ -18,6 +19,7 @@ class Store {
   keycloak?: KeycloakInstance = undefined;
   saveFilePromise?: PromiseObserver<string> = undefined;
   transactionsPromise?: PromiseObserver<Page<TransactionType>> = undefined;
+  translate?: Translate = undefined;
 
   constructor() {
     makeObservable(this, {
@@ -31,6 +33,7 @@ class Store {
       saveFilePromise: observable,
       transactionsPromise: observable,
       changePasswordPromise: observable,
+      translate: observable,
       init: action.bound,
       loadStations: action.bound,
       loadConnectors: action.bound,
@@ -61,7 +64,14 @@ class Store {
     );
   }
 
-  init() {
+  async init() {
+    fetch('locales/ru.json')
+      .then((value) => {
+        return value.json();
+      })
+      .then((translate) => {
+        runInAction(() => (this.translate = translate));
+      })
     this.keycloak = Keycloak({
       url: `https://batteryfly.io/auth`,
       realm: 'batteryfly',
@@ -82,7 +92,6 @@ class Store {
   }
 
   async loadProfile() {
-    console.log(await this.httpService.get(`${API.USER}/profile`));
     this.profilePromise = fromPromise(this.httpService.get(`${API.USER}/profile`));
   }
 
@@ -116,8 +125,8 @@ class Store {
     this.transactionsPromise = fromPromise(this.httpService.get(`${API.TRANSACTION}/by-user`));
   }
 
-  changePassword() {
-    this.changePasswordPromise = fromPromise(this.httpService.get(`${API.TRANSACTION}/by-user`));
+  changePassword(entity: Record<string, string>) {
+    this.changePasswordPromise = fromPromise(this.httpService.put(`${API.USER}/profile/password`, entity));
   }
 
   saveFile(file: File) {

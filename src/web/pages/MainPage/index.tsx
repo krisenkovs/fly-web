@@ -12,20 +12,27 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
 import { ROUTES } from 'web/constant';
+import { useTranslate } from 'web/helpers/useTranslate';
 
 export const MainPage = observer(() => {
   const [height, setHeight] = useState<number | undefined>(0);
   const ref = useRef<HTMLDivElement>(null);
   const { push } = useHistory();
+  const t = useTranslate(mainStore.translate);
 
   useEffect(() => {
     ref?.current && setHeight(ref?.current?.clientHeight);
   }, [ref.current]);
 
   useEffect(() => {
-    const interval = setInterval(() => mainStore.loadCurrentTransaction(), 5000);
-    return () => clearInterval(interval);
+    mainStore.loadCurrentTransaction();
   }, []);
+
+  useEffect(() => {
+    if (mainStore.currentTransactionPromise?.value?.status === 'ACTIVE') {
+      setTimeout(() => mainStore.loadCurrentTransaction(), 5000);
+    }
+  }, [mainStore.currentTransactionPromise?.value]);
 
   function handleScannerPress() {
     push(ROUTES.SCANNER);
@@ -83,7 +90,7 @@ export const MainPage = observer(() => {
                   {mainStore.profilePromise?.value?.firstName}
                 </Typography>
                 <Typography weight={400} size={12} lineHeight={15} color={COLORS.LIGHT_BLACK}>
-                  Добро пожаловать
+                  {t('mainPage.welcome')}
                 </Typography>
               </Box>
               <TouchableOpacity onPress={handleNotificationPress}>
@@ -103,7 +110,7 @@ export const MainPage = observer(() => {
           </Box>
         </Box>
         <Box marginTop={44} marginLeft={16} marginRight={16} height={60} marginBottom={40}>
-          {mainStore.currentTransactionPromise?.value?.status === 'CREATED' ? (
+          {mainStore.currentTransactionPromise?.value?.status === 'ACTIVE' ? (
             <Pressable onPress={handleTransaction}>
               <Box
                 paddingTop={18}
@@ -131,9 +138,7 @@ export const MainPage = observer(() => {
           )}
         </Box>
         <Box flex={1} refContainer={ref} />
-        {!!height /*&& store?.currentTransactionPromise?.value?.status !== 'CREATED'*/ && (
-          <StationsSheet height={height} />
-        )}
+        {!!height && <StationsSheet height={height} />}
       </Box>
     </>
   );

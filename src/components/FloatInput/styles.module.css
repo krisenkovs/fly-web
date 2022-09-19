@@ -24,7 +24,8 @@
   transition: border-bottom 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-.float-input:focus-within label {
+.float-input:focus-within label,
+.float-input input:-webkit-autofill + label {
   left: 0;
   top: 0;
   font-size: 12px;

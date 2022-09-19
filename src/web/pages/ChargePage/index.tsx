@@ -18,9 +18,14 @@ export const ChargePage = observer(() => {
   const { push } = useHistory();
 
   useEffect(() => {
-    const interval = setInterval(() => mainStore.loadCurrentTransaction(), 5000);
-    return () => clearInterval(interval);
+    mainStore.loadCurrentTransaction();
   }, []);
+
+  useEffect(() => {
+    if (mainStore.currentTransactionPromise?.value?.status === 'ACTIVE') {
+      setTimeout(() => mainStore.loadCurrentTransaction(), 5000);
+    }
+  }, [mainStore.currentTransactionPromise?.value]);
 
   function handleCancel() {
     push(ROUTES.MAIN);

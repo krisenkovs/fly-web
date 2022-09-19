@@ -39,7 +39,6 @@ export const Router = observer(() => {
   useEffect(() => {
     store.loadStations();
     store.loadProfile();
-    store.loadCurrentTransaction();
   }, []);
 
   useEffect(() => {
@@ -50,7 +49,7 @@ export const Router = observer(() => {
   }, [match]);
 
   return (
-    <Box flex={1}>
+    <Box flex={1} overflow="hidden">
       <Switch>
         <Route path={ROUTES.MAIN} exact component={MainPage} />
         <Route path={ROUTES.STATION} exact component={StationPage} />

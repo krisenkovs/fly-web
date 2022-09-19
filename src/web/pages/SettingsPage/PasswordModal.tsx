@@ -14,15 +14,14 @@ type Props = {
 
 export const PasswordModal = observer(({ visible, onClose }: Props) => {
   const { values, errors, hasError, changed, validateFields, setFieldValue, resetFields } = useForm({
-    password: {
+    pass: {
       required: { message: 'Укажите пароль' },
       dependence: ['passwordConfirm'],
     },
-    passwordConfirm: {
+    passConf: {
       required: { message: 'Укажите пароль' },
       validator: (fieldValue: string, fieldValues) => {
-
-        if (fieldValue !== fieldValues?.password) {
+        if (fieldValue !== fieldValues?.pass) {
           return 'Пароли должны совпадать';
         }
       },
@@ -40,7 +39,9 @@ export const PasswordModal = observer(({ visible, onClose }: Props) => {
   }, [visible]);
 
   function handleChange() {
-    validateFields().then((values) => mainStore.changePassword());
+    validateFields().then((values) =>
+      mainStore.changePassword({ pass: values?.pass?.split(''), passConf: values?.passConf?.split('') }),
+    );
   }
   return (
     <Modal onClose={onClose} title="Сменить фото" visible={visible}>
@@ -48,16 +49,16 @@ export const PasswordModal = observer(({ visible, onClose }: Props) => {
         <FloatInput
           label="Новый пароль"
           type="password"
-          value={values?.password}
-          hint={errors?.password}
-          onChange={(value) => setFieldValue('password', value)}
+          value={values?.pass}
+          hint={errors?.pass}
+          onChange={(value) => setFieldValue('pass', value)}
         />
         <FloatInput
-          label="Повторите новй пароль"
+          label="Повторите новый пароль"
           type="password"
-          value={values?.passwordConfirm}
-          hint={errors?.passwordConfirm}
-          onChange={(value) => setFieldValue('passwordConfirm', value)}
+          value={values?.passConf}
+          hint={errors?.passConf}
+          onChange={(value) => setFieldValue('passConf', value)}
         />
         <Box marginTop={30}>
           <Button

@@ -33,11 +33,13 @@ export const SettingsPage = observer(() => {
   function handleAvatarChange(index?: number) {
     setFieldValue('usePhotoAsAvatar', false);
     setFieldValue('avatarCode', index);
+    setFieldValue('photoId', undefined);
   }
 
   function handlePhotoChange(photoId?: string) {
     setFieldValue('usePhotoAsAvatar', true);
     setFieldValue('photoId', photoId);
+    setFieldValue('avatarCode', undefined);
   }
 
   function handleSaveClick() {
