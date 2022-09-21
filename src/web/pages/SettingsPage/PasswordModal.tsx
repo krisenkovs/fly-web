@@ -5,7 +5,7 @@ import { Modal } from 'components/Modal';
 import { useForm } from 'hooks/useForm';
 import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
-import { store as mainStore } from 'web/application/store';
+import { store } from 'web/application/store';
 
 type Props = {
   visible: boolean;
@@ -29,10 +29,10 @@ export const PasswordModal = observer(({ visible, onClose }: Props) => {
   });
 
   useEffect(() => {
-    if (mainStore.changePasswordPromise?.fulfilled) {
+    if (store.changePasswordPromise?.fulfilled) {
       onClose();
     }
-  }, [mainStore?.changePasswordPromise?.fulfilled]);
+  }, [store?.changePasswordPromise?.fulfilled]);
 
   useEffect(() => {
     resetFields({});
@@ -40,7 +40,7 @@ export const PasswordModal = observer(({ visible, onClose }: Props) => {
 
   function handleChange() {
     validateFields().then((values) =>
-      mainStore.changePassword({ pass: values?.pass?.split(''), passConf: values?.passConf?.split('') }),
+      store.changePassword({ pass: values?.pass?.split(''), passConf: values?.passConf?.split('') }),
     );
   }
   return (
@@ -65,7 +65,7 @@ export const PasswordModal = observer(({ visible, onClose }: Props) => {
             onClick={handleChange}
             disabled={!changed || hasError}
             label="Изменить"
-            loading={mainStore.changePasswordPromise?.pending}
+            loading={store.changePasswordPromise?.pending}
           />
         </Box>
       </Box>

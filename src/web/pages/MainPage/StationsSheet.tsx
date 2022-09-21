@@ -1,8 +1,5 @@
 import styles from './styles.module.css';
-import { Box } from 'components/Box';
-import { Pressable } from 'components/Pressable';
-import Skeleton from 'components/Skeleton';
-import { Typography } from 'components/Typography';
+import { Box, Pressable, Skeleton, Typography } from 'components';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react';
 import React, { MouseEvent, TouchEvent, useState } from 'react';
@@ -30,7 +27,6 @@ export const StationsSheet = observer(function StationsSheet({ height }: Props) 
   }
 
   const move = (x: number) => {
-
     if (down) {
       const diff = down - x;
 
@@ -62,7 +58,7 @@ export const StationsSheet = observer(function StationsSheet({ height }: Props) 
     setDown(0);
   }
   function handleClick() {
-    isFull ? toSmall() : toFull()
+    isFull ? toSmall() : toFull();
   }
 
   function handleStationClick(id: string | number) {

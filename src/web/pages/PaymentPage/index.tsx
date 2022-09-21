@@ -9,7 +9,7 @@ import { CoinIcon, LightIcon } from 'icons';
 import { observer } from 'mobx-react';
 import React, { useMemo, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router-dom';
-import { store as mainStore } from 'web/application/store';
+import { store } from 'web/application/store';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
 
@@ -20,8 +20,8 @@ export const PaymentPage = observer(() => {
   const params = useParams<{ stationId: string; connectorId: string }>();
 
   const station = useMemo(() => {
-    return mainStore.stationsPromise?.value?.content?.find((item) => item?.id === +params?.stationId);
-  }, [params, mainStore.stationsPromise?.value]);
+    return store.stationsPromise?.value?.content?.find((item) => item?.id === +params?.stationId);
+  }, [params, store.stationsPromise?.value]);
 
   function handlePress() {
     history.push(`${generatePath(ROUTES.PAY, { ...params, cardId: 1 })}?sum=${sum}&power=${power}`);

@@ -10,7 +10,7 @@ import { CrossIcon } from 'icons';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { store as mainStore } from 'web/application/store';
+import { store } from 'web/application/store';
 import { ROUTES } from 'web/constant';
 
 export const ChargePage = observer(() => {
@@ -18,21 +18,21 @@ export const ChargePage = observer(() => {
   const { push } = useHistory();
 
   useEffect(() => {
-    mainStore.loadCurrentTransaction();
+    store.loadCurrentTransaction();
   }, []);
 
   useEffect(() => {
-    if (mainStore.currentTransactionPromise?.value?.status === 'ACTIVE') {
-      setTimeout(() => mainStore.loadCurrentTransaction(), 5000);
+    if (store.currentTransactionPromise?.value?.status === 'ACTIVE') {
+      setTimeout(() => store.loadCurrentTransaction(), 5000);
     }
-  }, [mainStore.currentTransactionPromise?.value]);
+  }, [store.currentTransactionPromise?.value]);
 
   function handleCancel() {
     push(ROUTES.MAIN);
   }
 
   function handleStart() {
-    mainStore.stopTransaction();
+    store.stopTransaction();
   }
 
   return (
@@ -92,7 +92,7 @@ export const ChargePage = observer(() => {
           <PowerIndicator />
           <Box width={72}>
             <Typography weight={700} size={18} lineHeight={22} color={COLORS.BLACK} textAlign="center">
-              {mainStore.currentTransactionPromise?.value?.amount}
+              {store.currentTransactionPromise?.value?.amount}
             </Typography>
             <Typography weight={700} size={12} lineHeight={15} color={COLORS.LIGHT_BLACK} textAlign="center">
               BYN
@@ -113,7 +113,7 @@ export const ChargePage = observer(() => {
         </Box>
         <Box flex={1} />
         <Box paddingLeft={16} paddingRight={16}>
-          <Button label="Остановить" onClick={handleStart} loading={mainStore?.transactionPromise?.pending} />
+          <Button label="Остановить" onClick={handleStart} loading={store?.transactionPromise?.pending} />
         </Box>
         <Modal onClose={() => setVisible(false)} title="Информация о заправке" visible={visible}>
           <Box marginTop={20}>
@@ -122,7 +122,7 @@ export const ChargePage = observer(() => {
             </Typography>
             <Box marginTop={8}>
               <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
-                {mainStore.currentTransactionPromise?.value?.startTime}
+                {store.currentTransactionPromise?.value?.startTime}
               </Typography>
             </Box>
           </Box>
@@ -132,7 +132,7 @@ export const ChargePage = observer(() => {
             </Typography>
             <Box marginTop={8}>
               <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
-                {mainStore.currentTransactionPromise?.value?.stopTime}
+                {store.currentTransactionPromise?.value?.stopTime}
               </Typography>
             </Box>
           </Box>
@@ -142,7 +142,7 @@ export const ChargePage = observer(() => {
             </Typography>
             <Box marginTop={8}>
               <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
-                {mainStore.currentTransactionPromise?.value?.amount}
+                {store.currentTransactionPromise?.value?.amount}
               </Typography>
             </Box>
           </Box>

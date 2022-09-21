@@ -1,11 +1,12 @@
+import { ConditionModal } from './ConditionModal';
 import { Box } from 'components/Box';
 import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
-import { Fly } from 'icons';
+import { FlyIcon } from 'icons';
 import React, { useState } from 'react';
+import styles from './styles.module.css';
 import { Header } from 'web/components/Header';
-import { ConditionModal } from 'web/pages/AboutPage/ConditionModal';
 
 export function AboutPage() {
   const [visible, setVisible] = useState(false);
@@ -18,7 +19,11 @@ export function AboutPage() {
       <Header title="О приложении" showBackButton showProfileButton={false} />
       <Box flex={1} marginLeft={16} marginRight={16}>
         <Box flex={1} />
-        <Fly />
+        <Box height={100} position="relative" alignItems="center" justifyContent="center">
+          <img src="images/waves.png" className={styles.image} alt="" />
+
+          <FlyIcon width={80} height={80} color={COLORS.LIGHT_BLUE} />
+        </Box>
         <Box marginTop={32}>
           <Typography color={COLORS.BLACK} weight={400} size={16} lineHeight={24}>
             Как принято считать, непосредственные участники технического прогресса и по сей день остаются уделом

@@ -9,7 +9,7 @@ type Props = {
   max?: number;
 };
 
-export const PowerIndicator = ({ value = 28, max = 29 }) => {
+export const PowerIndicator = ({ value = 28, max = 29 }:Props) => {
   const fillCount = Math.round((value / max) * 29);
 
   return (

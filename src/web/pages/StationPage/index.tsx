@@ -7,7 +7,7 @@ import { COLORS } from 'constant';
 import { observer } from 'mobx-react';
 import React, { useMemo } from 'react';
 import { useHistory, generatePath, useParams } from 'react-router-dom';
-import { store as mainStore } from 'web/application/store';
+import { store } from 'web/application/store';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
 
@@ -16,8 +16,8 @@ export const StationPage = observer(() => {
   const params = useParams<{ stationId: string }>();
 
   const station = useMemo(() => {
-    return mainStore.stationsPromise?.value?.content?.find((item) => item?.id === +params?.stationId);
-  }, [params, mainStore.stationsPromise?.value]);
+    return store.stationsPromise?.value?.content?.find((item) => item?.id === +params?.stationId);
+  }, [params, store.stationsPromise?.value]);
 
   function handlePress(connectorId: number) {
     push(generatePath(ROUTES.PAYMENT, { ...params, connectorId: connectorId }));
@@ -26,7 +26,7 @@ export const StationPage = observer(() => {
   return (
     <Box flex={1}>
       <Header showProfileButton={false} showBackButton title="Выберите колонку" height={126} />
-      {mainStore.connectorsPromise?.pending ? (
+      {store.connectorsPromise?.pending ? (
         <Loader />
       ) : (
         <Box paddingLeft={16} paddingRight={16}>
@@ -42,7 +42,7 @@ export const StationPage = observer(() => {
             </Typography>
           </Box>
           <Box marginTop={16}>
-            {mainStore?.connectorsPromise?.value?.map((item) => (
+            {store?.connectorsPromise?.value?.map((item) => (
               <Box marginTop={16} key={item.id}>
                 <Connector onPress={handlePress} item={item} />
               </Box>

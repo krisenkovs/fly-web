@@ -7,7 +7,7 @@ import { COLORS } from 'constant';
 import { useForm } from 'hooks/useForm';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
-import { store as mainStore } from 'web/application/store';
+import { store  } from 'web/application/store';
 import { AvatarView } from 'web/components/AvatarView';
 import { Header } from 'web/components/Header';
 import { PasswordModal } from 'web/pages/SettingsPage/PasswordModal';
@@ -27,8 +27,8 @@ export const SettingsPage = observer(() => {
   });
 
   useEffect(() => {
-    resetFields(mainStore.profilePromise?.value);
-  }, [mainStore.profilePromise?.value]);
+    resetFields(store.profilePromise?.value);
+  }, [store.profilePromise?.value]);
 
   function handleAvatarChange(index?: number) {
     setFieldValue('usePhotoAsAvatar', false);
@@ -43,7 +43,7 @@ export const SettingsPage = observer(() => {
   }
 
   function handleSaveClick() {
-    validateFields().then((values) => mainStore.saveProfile(values));
+    validateFields().then((values) => store.saveProfile(values));
   }
 
   return (
@@ -102,7 +102,7 @@ export const SettingsPage = observer(() => {
         </TouchableOpacity>
         <Box flex={1} />
         <Button
-          loading={mainStore.saveProfilePromise?.pending}
+          loading={store.saveProfilePromise?.pending}
           disabled={hasError || !changed}
           onClick={handleSaveClick}
           label="Сохранить"

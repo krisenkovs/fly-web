@@ -1,12 +1,13 @@
-import { Fly } from "icons";
 import { DescriptionField } from './DescriptionField';
+import styles from './styles.module.css';
 import { Box } from 'components/Box';
 import { Button } from 'components/Button';
+import { COLORS } from 'constant';
+import { FlyIcon } from 'icons';
 import { observer } from 'mobx-react';
-import { useEffect, useMemo } from 'react';
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { store as mainStore } from 'web/application/store';
+import { store } from 'web/application/store';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
 import { useLocationParams } from 'web/helpers/useLocationParams';
@@ -17,36 +18,40 @@ export const PayPage = observer(function PayPage() {
   const locationParams = useLocationParams();
 
   const station = useMemo(() => {
-    return mainStore.stationsPromise?.value?.content?.find((item) => item?.id === +params?.stationId);
-  }, [params, mainStore.stationsPromise?.value]);
+    return store.stationsPromise?.value?.content?.find((item) => item?.id === +params?.stationId);
+  }, [params, store.stationsPromise?.value]);
 
   useEffect(() => {
-    return () => mainStore.clearTransaction();
+    return () => store.clearTransaction();
   }, []);
 
   useEffect(() => {
-    if (mainStore.transactionPromise?.fulfilled) {
+    if (store.transactionPromise?.fulfilled) {
       push(ROUTES.CHARGE);
     }
-  }, [mainStore.transactionPromise?.fulfilled]);
+  }, [store.transactionPromise?.fulfilled]);
 
   useEffect(() => {
-    if (mainStore.transactionPromise?.error) {
+    if (store.transactionPromise?.error) {
       push(ROUTES.PAY_ERROR);
     }
-  }, [mainStore.transactionPromise?.error]);
+  }, [store.transactionPromise?.error]);
 
   function handleStart() {
     const sum = locationParams.get('sum') || 0;
     const power = locationParams.get('power') || 0;
-    mainStore.startTransaction(+params?.connectorId, +sum, +power);
+    store.startTransaction(+params?.connectorId, +sum, +power);
   }
 
   return (
     <Box flex={1}>
       <Header title="Начните зарядку" showBackButton showProfileButton={false} />
       <Box flex={1} />
-      <Fly/>
+      <Box height={100} position="relative" alignItems="center" justifyContent="center">
+        <img src="images/waves.png" className={styles.image} alt="" />
+
+        <FlyIcon width={80} height={80} color={COLORS.LIGHT_BLUE} />
+      </Box>
 
       <Box flex={1} />
       <Box paddingLeft={16} paddingRight={16}>
@@ -59,7 +64,7 @@ export const PayPage = observer(function PayPage() {
       </Box>
       <Box flex={1} />
       <Box marginBottom={48} marginLeft={16} marginRight={16}>
-        <Button label="Оплатить и зарядить" disabled={mainStore.transactionPromise?.pending} onClick={handleStart} />
+        <Button label="Оплатить и зарядить" disabled={store.transactionPromise?.pending} onClick={handleStart} />
       </Box>
     </Box>
   );

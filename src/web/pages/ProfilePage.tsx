@@ -6,7 +6,7 @@ import { BellIcon, CaretRightIcon, SlidersIcon } from 'icons';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { store as mainStore } from 'web/application/store';
+import { store } from 'web/application/store';
 import { AvatarView } from 'web/components/AvatarView';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
@@ -87,8 +87,8 @@ export const ProfilePage = observer(() => {
           >
             <AvatarView
               size={100}
-              photoId={mainStore.profilePromise?.value?.photoId}
-              avatarCode={mainStore.profilePromise?.value?.avatarCode}
+              photoId={store.profilePromise?.value?.photoId}
+              avatarCode={store.profilePromise?.value?.avatarCode}
             />
           </Box>
           <TouchableOpacity onPress={handleSettingsClick}>
@@ -122,10 +122,10 @@ export const ProfilePage = observer(() => {
             </Box>
           </TouchableOpacity>
           <Typography weight={700} size={16} lineHeight={24} color={COLORS.BLACK} textAlign="center">
-            {mainStore.profilePromise?.value?.firstName}
+            {store.profilePromise?.value?.firstName}
           </Typography>
           <Typography weight={400} size={14} lineHeight={18} color={COLORS.BLACK} textAlign="center">
-            {mainStore.profilePromise?.value?.email}
+            {store.profilePromise?.value?.email}
           </Typography>
         </Box>
         <Box flex={1} paddingTop={8}>

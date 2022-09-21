@@ -6,7 +6,7 @@ import { COLORS } from 'constant';
 import { Avatar1, Avatar2, Avatar3, Avatar4, Avatar5, Avatar6, Avatar7, Avatar8 } from 'icons';
 import { observer } from 'mobx-react';
 import React, { ChangeEvent, useEffect, useRef } from 'react';
-import { store as mainStore } from 'web/application/store';
+import { store } from 'web/application/store';
 import { AvatarView } from 'web/components/AvatarView';
 
 type Props = {
@@ -25,17 +25,17 @@ export const PhotoModal = observer(
     const ref = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-      if (mainStore.saveFilePromise?.fulfilled) {
-        onChangePhoto?.(mainStore.saveFilePromise?.value);
+      if (store.saveFilePromise?.fulfilled) {
+        onChangePhoto?.(store.saveFilePromise?.value);
       }
-    }, [mainStore.saveFilePromise?.fulfilled]);
+    }, [store.saveFilePromise?.fulfilled]);
 
     function handleAvatarChange(index: number) {
       onChangeAvatar?.(index);
     }
 
     function handleFileLoad(e: ChangeEvent<HTMLInputElement>) {
-      e.target?.files?.[0] && mainStore.saveFile(e.target?.files?.[0]);
+      e.target?.files?.[0] && store.saveFile(e.target?.files?.[0]);
     }
 
     return (

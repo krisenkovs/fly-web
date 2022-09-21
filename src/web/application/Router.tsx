@@ -1,7 +1,7 @@
 import { store } from './store';
 import { Box } from 'components/Box';
 import { observer } from 'mobx-react';
-import React, { lazy, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { matchPath, Route, Switch, useLocation } from 'react-router-dom';
 import { ROUTES } from 'web/constant';
 import { AboutPage } from 'web/pages/AboutPage';
@@ -17,14 +17,9 @@ import { PayErrorPage } from 'web/pages/PayErrorPage';
 import { PayPage } from 'web/pages/PayPage';
 import { PaymentPage } from 'web/pages/PaymentPage';
 import { ProfilePage } from 'web/pages/ProfilePage';
+import { ScannerPage } from 'web/pages/ScannerPage';
 import { SettingsPage } from 'web/pages/SettingsPage';
 import { StationPage } from 'web/pages/StationPage';
-
-const ScannerPage = lazy(() =>
-  import('web/pages/ScannerPage').then(({ ScannerPage }) => ({
-    default: ScannerPage,
-  })),
-);
 
 export const Router = observer(() => {
   const { pathname } = useLocation();
