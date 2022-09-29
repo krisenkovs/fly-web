@@ -3,7 +3,7 @@ import { action, makeObservable, observable, reaction, runInAction } from 'mobx'
 import { HTTPService } from 'web/HTTPService';
 import { API } from 'web/constant';
 import { fromPromise, PromiseObserver } from 'web/helpers/PromiseObserver';
-import { ConnectorType, Page, ProfileType, StationType, TransactionType } from 'web/types';
+import { CardType, ConnectorType, Page, PaidReturnType, ProfileType, StationType, TransactionType } from 'web/types';
 import { Translate } from 'web/types/translate';
 
 class Store {
@@ -11,9 +11,11 @@ class Store {
 
   stationsPromise?: PromiseObserver<Page<StationType>> = undefined;
   connectorsPromise?: PromiseObserver<ConnectorType[]> = undefined;
+  cardPromise?: PromiseObserver<CardType> = undefined;
+  tieCardPromise?: PromiseObserver<PaidReturnType> = undefined;
   currentTransactionPromise?: PromiseObserver<TransactionType> = undefined;
+  payTransactionPromise?: PromiseObserver<PaidReturnType> = undefined;
   saveProfilePromise?: PromiseObserver<void> = undefined;
-  transactionPromise?: PromiseObserver<TransactionType> = undefined;
   profilePromise?: PromiseObserver<ProfileType> = undefined;
   changePasswordPromise?: PromiseObserver<void> = undefined;
   keycloak?: KeycloakInstance = undefined;
@@ -27,8 +29,10 @@ class Store {
       stationsPromise: observable,
       connectorsPromise: observable,
       currentTransactionPromise: observable,
-      transactionPromise: observable,
       profilePromise: observable,
+      cardPromise: observable,
+      tieCardPromise: observable,
+      payTransactionPromise: observable,
       saveProfilePromise: observable,
       saveFilePromise: observable,
       transactionsPromise: observable,
@@ -39,22 +43,16 @@ class Store {
       loadConnectors: action.bound,
       loadCurrentTransaction: action.bound,
       loadProfile: action.bound,
-      startTransaction: action.bound,
+      loadCard: action.bound,
+      tieCard: action.bound,
       stopTransaction: action.bound,
+      payTransaction: action.bound,
       saveProfile: action.bound,
-      clearTransaction: action.bound,
       saveFile: action.bound,
       destroy: action.bound,
       loadTransactions: action.bound,
       changePassword: action.bound,
     });
-
-    reaction(
-      () => this.transactionPromise?.fulfilled,
-      (value) => {
-        value && this.loadCurrentTransaction();
-      },
-    );
 
     reaction(
       () => this.saveProfilePromise?.fulfilled,
@@ -71,7 +69,7 @@ class Store {
       })
       .then((translate) => {
         runInAction(() => (this.translate = translate));
-      })
+      });
     this.keycloak = Keycloak({
       url: `https://batteryfly.io/auth`,
       realm: 'batteryfly',
@@ -91,34 +89,39 @@ class Store {
     );
   }
 
-  async loadProfile() {
+  loadProfile() {
     this.profilePromise = fromPromise(this.httpService.get(`${API.USER}/profile`));
+  }
+
+  loadCard() {
+    this.cardPromise = fromPromise(this.httpService.get(`${API.USER}/payment-card`));
+  }
+
+  tieCard(path: string) {
+    this.tieCardPromise = fromPromise(this.httpService.post(`${API.TRANSACTION}/tie-card`, { returnUrl: path }));
   }
 
   loadCurrentTransaction() {
     this.currentTransactionPromise = fromPromise(this.httpService.get(`${API.TRANSACTION}/current`));
   }
 
-  startTransaction(connectorId: number, price: number, amount: number) {
-    this.transactionPromise = fromPromise(
-      this.httpService.post(`/api/transaction/start`, {
+  payTransaction(connectorId: string, amount: number | string, initPrice: number | string, returnUrl: string) {
+    this.payTransactionPromise = fromPromise(
+      this.httpService.post(`${API.TRANSACTION}/pay`, {
         connectorId,
-        price,
         amount,
+        initPrice,
+        returnUrl,
       }),
     );
   }
 
   stopTransaction() {
-    this.transactionPromise = fromPromise(this.httpService.post(`/api/transaction/stop`, {}));
+    this.currentTransactionPromise = fromPromise(this.httpService.post(`/api/transaction/stop`, {}));
   }
 
   saveProfile(values?: ProfileType) {
     this.saveProfilePromise = fromPromise(this.httpService.put(`${API.USER}/profile`, values));
-  }
-
-  clearTransaction() {
-    this.transactionPromise = undefined;
   }
 
   loadTransactions() {
@@ -145,7 +148,6 @@ class Store {
     this.connectorsPromise = undefined;
     this.currentTransactionPromise = undefined;
     this.profilePromise = undefined;
-    this.transactionPromise = undefined;
     this.keycloak = undefined;
     this.saveProfilePromise = undefined;
     this.saveFilePromise = undefined;

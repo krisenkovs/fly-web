@@ -20,3 +20,4 @@ export { default as Avatar7 } from './Avatar7';
 export { default as Avatar8 } from './Avatar8';
 export { default as ChatCircleDots } from './ChatCircleDots';
 export { default as FlyIcon } from './FlyIcon';
+export { default as VisaIcon } from './VisaIcon';

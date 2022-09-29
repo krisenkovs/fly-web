@@ -34,6 +34,7 @@ export const Router = observer(() => {
   useEffect(() => {
     store.loadStations();
     store.loadProfile();
+    store.loadCard();
   }, []);
 
   useEffect(() => {

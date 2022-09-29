@@ -12,18 +12,19 @@ type Props = {
   showBackButton?: boolean;
   showProfileButton?: boolean;
   height?: number;
+  backRoute?:ROUTES;
   style?: CSSProperties;
 };
 
-export function Header({ title, showBackButton, showProfileButton = true, height = 56, style }: Props) {
-  const { push, goBack } = useHistory();
+export function Header({ title, showBackButton, showProfileButton = true, height = 56, style, backRoute }: Props) {
+  const { push, goBack, replace } = useHistory();
 
   function handleProfilePress() {
     push(ROUTES.PROFILE);
   }
 
   function handleBackPress() {
-    goBack();
+    backRoute? replace(backRoute) : goBack();
   }
 
   return (

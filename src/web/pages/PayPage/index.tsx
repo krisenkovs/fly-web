@@ -17,30 +17,29 @@ export const PayPage = observer(function PayPage() {
   const params = useParams<{ stationId: string; connectorId: string; cardId: string }>();
   const locationParams = useLocationParams();
 
+  const sum = locationParams.get('sum') || 0;
+  const power = locationParams.get('power') || 0;
+
   const station = useMemo(() => {
     return store.stationsPromise?.value?.content?.find((item) => item?.id === +params?.stationId);
   }, [params, store.stationsPromise?.value]);
 
   useEffect(() => {
-    return () => store.clearTransaction();
-  }, []);
-
-  useEffect(() => {
-    if (store.transactionPromise?.fulfilled) {
-      push(ROUTES.CHARGE);
+    if (store.payTransactionPromise?.fulfilled) {
+      if (store.payTransactionPromise.value?.redirectUrl) {
+        window.location.href = store.payTransactionPromise.value?.redirectUrl;
+      }
     }
-  }, [store.transactionPromise?.fulfilled]);
+  }, [store.payTransactionPromise?.fulfilled]);
 
   useEffect(() => {
-    if (store.transactionPromise?.error) {
+    if (store.payTransactionPromise?.error) {
       push(ROUTES.PAY_ERROR);
     }
-  }, [store.transactionPromise?.error]);
+  }, [store.payTransactionPromise?.error]);
 
   function handleStart() {
-    const sum = locationParams.get('sum') || 0;
-    const power = locationParams.get('power') || 0;
-    store.startTransaction(+params?.connectorId, +sum, +power);
+    store.payTransaction(params.connectorId, power, sum, `${window.location.origin}/${ROUTES.CHARGE}`);
   }
 
   return (
@@ -58,13 +57,16 @@ export const PayPage = observer(function PayPage() {
         <DescriptionField label="Адрес" value={station?.address} />
         <DescriptionField label="№ колонки" value={station?.id} />
         <DescriptionField label="Тип разъема" value="CCS" />
-        <DescriptionField label="Киловаты" value={locationParams.get('power') || ''} />
-        <DescriptionField label="BYN" value={locationParams.get('sum') || ''} />
-        <DescriptionField label="Способ оплаты" value="Visa •••• 4320 " />
+        <DescriptionField label="Киловаты" value={power} />
+        <DescriptionField label="BYN" value={sum} />
+        <DescriptionField
+          label="Способ оплаты"
+          value={`${store.cardPromise?.value?.brand} •••• ${store.cardPromise?.value?.last4}`}
+        />
       </Box>
       <Box flex={1} />
       <Box marginBottom={48} marginLeft={16} marginRight={16}>
-        <Button label="Оплатить и зарядить" disabled={store.transactionPromise?.pending} onClick={handleStart} />
+        <Button label="Оплатить и зарядить" disabled={store.payTransactionPromise?.pending} onClick={handleStart} />
       </Box>
     </Box>
   );
