@@ -7,7 +7,7 @@ import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { CrossIcon } from 'icons';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { store } from 'web/application/store';

@@ -6,7 +6,7 @@ import { Pressable } from 'components/Pressable';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { CoinIcon, LightIcon } from 'icons';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect, useMemo, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router-dom';
 import { store } from 'web/application/store';

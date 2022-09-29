@@ -4,7 +4,7 @@ import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { COLORS } from 'constant';
 import { FlyIcon } from 'icons';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect, useMemo } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { store } from 'web/application/store';

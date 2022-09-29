@@ -3,7 +3,7 @@ import { Button } from 'components/Button';
 import { FloatInput } from 'components/FloatInput';
 import { COLORS } from 'constant';
 import { useForm } from 'hooks/useForm';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { Header } from 'web/components/Header';
 import { ConnectorModal } from 'web/pages/CarPage/ConnectorModal';

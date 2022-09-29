@@ -4,7 +4,7 @@ import { Box } from 'components/Box';
 import { Loader } from 'components/Loader';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useMemo } from 'react';
 import { useHistory, generatePath, useParams } from 'react-router-dom';
 import { store } from 'web/application/store';

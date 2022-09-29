@@ -1,5 +1,5 @@
 import { Box } from 'components/Box';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { QrReader } from 'react-qr-reader';
 import { Header } from 'web/components/Header';

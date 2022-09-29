@@ -1,7 +1,7 @@
 import styles from './styles.module.css';
 import { Box, Pressable, Skeleton, Typography } from 'components';
 import { COLORS } from 'constant';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, TouchEvent, useState } from 'react';
 import { useHistory, generatePath } from 'react-router-dom';
 import { store } from 'web/application/store';

@@ -3,7 +3,7 @@ import { Button } from 'components/Button';
 import { FloatInput } from 'components/FloatInput';
 import { Modal } from 'components/Modal';
 import { useForm } from 'hooks/useForm';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { store } from 'web/application/store';
 

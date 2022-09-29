@@ -1,7 +1,7 @@
 import { TouchableOpacity, Typography } from 'components';
 import { Box } from 'components/Box';
 import { COLORS } from 'constant';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { store } from 'web/application/store';
 import { CardView } from 'web/components/CardView';

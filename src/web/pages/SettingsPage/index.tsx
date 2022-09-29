@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { useForm } from 'hooks/useForm';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { store  } from 'web/application/store';
 import { AvatarView } from 'web/components/AvatarView';

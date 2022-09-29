@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import { Box, Pressable, Skeleton, TouchableOpacity, Typography } from 'components';
 import { COLORS } from 'constant';
 import { BellIcon, CaretRightIcon, FlyIcon, WarningIcon } from 'icons';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { store } from 'web/application/store';

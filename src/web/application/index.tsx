@@ -2,7 +2,7 @@ import { store } from './store';
 import { AuthClientTokens } from '@react-keycloak/core';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
 import { Loader } from 'components/Loader';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, Suspense } from 'react';
 import { Keycloak } from 'web/application/Keycloak';
 

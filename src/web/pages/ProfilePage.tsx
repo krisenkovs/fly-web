@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { BellIcon, CaretRightIcon, SlidersIcon } from 'icons';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { store } from 'web/application/store';

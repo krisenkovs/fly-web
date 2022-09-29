@@ -1,7 +1,6 @@
 import styles from './styles.module.css';
 import { Box } from 'components/Box';
 import { COLORS } from 'constant';
-import { Avatar1, Avatar2, Avatar3, Avatar4, Avatar5, Avatar6, Avatar7, Avatar8 } from 'icons';
 import React, { FC } from 'react';
 import { API } from 'web/constant';
 
@@ -10,8 +9,6 @@ type Props = {
   photoId?: string;
   size: number;
 };
-
-const avatars: FC[] = [Avatar1, Avatar2, Avatar3, Avatar4, Avatar5, Avatar6, Avatar7, Avatar8];
 
 export function AvatarView({ photoId, avatarCode, size = 100 }: Props) {
   if (photoId) {
@@ -32,7 +29,6 @@ export function AvatarView({ photoId, avatarCode, size = 100 }: Props) {
   }
 
   if (avatarCode !== undefined) {
-    const Icon = avatars[avatarCode] as typeof Avatar1;
 
     return (
       <Box
@@ -42,8 +38,9 @@ export function AvatarView({ photoId, avatarCode, size = 100 }: Props) {
         alignItems="center"
         justifyContent="center"
         backgroundColor={COLORS.WHITE}
+        overflow="hidden"
       >
-        <Icon width={size} height={size} />
+        <img src={`images/Avatar${avatarCode}.png`} alt={`Avatar${avatarCode}`} className={styles.image} />
       </Box>
     );
   }

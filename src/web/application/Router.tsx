@@ -1,6 +1,6 @@
 import { store } from './store';
 import { Box } from 'components/Box';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect, useMemo } from 'react';
 import { matchPath, Route, Switch, useLocation } from 'react-router-dom';
 import { ROUTES } from 'web/constant';

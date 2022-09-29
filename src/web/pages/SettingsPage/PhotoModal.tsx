@@ -1,10 +1,10 @@
+import styles from './styles.module.css';
 import { Box } from 'components/Box';
 import { Modal } from 'components/Modal';
 import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
-import { Avatar1, Avatar2, Avatar3, Avatar4, Avatar5, Avatar6, Avatar7, Avatar8 } from 'icons';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { ChangeEvent, useEffect, useRef } from 'react';
 import { store } from 'web/application/store';
 import { AvatarView } from 'web/components/AvatarView';
@@ -17,8 +17,6 @@ type Props = {
   onChangeAvatar?: (avatarCode?: number) => void;
   onChangePhoto?: (photoId?: string) => void;
 };
-
-const avatars = [Avatar1, Avatar2, Avatar3, Avatar4, Avatar5, Avatar6, Avatar7, Avatar8];
 
 export const PhotoModal = observer(
   ({ visible, onClose, avatarCode, photoId, onChangeAvatar, onChangePhoto }: Props) => {
@@ -57,10 +55,19 @@ export const PhotoModal = observer(
           </Typography>
         </Box>
         <Box marginLeft={16} marginRight={16} flexDirection="row" style={{ gap: '16px', flexWrap: 'wrap' }}>
-          {avatars.map((Icon, index) => (
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((index) => (
             <TouchableOpacity onPress={() => handleAvatarChange(index)}>
-              <Box height={68} width={68} borderRadius={64} alignItems="center" justifyContent="center">
-                <Icon color={avatarCode === index ? COLORS.BLUE : COLORS.GREY} />
+              <Box
+                height={68}
+                width={68}
+                borderRadius={64}
+                alignItems="center"
+                justifyContent="center"
+                className={index === avatarCode ? styles.avatarSelected : ''}
+                boxSizing="border-box"
+                overflow="hidden"
+              >
+                <img src={`images/Avatar${index}.png`} alt={`Avatar${index}`} />
               </Box>
             </TouchableOpacity>
           ))}

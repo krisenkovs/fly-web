@@ -3,7 +3,7 @@ import { Loader } from 'components/Loader';
 import { Pressable } from 'components/Pressable';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { store } from 'web/application/store';
 import { Header } from 'web/components/Header';

@@ -2,7 +2,7 @@ import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Header } from 'web/components/Header';
