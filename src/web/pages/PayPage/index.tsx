@@ -25,6 +25,10 @@ export const PayPage = observer(function PayPage() {
   }, [params, store.stationsPromise?.value]);
 
   useEffect(() => {
+    return () => store.clearPaid();
+  }, []);
+
+  useEffect(() => {
     if (store.payTransactionPromise?.fulfilled) {
       if (store.payTransactionPromise.value?.redirectUrl) {
         window.location.href = store.payTransactionPromise.value?.redirectUrl;
@@ -39,7 +43,7 @@ export const PayPage = observer(function PayPage() {
   }, [store.payTransactionPromise?.error]);
 
   function handleStart() {
-    store.payTransaction(params.connectorId, power, sum, `${window.location.origin}/${ROUTES.CHARGE}`);
+    store.payTransaction(params.connectorId, power, sum, `${window.location.origin}${ROUTES.CHARGE}`);
   }
 
   return (
@@ -66,7 +70,11 @@ export const PayPage = observer(function PayPage() {
       </Box>
       <Box flex={1} />
       <Box marginBottom={48} marginLeft={16} marginRight={16}>
-        <Button label="Оплатить и зарядить" disabled={store.payTransactionPromise?.pending} onClick={handleStart} />
+        <Button
+          label="Оплатить и зарядить"
+          disabled={store.payTransactionPromise?.pending || store.payTransactionPromise?.fulfilled}
+          onClick={handleStart}
+        />
       </Box>
     </Box>
   );

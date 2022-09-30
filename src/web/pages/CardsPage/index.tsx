@@ -9,6 +9,9 @@ import { Header } from 'web/components/Header';
 
 export const CardsPage = observer(() => {
   useEffect(() => {
+    return () => store.clearPaid();
+  }, []);
+  useEffect(() => {
     if (store.tieCardPromise?.fulfilled) {
       if (store.tieCardPromise.value?.redirectUrl) {
         window.location.href = store.tieCardPromise.value?.redirectUrl;

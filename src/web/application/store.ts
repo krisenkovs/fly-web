@@ -47,6 +47,7 @@ class Store {
       tieCard: action.bound,
       stopTransaction: action.bound,
       payTransaction: action.bound,
+      clearPaid: action.bound,
       saveProfile: action.bound,
       saveFile: action.bound,
       destroy: action.bound,
@@ -114,6 +115,11 @@ class Store {
         returnUrl,
       }),
     );
+  }
+
+  clearPaid() {
+    this.tieCardPromise = undefined;
+    this.payTransactionPromise = undefined;
   }
 
   stopTransaction() {
