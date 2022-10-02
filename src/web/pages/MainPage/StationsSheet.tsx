@@ -26,9 +26,9 @@ export const StationsSheet = observer(function StationsSheet({ height }: Props) 
     setFull(false);
   }
 
-  const move = (x: number) => {
+  const move = (y: number) => {
     if (down) {
-      const diff = down - x;
+      const diff = down - y;
 
       if (diff > 3) {
         toFull();
@@ -41,18 +41,18 @@ export const StationsSheet = observer(function StationsSheet({ height }: Props) 
   };
 
   function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
-    move(e.clientX || 0);
+    move(e.clientY || 0);
   }
 
   function handleTouchMove(e: TouchEvent<HTMLDivElement>) {
-    move(e.touches?.[0]?.clientX || 0);
+    move(e.touches?.[0]?.clientY || 0);
   }
 
   function handleMouseDown(e: MouseEvent<HTMLDivElement>) {
-    setDown(e?.clientX || 0);
+    setDown(e?.clientY || 0);
   }
   function handleTouchDown(e: TouchEvent<HTMLDivElement>) {
-    setDown(e?.touches?.[0]?.clientX || 0);
+    setDown(e?.touches?.[0]?.clientY || 0);
   }
   function handleMouseUp() {
     setDown(0);
