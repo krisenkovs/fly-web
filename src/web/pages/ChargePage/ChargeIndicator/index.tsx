@@ -8,7 +8,7 @@ import React from 'react';
 type Props = {
   time?: number;
   color: COLORS;
-  percent: number;
+  percent?: number;
 };
 
 export const ChargeIndicator = ({ color, time, percent }: Props) => {
@@ -49,12 +49,20 @@ export const ChargeIndicator = ({ color, time, percent }: Props) => {
       </svg>
 
       <svg width={200} height={200} className={styles.diagram}>
-        <circle cx="100" cy="100" r="94" stroke="var(--color-pale-blue)" strokeWidth="12" fill="none" strokeLinecap="round" />
         <circle
           cx="100"
           cy="100"
           r="94"
-          stroke="var(--color-green)"
+          stroke="var(--color-pale-blue)"
+          strokeWidth="12"
+          fill="none"
+          strokeLinecap="round"
+        />
+        <circle
+          cx="100"
+          cy="100"
+          r="94"
+          stroke={`var(--color-${color})`}
           strokeWidth="12"
           strokeDasharray="314,2000 "
           fill="none"
@@ -68,7 +76,6 @@ export const ChargeIndicator = ({ color, time, percent }: Props) => {
         className={styles.content}
         justifyContent="center"
         alignItems="center"
-
       >
         <LightIcon width={24} height={24} color={color} />
         <Box marginTop={12}>

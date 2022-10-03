@@ -64,7 +64,7 @@ export const ProfilePage = observer(() => {
       <Header title="Профиль" showBackButton showProfileButton={false} />
       <Box paddingTop={90} paddingLeft={16} paddingRight={16}>
         <Box
-          style={{ position: 'relative' }}
+          position="relative"
           backgroundColor={COLORS.PALE_BLUE}
           borderRadius={12}
           height={135}
@@ -122,7 +122,7 @@ export const ProfilePage = observer(() => {
             </Box>
           </TouchableOpacity>
           <Typography weight={700} size={16} lineHeight={24} color={COLORS.BLACK} textAlign="center">
-            {store.profilePromise?.value?.firstName}
+            {`${store.profilePromise?.value?.firstName || ''} ${store.profilePromise?.value?.lastName || ''}`}
           </Typography>
           <Typography weight={400} size={14} lineHeight={18} color={COLORS.BLACK} textAlign="center">
             {store.profilePromise?.value?.email}

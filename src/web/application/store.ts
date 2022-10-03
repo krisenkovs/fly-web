@@ -103,7 +103,10 @@ class Store {
   }
 
   loadCurrentTransaction() {
-    this.currentTransactionPromise = fromPromise(this.httpService.get(`${API.TRANSACTION}/current`));
+    this.currentTransactionPromise = fromPromise(
+      this.httpService.get(`${API.TRANSACTION}/current`),
+      this.currentTransactionPromise?.value,
+    );
   }
 
   payTransaction(connectorId: string, amount: number | string, initPrice: number | string, returnUrl: string) {

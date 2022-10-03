@@ -26,7 +26,7 @@ export const CarPage = observer(() => {
   }
 
   function handleConnectorChange(value: string) {
-    setFieldValue('capacity', value);
+    setFieldValue('connector', value);
     setVisible(false);
   }
 
@@ -55,8 +55,8 @@ export const CarPage = observer(() => {
         <FloatInput
           label="Разъём"
           type="text"
-          value={values?.capacity}
-          hint={errors?.capacity}
+          value={values?.connector}
+          hint={errors?.connector}
           onClick={() => setVisible(true)}
         />
         <FloatInput

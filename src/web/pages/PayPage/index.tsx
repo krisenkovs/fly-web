@@ -5,12 +5,14 @@ import { Button } from 'components/Button';
 import { COLORS } from 'constant';
 import { FlyIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { store } from 'web/application/store';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
+import { useConnector } from 'web/helpers/useConnector';
 import { useLocationParams } from 'web/helpers/useLocationParams';
+import { useStation } from 'web/helpers/useStation';
 
 export const PayPage = observer(function PayPage() {
   const { push } = useHistory();
@@ -20,9 +22,8 @@ export const PayPage = observer(function PayPage() {
   const sum = locationParams.get('sum') || 0;
   const power = locationParams.get('power') || 0;
 
-  const station = useMemo(() => {
-    return store.stationsPromise?.value?.content?.find((item) => item?.id === +params?.stationId);
-  }, [params, store.stationsPromise?.value]);
+  const station = useStation(+params?.stationId);
+  const connector = useConnector(+params?.connectorId);
 
   useEffect(() => {
     return () => store.clearPaid();
@@ -60,7 +61,7 @@ export const PayPage = observer(function PayPage() {
       <Box paddingLeft={16} paddingRight={16}>
         <DescriptionField label="Адрес" value={station?.address} />
         <DescriptionField label="№ колонки" value={station?.id} />
-        <DescriptionField label="Тип разъема" value="CCS" />
+        <DescriptionField label="Тип разъема" value={connector?.type} />
         <DescriptionField label="Киловаты" value={power} />
         <DescriptionField label="BYN" value={sum} />
         <DescriptionField

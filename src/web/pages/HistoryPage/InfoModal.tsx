@@ -40,7 +40,7 @@ export function InfoModal({ visible, onClose, item }: Props) {
         </Typography>
         <Box marginTop={8}>
           <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
-            {item?.amount}
+            {item?.finalAmount}
           </Typography>
         </Box>
       </Box>

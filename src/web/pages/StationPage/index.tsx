@@ -5,19 +5,18 @@ import { Loader } from 'components/Loader';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react-lite';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useHistory, generatePath, useParams } from 'react-router-dom';
 import { store } from 'web/application/store';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
+import { useStation } from 'web/helpers/useStation';
 
 export const StationPage = observer(() => {
   const { push } = useHistory();
   const params = useParams<{ stationId: string }>();
 
-  const station = useMemo(() => {
-    return store.stationsPromise?.value?.content?.find((item) => item?.id === +params?.stationId);
-  }, [params, store.stationsPromise?.value]);
+  const station = useStation(+params?.stationId);
 
   function handlePress(connectorId: number) {
     push(generatePath(ROUTES.PAYMENT, { ...params, connectorId: connectorId }));

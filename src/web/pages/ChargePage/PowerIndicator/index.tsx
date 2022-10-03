@@ -7,9 +7,10 @@ import React from 'react';
 type Props = {
   value?: number;
   max?: number;
+  color?: COLORS;
 };
 
-export const PowerIndicator = ({ value = 28, max = 29 }:Props) => {
+export const PowerIndicator = ({ value = 28, max = 29, color = COLORS.GREEN }: Props) => {
   const fillCount = Math.round((value / max) * 29);
 
   return (
@@ -54,7 +55,7 @@ export const PowerIndicator = ({ value = 28, max = 29 }:Props) => {
             fillRule="evenodd"
             clipRule="evenodd"
             d={item}
-            fill={index < fillCount ? 'var(--color-green)' : 'var(--color-pale-blue'}
+            fill={index < fillCount ? `var(--color-${color})` : 'var(--color-pale-blue'}
           />
         ))}
       </svg>
@@ -69,7 +70,7 @@ export const PowerIndicator = ({ value = 28, max = 29 }:Props) => {
         justifyContent="center"
       >
         <Typography color={COLORS.BLACK} weight={800} size={24} lineHeight={30}>
-          50
+          {value}
         </Typography>
         <Typography color={COLORS.LIGHT_BLACK} weight={500} size={12} lineHeight={15}>
           kW

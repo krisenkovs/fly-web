@@ -7,12 +7,13 @@ import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { CoinIcon, LightIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { generatePath, useHistory, useParams } from 'react-router-dom';
 import { store } from 'web/application/store';
 import { CardView } from 'web/components/CardView';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
+import { useStation } from 'web/helpers/useStation';
 
 export const PaymentPage = observer(() => {
   const [sum, setSum] = useState(0);
@@ -28,9 +29,7 @@ export const PaymentPage = observer(() => {
     }
   }, [store.tieCardPromise?.fulfilled]);
 
-  const station = useMemo(() => {
-    return store.stationsPromise?.value?.content?.find((item) => item?.id === +params?.stationId);
-  }, [params, store.stationsPromise?.value]);
+  const station = useStation(+params?.stationId);
 
   function handlePress() {
     history.push(`${generatePath(ROUTES.PAY, { ...params, cardId: 1 })}?sum=${sum}&power=${power}`);

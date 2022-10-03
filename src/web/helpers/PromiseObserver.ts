@@ -10,7 +10,8 @@ export class PromiseObserver<T> {
   state: PROMISE_TYPE = PROMISE_TYPE.PENDING;
   value?: T = undefined;
 
-  constructor(promise: Promise<T>) {
+  constructor(promise: Promise<T>, oldValue?: T) {
+    this.value = oldValue;
     makeObservable(this, {
       state: observable,
       value: observable,
@@ -46,6 +47,6 @@ export class PromiseObserver<T> {
   }
 }
 
-export function fromPromise<T>(promise: Promise<T>) {
-  return new PromiseObserver(promise);
+export function fromPromise<T>(promise: Promise<T>, oldValue?: T) {
+  return new PromiseObserver(promise, oldValue);
 }
