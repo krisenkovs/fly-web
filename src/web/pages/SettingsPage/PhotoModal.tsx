@@ -63,11 +63,12 @@ export const PhotoModal = observer(
                 borderRadius={64}
                 alignItems="center"
                 justifyContent="center"
-                className={index === avatarCode ? styles.avatarSelected : ''}
-                boxSizing="border-box"
+                className={index === avatarCode ? styles.avatarSelected : styles.avatar}
+                //boxSizing="border-box"
                 overflow="hidden"
+                position="relative"
               >
-                <img src={`images/Avatar${index}.png`} alt={`Avatar${index}`} />
+                <img src={`images/Avatar${index}.png`} alt={`Avatar${index}`} className={styles.image} />
               </Box>
             </TouchableOpacity>
           ))}

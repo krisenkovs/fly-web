@@ -13,3 +13,4 @@ export { default as SlidersIcon } from './SlidersIcon';
 export { default as ChatCircleDots } from './ChatCircleDots';
 export { default as FlyIcon } from './FlyIcon';
 export { default as VisaIcon } from './VisaIcon';
+export { default as ArrowsDownUp } from './ArrowsDownUp';

@@ -1,4 +1,3 @@
-import { useStation } from 'web/helpers/useStation';
 import { ChargeIndicator } from './ChargeIndicator';
 import { PowerIndicator } from './PowerIndicator';
 import { Loader } from 'components';
@@ -13,6 +12,7 @@ import { useHistory } from 'react-router-dom';
 import { store } from 'web/application/store';
 import { ROUTES } from 'web/constant';
 import { formatDateTime } from 'web/helpers/formatter';
+import { useStation } from 'web/helpers/useStation';
 import { ActionButton } from 'web/pages/ChargePage/ActionButton';
 import { InfoMessage } from 'web/pages/ChargePage/InfoMessage';
 import { InfoModal } from 'web/pages/ChargePage/InfoModal';
@@ -136,7 +136,11 @@ export const ChargePage = observer(() => {
           </Box>
         </Box>
         <Box marginTop={12} paddingLeft={16} paddingRight={16}>
-          <InfoMessage status={currentTransactionPromise?.value?.status} />
+          <InfoMessage
+            status={currentTransactionPromise?.value?.status}
+            startDate={currentTransactionPromise?.value?.startTime}
+            endDate={currentTransactionPromise?.value?.stopTime}
+          />
         </Box>
         <Box marginTop={12} paddingLeft={16} paddingRight={16} justifyContent="center" flexDirection="row">
           <TouchableOpacity onPress={() => setVisible(true)}>

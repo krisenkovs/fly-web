@@ -12,7 +12,7 @@ type Props = {
   showBackButton?: boolean;
   showProfileButton?: boolean;
   height?: number;
-  backRoute?:ROUTES;
+  backRoute?: ROUTES;
   style?: CSSProperties;
 };
 
@@ -24,7 +24,7 @@ export function Header({ title, showBackButton, showProfileButton = true, height
   }
 
   function handleBackPress() {
-    backRoute? replace(backRoute) : goBack();
+    backRoute ? replace(backRoute) : goBack();
   }
 
   return (
@@ -37,7 +37,7 @@ export function Header({ title, showBackButton, showProfileButton = true, height
       borderBottomLeftRadius={12}
       flexDirection="column"
       paddingTop={12}
-      style={{ ...style, boxSizing: 'border-box' }}
+      style={{ ...style, boxSizing: 'border-box', zIndex: 1 }}
     >
       <Box flexDirection="row" alignItems="center">
         {showBackButton && (

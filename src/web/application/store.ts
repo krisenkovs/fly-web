@@ -133,8 +133,8 @@ class Store {
     this.saveProfilePromise = fromPromise(this.httpService.put(`${API.USER}/profile`, values));
   }
 
-  loadTransactions() {
-    this.transactionsPromise = fromPromise(this.httpService.get(`${API.TRANSACTION}/by-user`));
+  loadTransactions(sortField:string,sortOrder:string) {
+    this.transactionsPromise = fromPromise(this.httpService.get(`${API.TRANSACTION}/by-user?&sort=${sortField},${sortOrder}`));
   }
 
   changePassword(entity: Record<string, string>) {

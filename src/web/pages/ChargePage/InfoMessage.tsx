@@ -3,35 +3,48 @@ import { COLORS } from 'constant';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { store } from 'web/application/store';
+import { diffDate, formatTime } from 'web/helpers/formatter';
 import { TRANSACTION_STATUS } from 'web/types';
 
 type Props = {
   status: TRANSACTION_STATUS;
+  startDate?: string;
+  endDate: string;
 };
 
-export function InfoMessage ({status}:Props) {
+export function InfoMessage({ status, startDate, endDate }: Props) {
   switch (status) {
     case TRANSACTION_STATUS.ACTIVE:
-      return <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
-        Выполняется зарядка
-      </Typography>;
+      return (
+        <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
+          Выполняется зарядка
+        </Typography>
+      );
     case TRANSACTION_STATUS.STOPPED:
-      return <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
-        Зарядка остановлена
-      </Typography>;
+      return (
+        <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
+          {`Зарядка остановлена в ${formatTime(endDate)} с момента зарядки прошло ${diffDate(startDate, endDate)}`}
+        </Typography>
+      );
     case TRANSACTION_STATUS.CLOSED:
-      return <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
-        Зарядка успешно завершена
-      </Typography>;
+      return (
+        <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
+          Зарядка успешно завершена
+        </Typography>
+      );
     case TRANSACTION_STATUS.ERROR:
-      return <Typography weight={400} size={16} lineHeight={24} color={COLORS.RED} textAlign="center">
-        {store.currentTransactionPromise?.value?.errorMessage}
-      </Typography>;
+      return (
+        <Typography weight={400} size={16} lineHeight={24} color={COLORS.RED} textAlign="center">
+          {store.currentTransactionPromise?.value?.errorMessage}
+        </Typography>
+      );
     case TRANSACTION_STATUS.CREATED:
-      return <Typography weight={400} size={16} lineHeight={24} color={COLORS.RED} textAlign="center">
-        Зарядка не выполняется
-      </Typography>;
+      return (
+        <Typography weight={400} size={16} lineHeight={24} color={COLORS.RED} textAlign="center">
+          Зарядка не выполняется
+        </Typography>
+      );
     default:
       return null;
   }
-};
+}
