@@ -14,6 +14,7 @@ export const ScannerPage = observer(() => {
         onResult={(result, error) => {
           if (result) {
             console.log(result?.getText());
+            window.location.href = result.getText();
           }
 
           if (error?.message) {
