@@ -36,7 +36,7 @@ export const RegisterPage: FC = () => {
     phoneNumber: {
       required: { message: 'Укажите телефон' },
       pattern: {
-        value: /^\+?375(29|33|44|25)[0-9]{7}$/,
+        value: /^\+?3750(29|33|44|25)[0-9]{7}$/,
         message: 'Укажите корректный телефон',
       },
     },
