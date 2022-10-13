@@ -48,6 +48,10 @@ module.exports = merge(common, {
           from: resolve(__dirname, 'public/fonts'),
           to: 'fonts',
         },
+        {
+          from: resolve(__dirname, 'public/favicon'),
+          to: 'favicon',
+        },
       ],
     }),
   ],

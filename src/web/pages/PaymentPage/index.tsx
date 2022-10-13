@@ -49,7 +49,7 @@ export const PaymentPage = observer(() => {
   function handleChangePower(value: number) {
     setPower(value);
     if (station?.rate) {
-      setPower(Math.trunc(value * station?.rate));
+      setSum(Math.trunc(value * station?.rate));
     }
   }
 

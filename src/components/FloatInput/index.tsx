@@ -14,6 +14,7 @@ type Props = {
   inputClassName?: string;
   hideHint?: boolean;
   onClick?: () => void;
+  readonly?: boolean;
 };
 
 export const FloatInput: FC<Props> = ({
@@ -27,6 +28,7 @@ export const FloatInput: FC<Props> = ({
   style,
   hideHint,
   onClick,
+  readonly = false,
 }) => {
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +41,14 @@ export const FloatInput: FC<Props> = ({
     return type === 'password' ? (
       <PasswordInput value={value} onChange={handleChange} name={name} />
     ) : (
-      <StringInput value={value} onChange={handleChange} name={name} type={type} className={inputClassName} />
+      <StringInput
+        value={value}
+        onChange={handleChange}
+        name={name}
+        type={type}
+        className={inputClassName}
+        readonly={readonly}
+      />
     );
   }, [type, onChange, name, value, handleChange, inputClassName]);
 

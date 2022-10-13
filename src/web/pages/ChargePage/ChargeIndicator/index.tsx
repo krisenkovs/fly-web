@@ -11,7 +11,7 @@ type Props = {
   percent?: number;
 };
 
-export const ChargeIndicator = ({ color, time, percent }: Props) => {
+export const ChargeIndicator = ({ color, time, percent = 30 }: Props) => {
   return (
     <Box
       height={260}
@@ -64,7 +64,7 @@ export const ChargeIndicator = ({ color, time, percent }: Props) => {
           r="94"
           stroke={`var(--color-${color})`}
           strokeWidth="12"
-          strokeDasharray="314,2000 "
+          strokeDasharray={`${((percent || 0) / 100) * 590},2000 `}
           fill="none"
           strokeLinecap="round"
         />

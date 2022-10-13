@@ -6,7 +6,7 @@ import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useHistory, generatePath, useParams } from 'react-router-dom';
+import { generatePath, useHistory, useParams } from 'react-router-dom';
 import { store } from 'web/application/store';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
@@ -24,7 +24,7 @@ export const StationPage = observer(() => {
 
   return (
     <Box flex={1}>
-      <Header showProfileButton={false} showBackButton title="Выберите колонку" height={126} />
+      <Header showProfileButton={false} showBackButton title="Выберите колонку" height={126} backRoute={ROUTES.MAIN} />
       {store.connectorsPromise?.pending ? (
         <Loader />
       ) : (

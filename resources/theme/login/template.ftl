@@ -1,13 +1,19 @@
 <#macro registrationLayout bodyClass="" displayInfo=false displayMessage=true displayRequiredFields=false displayWide=false showAnotherWayIfPresent=true>
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml" class="${properties.kcHtmlClass!}">
+    <html xmlns="http://www.w3.org/1999/xhtml" class="${properties.kcHtmlClass!}" lang="ru">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="theme-color" content="#ffffff" />
+        <meta name="google" value="notranslate">
+        <link rel="apple-touch-icon" sizes="180x180" href="${url.resourcesPath}/favicon/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="${url.resourcesPath}/favicon/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="${url.resourcesPath}/favicon/favicon-16x16.png" />
+        <link rel="manifest" href="${url.resourcesPath}/favicon/site.webmanifest" />
+        <link rel="mask-icon" href="${url.resourcesPath}/favicon/safari-pinned-tab.svg" color="#5bbad5" />
 
         <#if properties.styles?has_content>
             <#list properties.styles?split(' ') as style>

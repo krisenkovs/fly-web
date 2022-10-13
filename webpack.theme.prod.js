@@ -36,6 +36,10 @@ module.exports = merge(common, {
             to: resolve(__dirname, 'theme/login/resources/fonts'),
           },
           {
+            from: resolve(__dirname,'public/favicon'),
+            to: resolve(__dirname, 'theme/login/resources/favicon'),
+          },
+          {
             from: 'resources/theme/login/theme.properties',
             to: resolve(__dirname, 'theme/login/theme.properties'),
             transform(content) {

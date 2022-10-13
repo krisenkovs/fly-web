@@ -6,9 +6,10 @@ type Props = {
   name?: string;
   type?: 'number' | 'text';
   className?: string;
+  readonly?:boolean
 };
 
-export const StringInput: FC<Props> = ({ className, value, onChange, name, type }) => {
+export const StringInput: FC<Props> = ({ className, value, onChange, name, type, readonly=false }) => {
   return (
     <input
       value={value || ''}
@@ -18,6 +19,7 @@ export const StringInput: FC<Props> = ({ className, value, onChange, name, type 
       id={name}
       type={type}
       className={className}
+      readOnly={readonly}
     />
   );
 };

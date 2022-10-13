@@ -79,6 +79,7 @@ export const SettingsPage = observer(() => {
           type="text"
           value={values?.email}
           hint={errors?.email}
+          readonly
           onChange={(value) => setFieldValue('email', value)}
         />
         <FloatInput
@@ -86,6 +87,7 @@ export const SettingsPage = observer(() => {
           type="text"
           value={values?.phone}
           hint={errors?.phone}
+          readonly
           onChange={(value) => setFieldValue('phone', value)}
         />
         <Box paddingBottom={28}>

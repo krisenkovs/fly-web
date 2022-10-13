@@ -70,7 +70,7 @@ export function Carousel({ data }: Props) {
   }
 
   return (
-    <Box height={240} borderRadius={12} marginTop={-64} style={{ position: 'relative' }}>
+    <Box height={240} borderRadius={12} marginTop={-64} style={{ position: 'relative', zIndex:1 }}>
       <div
         style={{
           height: '240px',

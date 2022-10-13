@@ -33,6 +33,10 @@ module.exports = merge(common, {
           to: 'locales',
         },
         {
+          from: resolve(__dirname, 'public/favicon'),
+          to: 'favicon',
+        },
+        {
           from: resolve(__dirname, 'public/images'),
           to: 'images',
         },
