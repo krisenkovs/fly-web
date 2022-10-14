@@ -1,3 +1,4 @@
+import styles from 'components/FloatInput/styles.module.css';
 import { EyeClosedIcon } from 'icons/EyeClosedIcon';
 import { EyeIcon } from 'icons/EyeIcon';
 import React, { ChangeEvent, FC, useState } from 'react';
@@ -6,9 +7,10 @@ type Props = {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   name?: string;
+  label?:string;
 };
 
-export const PasswordInput: FC<Props> = ({ value, onChange, name }) => {
+export const PasswordInput: FC<Props> = ({ value, onChange, name, label }) => {
   const [hidden, setHidden] = useState(true);
 
   function handleClick() {
@@ -26,6 +28,7 @@ export const PasswordInput: FC<Props> = ({ value, onChange, name }) => {
         id={name}
         style={{ flex: 1 }}
       />
+      <label className={value && styles.floatInputFilled}>{label}</label>
       <div style={{ cursor: 'pointer' }} onClick={handleClick}>
         {hidden ? <EyeClosedIcon /> : <EyeIcon />}
       </div>

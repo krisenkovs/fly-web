@@ -21,7 +21,7 @@ module.exports = merge(common, {
     open: true,
     compress: true,
     hot: true,
-    server: 'https',
+    server: 'http',
     client: {
       logging: 'none',
       overlay: false,

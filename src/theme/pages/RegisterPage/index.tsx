@@ -22,21 +22,21 @@ export const RegisterPage: FC = () => {
     firstName: {
       required: { message: 'Укажите имя' },
       pattern: {
-        value: /^[а-яА-я-]{3,}$/,
+        value: /^[a-zA-Zа-яА-Я-]{3,}$/,
         message: 'Укажите корректное имя',
       },
     },
     lastName: {
       required: { message: 'Укажите фамилию' },
       pattern: {
-        value: /^[а-яА-я-]{3,}$/,
+        value: /^[a-zA-Zа-яА-Я-]{3,}$/,
         message: 'Укажите корректную фамилию',
       },
     },
     phoneNumber: {
       required: { message: 'Укажите телефон' },
       pattern: {
-        value: /^\+?3750(29|33|44|25)[0-9]{7}$/,
+        value: /^\+?375(29|33|44|25)[0-9]{7}$/,
         message: 'Укажите корректный телефон',
       },
     },
@@ -90,7 +90,7 @@ export const RegisterPage: FC = () => {
         }
       />
       <Box flex={1} paddingTop={24} paddingLeft={16} paddingRight={16} paddingBottom={40}>
-        <form action={theme?.url?.action} method="post" ref={formRef}>
+        <form action={theme?.url?.action} method="post" ref={formRef} >
           {step === 2 && (
             <>
               <FloatInput
@@ -137,7 +137,7 @@ export const RegisterPage: FC = () => {
                   type="number"
                   label="Телефон"
                   name="user.attributes.phoneNumber"
-                  onChange={(value) => setFieldValue('phoneNumber', value)}
+                  onChange={(value) => setFieldValue('phoneNumber', value?.replace('+', ''))}
                 />
               </Box>
               <Box marginTop={8}>

@@ -115,7 +115,7 @@ export const ChargePage = observer(() => {
           <Box width={72}>
             <Box flexDirection="row" justifyContent="center">
               <Typography weight={700} size={18} lineHeight={22} color={COLORS.BLACK}>
-                {power}
+                {power.toFixed(2)}
               </Typography>
               <Typography weight={700} size={18} lineHeight={22} color={COLORS.LIGHT_BLACK}>
                 /{currentTransactionPromise?.value?.initAmount}
@@ -128,7 +128,7 @@ export const ChargePage = observer(() => {
           <PowerIndicator max={60} value={currentTransactionPromise?.value?.powerImport || 0} color={colorIndicator} />
           <Box width={72}>
             <Typography weight={700} size={18} lineHeight={22} color={COLORS.BLACK} textAlign="center">
-              {Math.round(power * (station?.rate || 0))}
+              {Math.round(power * (station?.rate || 0) * 100) / 100}
             </Typography>
             <Typography weight={700} size={12} lineHeight={15} color={COLORS.LIGHT_BLACK} textAlign="center">
               BYN

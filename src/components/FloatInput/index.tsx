@@ -39,7 +39,7 @@ export const FloatInput: FC<Props> = ({
 
   const input = useMemo(() => {
     return type === 'password' ? (
-      <PasswordInput value={value} onChange={handleChange} name={name} />
+      <PasswordInput value={value} onChange={handleChange} name={name} label={label} />
     ) : (
       <StringInput
         value={value}
@@ -48,16 +48,14 @@ export const FloatInput: FC<Props> = ({
         type={type}
         className={inputClassName}
         readonly={readonly}
+        label={label}
       />
     );
-  }, [type, onChange, name, value, handleChange, inputClassName]);
+  }, [type, onChange, name, value, handleChange, inputClassName, label]);
 
   return (
     <div style={style} onClick={onClick}>
-      <div className={`${styles.floatInput} ${hint && styles.floatInputError} `}>
-        {input}
-        <label className={value && styles.floatInputFilled}>{label}</label>
-      </div>
+      <div className={`${styles.floatInput} ${hint && styles.floatInputError} `}>{input}</div>
       {!hideHint && <div className={styles.floatInputHint}>{hint}</div>}
     </div>
   );

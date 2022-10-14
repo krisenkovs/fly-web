@@ -64,6 +64,12 @@
   transition: 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
+.float-input input:-webkit-autofill {
+  font-size: 16px !important;
+  transition: all 5000s ease-in-out 0s;
+  transition-property: background-color, color, font-size;
+}
+
 .float-input-hint {
   font-size: 12px;
   color: var(--color-red);
