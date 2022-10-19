@@ -1,4 +1,4 @@
-import { TouchableOpacity } from 'components';
+import { Loader, TouchableOpacity } from 'components';
 import { Box } from 'components/Box';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
@@ -69,33 +69,39 @@ export const VerifyPage: FC = observer(() => {
         }
       />
       <Box flex={1} paddingTop={24} paddingLeft={16} paddingRight={16} paddingBottom={40} alignItems="center">
-        <Typography color={COLORS.BLACK} size={14} lineHeight={24} weight={400}>
-          Мы отправили код на номер <b>+{store.profilePromise?.value?.phone}</b> Введите 4-х значный код из СМС
-        </Typography>
-        <Box flexDirection="row" justifyContent="center">
-          <NumberInput onKeyPress={(key) => handleKeyDown(0, key)} value={value[0]} id="char0" />
-          <Box marginLeft={8}>
-            <NumberInput onKeyPress={(key) => handleKeyDown(1, key)} value={value[1]} id="char1" />
-          </Box>
-          <Box marginLeft={8}>
-            <NumberInput onKeyPress={(key) => handleKeyDown(2, key)} value={value[2]} id="char2" />
-          </Box>
-          <Box marginLeft={8}>
-            <NumberInput onKeyPress={(key) => handleKeyDown(3, key)} value={value[3]} id="char3" />
-          </Box>
-        </Box>
-        <Box flexDirection="row" marginTop={32}>
-          <Typography color={COLORS.BLACK} size={14} lineHeight={24} weight={400}>
-            Не получили код?
-          </Typography>
-          <Box marginLeft={8}>
-            <TouchableOpacity onPress={handleSend}>
-              <Typography color={COLORS.BLUE} size={14} lineHeight={24} weight={400}>
-                Повторите попытку
+        {store?.validateCodePromise?.pending ? (
+          <Loader />
+        ) : (
+          <>
+            <Typography color={COLORS.BLACK} size={14} lineHeight={24} weight={400}>
+              Мы отправили код на номер <b>+{store.profilePromise?.value?.phone}</b> Введите 4-х значный код из СМС
+            </Typography>
+            <Box flexDirection="row" justifyContent="center">
+              <NumberInput onKeyPress={(key) => handleKeyDown(0, key)} value={value[0]} id="char0" />
+              <Box marginLeft={8}>
+                <NumberInput onKeyPress={(key) => handleKeyDown(1, key)} value={value[1]} id="char1" />
+              </Box>
+              <Box marginLeft={8}>
+                <NumberInput onKeyPress={(key) => handleKeyDown(2, key)} value={value[2]} id="char2" />
+              </Box>
+              <Box marginLeft={8}>
+                <NumberInput onKeyPress={(key) => handleKeyDown(3, key)} value={value[3]} id="char3" />
+              </Box>
+            </Box>
+            <Box flexDirection="row" marginTop={32}>
+              <Typography color={COLORS.BLACK} size={14} lineHeight={24} weight={400}>
+                Не получили код?
               </Typography>
-            </TouchableOpacity>
-          </Box>
-        </Box>
+              <Box marginLeft={8}>
+                <TouchableOpacity onPress={handleSend}>
+                  <Typography color={COLORS.BLUE} size={14} lineHeight={24} weight={400}>
+                    Повторите попытку
+                  </Typography>
+                </TouchableOpacity>
+              </Box>
+            </Box>
+          </>
+        )}
       </Box>
     </Box>
   );

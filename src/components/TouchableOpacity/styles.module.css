@@ -1,6 +1,7 @@
 .container {
   cursor: pointer;
   display: block;
+  user-select: none;
 }
 
 .container:hover {

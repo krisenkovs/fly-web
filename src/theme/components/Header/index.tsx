@@ -17,13 +17,15 @@ export const Header: FC<Props> = ({ title, info }) => {
       paddingTop={44}
       paddingBottom={44}
       paddingLeft={44}
-      paddingRight={44}
+      paddingRight={100}
       height={180}
     >
-      <Typography weight={800} size={24} lineHeight={30} color={COLORS.BLACK}>
-        {title}
-      </Typography>
-      <Box marginTop={16}>{info}</Box>
+      <Box className={styles.title}>
+        <Typography weight={800} size={24} lineHeight={30} color={COLORS.BLACK}>
+          {title}
+        </Typography>
+        <Box marginTop={16}>{info}</Box>
+      </Box>
       <div className={styles.logo}>
         <Logo />
       </div>

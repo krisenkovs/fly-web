@@ -16,6 +16,7 @@
   border: none;
   font-family: inherit;
   position: relative;
+  user-select: none;
 }
 
 .button :focus {
