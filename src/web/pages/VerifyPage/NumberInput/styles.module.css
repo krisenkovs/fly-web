@@ -1,0 +1,13 @@
+.container {
+  border-bottom: 2px solid var(--color-grey);
+}
+
+.container-active {
+  border-bottom: 2px solid var(--color-black);
+}
+
+.input {
+  font-size: 64px;
+  border: none;
+  outline: none;
+}

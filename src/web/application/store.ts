@@ -20,6 +20,8 @@ class Store {
   changePasswordPromise?: PromiseObserver<void> = undefined;
   keycloak?: KeycloakInstance = undefined;
   saveFilePromise?: PromiseObserver<string> = undefined;
+  sendCodePromise?: PromiseObserver<void> = undefined;
+  validateCodePromise?:PromiseObserver<void> = undefined;
   transactionsPromise?: PromiseObserver<Page<TransactionType>> = undefined;
   translate?: Translate = undefined;
 
@@ -38,6 +40,8 @@ class Store {
       transactionsPromise: observable,
       changePasswordPromise: observable,
       translate: observable,
+      sendCodePromise: observable,
+      validateCodePromise: observable,
       init: action.bound,
       loadStations: action.bound,
       loadConnectors: action.bound,
@@ -53,6 +57,8 @@ class Store {
       destroy: action.bound,
       loadTransactions: action.bound,
       changePassword: action.bound,
+      sendCode: action.bound,
+      validateCode: action.bound,
     });
 
     reaction(
@@ -91,7 +97,7 @@ class Store {
   }
 
   loadProfile() {
-    this.profilePromise = fromPromise(this.httpService.get(`${API.USER}/profile`));
+    this.profilePromise = fromPromise(this.httpService.get(`${API.USER}/profile`), this.profilePromise?.value);
   }
 
   loadCard() {
@@ -133,8 +139,10 @@ class Store {
     this.saveProfilePromise = fromPromise(this.httpService.put(`${API.USER}/profile`, values));
   }
 
-  loadTransactions(sortField:string,sortOrder:string) {
-    this.transactionsPromise = fromPromise(this.httpService.get(`${API.TRANSACTION}/by-user?&sort=${sortField},${sortOrder}`));
+  loadTransactions(sortField: string, sortOrder: string) {
+    this.transactionsPromise = fromPromise(
+      this.httpService.get(`${API.TRANSACTION}/by-user?&sort=${sortField},${sortOrder}`),
+    );
   }
 
   changePassword(entity: Record<string, string>) {
@@ -146,6 +154,14 @@ class Store {
     formData.append('image', file);
 
     this.saveFilePromise = fromPromise(this.httpService.post(`${API.IMAGE}`, formData, 'none'));
+  }
+
+  sendCode() {
+    this.sendCodePromise = fromPromise(this.httpService.post(`${API.USER}/send-code-to-phone`, {}));
+  }
+
+  validateCode(code: string) {
+    this.validateCodePromise = fromPromise(this.httpService.post(`${API.USER}/validate-phone-code`, { code }));
   }
 
   setToken(token: string) {

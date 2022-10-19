@@ -13,7 +13,6 @@ export const ScannerPage = observer(() => {
         scanDelay={1000}
         onResult={(result, error) => {
           if (result) {
-            console.log(result?.getText());
             window.location.href = result.getText();
           }
 

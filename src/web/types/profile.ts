@@ -13,4 +13,5 @@ export type ProfileType = {
   note?: string;
   created?: string;
   status?: string;
+  isValidatedPhone?: boolean;
 };
