@@ -1,11 +1,11 @@
 {
-  "name": "name",
+  "name": "fly-web",
   "version": "1.0.0",
-  "description": "",
+  "description": "BatteryFly web",
   "main": "index.js",
   "repository": {
-    "type": "git",
-    "url": ""
+    "type": "github",
+    "url": "https://github.com/krisenkovs/fly-web"
   },
   "browserslist": [
     "last 2 Chrome versions",
