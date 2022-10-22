@@ -1,16 +1,16 @@
+import { store as connectorModalStore } from './ConnectorModal/store';
 import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { FloatInput } from 'components/FloatInput';
 import { COLORS } from 'constant';
 import { useForm } from 'hooks/useForm';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Header } from 'web/components/Header';
 import { ConnectorModal } from 'web/pages/CarPage/ConnectorModal';
+import { CONNECTOR } from 'web/pages/CarPage/ConnectorModal/types';
 
 export const CarPage = observer(() => {
-  const [visible, setVisible] = useState(false);
-
   const { values, errors, hasError, changed, validateFields, setFieldValue, resetFields } = useForm({
     model: { required: { message: 'Укажите марку авто' } },
     capacity: { required: { message: 'Укажите емкость' } },
@@ -25,9 +25,13 @@ export const CarPage = observer(() => {
     validateFields().then();
   }
 
-  function handleConnectorChange(value: string) {
+  function handleConnectorChange(value?: CONNECTOR) {
     setFieldValue('connector', value);
-    setVisible(false);
+    connectorModalStore.hide();
+  }
+
+  function handleConnectorCLick() {
+    connectorModalStore.show(values.connector);
   }
 
   return (
@@ -57,7 +61,7 @@ export const CarPage = observer(() => {
           type="text"
           value={values?.connector}
           hint={errors?.connector}
-          onClick={() => setVisible(true)}
+          onClick={handleConnectorCLick}
         />
         <FloatInput
           label="Емкость батареи (kW*h)"
@@ -78,7 +82,7 @@ export const CarPage = observer(() => {
       <Box marginLeft={16} marginRight={16} marginBottom={48}>
         <Button onClick={handleSave} label="Сохранить" disabled={hasError || !changed} />
       </Box>
-      <ConnectorModal visible={visible} onClose={() => setVisible(false)} onSelect={handleConnectorChange} />
+      <ConnectorModal onSelect={handleConnectorChange} />
     </Box>
   );
 });

@@ -8,7 +8,7 @@ export enum ROUTES {
   PAY_ERROR = '/pay-error',
   SCANNER = '/scanner',
   STATION = '/station/:stationId',
-  PAYMENT = '/station/:stationId/connector/:connectorId',
+  CONNECTOR = '/station/:stationId/connector/:connectorId',
   SETTINGS = '/settings',
   CARD = '/card',
   HISTORY = '/history',

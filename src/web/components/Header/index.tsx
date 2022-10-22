@@ -12,19 +12,28 @@ type Props = {
   showBackButton?: boolean;
   showProfileButton?: boolean;
   height?: number;
-  backRoute?: ROUTES;
+  onBackClick?: () => void;
   style?: CSSProperties;
+  className?: string;
 };
 
-export function Header({ title, showBackButton, showProfileButton = true, height = 56, style, backRoute }: Props) {
-  const { push, goBack, replace } = useHistory();
+export function Header({
+  title,
+  showBackButton,
+  className,
+  showProfileButton = true,
+  height = 56,
+  style,
+  onBackClick,
+}: Props) {
+  const { push, goBack } = useHistory();
 
   function handleProfilePress() {
     push(ROUTES.PROFILE);
   }
 
   function handleBackPress() {
-    backRoute ? replace(backRoute) : goBack();
+    onBackClick ? onBackClick() : goBack();
   }
 
   return (
@@ -37,6 +46,7 @@ export function Header({ title, showBackButton, showProfileButton = true, height
       borderBottomLeftRadius={12}
       flexDirection="column"
       paddingTop={12}
+      className={className}
       style={{ ...style, boxSizing: 'border-box', zIndex: 1 }}
     >
       <Box flexDirection="row" alignItems="center">

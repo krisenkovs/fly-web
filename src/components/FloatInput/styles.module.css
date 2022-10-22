@@ -55,8 +55,8 @@
   border: none;
   padding: 24px 0 0;
   font-size: 16px;
-  line-height: 16px;
-  color: #2c2e31;
+  line-height: 24px;
+  color: var(--color-black);
   outline: none;
   box-shadow: none;
   background: transparent;
@@ -77,4 +77,12 @@
   line-height: 24px;
   display: flex;
   align-items: center;
+}
+
+.flex {
+  flex: 1;
+}
+
+.cursorPointer {
+  cursor: pointer;
 }

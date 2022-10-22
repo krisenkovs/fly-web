@@ -4,7 +4,7 @@ import { COLORS } from 'constant';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, TouchEvent, useState } from 'react';
 import { useHistory, generatePath } from 'react-router-dom';
-import { store } from 'web/application/store';
+import { store } from './store';
 import { ROUTES } from 'web/constant';
 
 type Props = {

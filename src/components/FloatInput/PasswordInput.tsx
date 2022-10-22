@@ -1,3 +1,4 @@
+import { Box } from 'components/Box';
 import styles from 'components/FloatInput/styles.module.css';
 import { EyeClosedIcon } from 'icons/EyeClosedIcon';
 import { EyeIcon } from 'icons/EyeIcon';
@@ -7,7 +8,7 @@ type Props = {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   name?: string;
-  label?:string;
+  label?: string;
 };
 
 export const PasswordInput: FC<Props> = ({ value, onChange, name, label }) => {
@@ -18,7 +19,7 @@ export const PasswordInput: FC<Props> = ({ value, onChange, name, label }) => {
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+    <Box flexDirection="row" alignItems="flex-end">
       <input
         type={hidden ? 'password' : 'text'}
         value={value || ''}
@@ -26,12 +27,12 @@ export const PasswordInput: FC<Props> = ({ value, onChange, name, label }) => {
         name={name}
         autoComplete="none"
         id={name}
-        style={{ flex: 1 }}
+        className={styles.flex}
       />
       <label className={value && styles.floatInputFilled}>{label}</label>
-      <div style={{ cursor: 'pointer' }} onClick={handleClick}>
+      <div className={styles.cursorPointer} onClick={handleClick}>
         {hidden ? <EyeClosedIcon /> : <EyeIcon />}
       </div>
-    </div>
+    </Box>
   );
 };

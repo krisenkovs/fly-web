@@ -3,8 +3,6 @@ import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, Suspense } from 'react';
 import { Router } from 'web/application/Router';
-import { store } from 'web/application/store';
-import { VerifyPage } from 'web/pages/VerifyPage';
 
 export const Keycloak = observer(() => {
   const {
@@ -14,18 +12,16 @@ export const Keycloak = observer(() => {
   useEffect(() => {
     if (!authenticated) {
       login();
-    } else {
-      store.loadProfile();
     }
   }, [authenticated]);
 
-  if (!authenticated || !store.profilePromise?.value) {
+  if (!authenticated) {
     return null;
   }
 
   return (
     <Suspense fallback={<Loader />}>
-      {store?.profilePromise?.value?.isValidatedPhone ? <Router /> : <VerifyPage />}
+      <Router />
     </Suspense>
   );
 });

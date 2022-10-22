@@ -1,5 +1,7 @@
 import { ChargeIndicator } from './ChargeIndicator';
+import { store as infoModalStore } from './InfoModal/store';
 import { PowerIndicator } from './PowerIndicator';
+import { store } from './store';
 import { Loader } from 'components';
 import { Box } from 'components/Box';
 import { TouchableOpacity } from 'components/TouchableOpacity';
@@ -7,12 +9,9 @@ import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { CrossIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { store } from 'web/application/store';
 import { ROUTES } from 'web/constant';
-import { formatDateTime } from 'web/helpers/formatter';
-import { useStation } from 'web/helpers/useStation';
 import { ActionButton } from 'web/pages/ChargePage/ActionButton';
 import { InfoMessage } from 'web/pages/ChargePage/InfoMessage';
 import { InfoModal } from 'web/pages/ChargePage/InfoModal';
@@ -20,9 +19,8 @@ import { Title } from 'web/pages/ChargePage/Title';
 import { TRANSACTION_STATUS } from 'web/types';
 
 export const ChargePage = observer(() => {
-  const [visible, setVisible] = useState(false);
   const { push, replace } = useHistory();
-  const { currentTransactionPromise, loadCurrentTransaction, stopTransaction } = store;
+  const { currentTransactionPromise, loadCurrentTransaction, stopTransaction, stationPromise } = store;
 
   useEffect(() => {
     loadCurrentTransaction();
@@ -36,8 +34,6 @@ export const ChargePage = observer(() => {
     }
   }, [currentTransactionPromise?.fulfilled]);
 
-  const station = useStation(currentTransactionPromise?.value?.chargeStationId);
-
   const power = useMemo(() => {
     return (
       (currentTransactionPromise?.value?.currentEnergyImport || 0) -
@@ -47,10 +43,6 @@ export const ChargePage = observer(() => {
 
   function handleCancel() {
     push(ROUTES.MAIN);
-  }
-
-  function handleCloseModal() {
-    setVisible(false);
   }
 
   const colorIndicator = useMemo(() => {
@@ -69,7 +61,7 @@ export const ChargePage = observer(() => {
     <Loader />
   ) : (
     <>
-      <Box flex={1} paddingBottom={48} overflow="hidden" style={{ position: 'relative' }}>
+      <Box flex={1} paddingBottom={48} overflow="hidden" position='relative'>
         <Box
           height={250}
           backgroundColor={COLORS.PALE_BLUE}
@@ -128,7 +120,7 @@ export const ChargePage = observer(() => {
           <PowerIndicator max={60} value={currentTransactionPromise?.value?.powerImport || 0} color={colorIndicator} />
           <Box width={72}>
             <Typography weight={700} size={18} lineHeight={22} color={COLORS.BLACK} textAlign="center">
-              {Math.round(power * (station?.rate || 0) * 100) / 100}
+              {Math.round(power * (stationPromise?.value?.rate || 0) * 100) / 100}
             </Typography>
             <Typography weight={700} size={12} lineHeight={15} color={COLORS.LIGHT_BLACK} textAlign="center">
               BYN
@@ -143,7 +135,7 @@ export const ChargePage = observer(() => {
           />
         </Box>
         <Box marginTop={12} paddingLeft={16} paddingRight={16} justifyContent="center" flexDirection="row">
-          <TouchableOpacity onPress={() => setVisible(true)}>
+          <TouchableOpacity onPress={infoModalStore.show}>
             <Typography weight={700} size={16} lineHeight={20} color={COLORS.BLUE} textAlign="center">
               Подробнее о заправке
             </Typography>
@@ -158,15 +150,7 @@ export const ChargePage = observer(() => {
             status={currentTransactionPromise?.value?.status}
           />
         </Box>
-        <InfoModal
-          visible={visible}
-          onClose={handleCloseModal}
-          startDate={formatDateTime(currentTransactionPromise?.value?.startTime)}
-          endDate={formatDateTime(currentTransactionPromise?.value?.stopTime)}
-          power={power}
-          sum={Math.round(power * (station?.rate || 0))}
-          address={station?.address}
-        />
+        <InfoModal />
       </Box>
     </>
   );

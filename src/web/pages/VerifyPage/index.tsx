@@ -1,32 +1,34 @@
+import { store } from './store';
 import { Loader, TouchableOpacity } from 'components';
 import { Box } from 'components/Box';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react-lite';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Header } from 'theme/components/Header';
-import { store } from 'web/application/store';
+import { store as mainStore } from 'web/application/store';
 import { NumberInput } from 'web/pages/VerifyPage/NumberInput';
 
 export const VerifyPage: FC = observer(() => {
-  const [value, setValue] = useState(['', '', '', '']);
+  const { sendCode, validateCodePromise, validateCode, value, setValue, clear } = store;
 
   useEffect(() => {
     document.getElementById(`char0`)?.focus();
-    store.sendCode();
+    sendCode();
+    return clear;
   }, []);
 
   useEffect(() => {
     if (!value.some((i) => !i)) {
-      store.validateCode(value.join(''));
+      validateCode(value.join(''));
     }
   }, [value]);
 
   useEffect(() => {
-    if (store?.validateCodePromise?.fulfilled) {
-      store.loadProfile();
+    if (validateCodePromise?.fulfilled) {
+      mainStore.loadProfile();
     }
-  }, [store.validateCodePromise?.fulfilled]);
+  }, [validateCodePromise?.fulfilled]);
 
   function handleKeyDown(index: number, key: string) {
     switch (key) {
@@ -40,12 +42,12 @@ export const VerifyPage: FC = observer(() => {
       case '7':
       case '8':
       case '9': {
-        setValue((prevState) => prevState.map((item, i) => (i === index ? key : item)));
+        setValue(value.map((item, i) => (i === index ? key : item)));
         document.getElementById(`char${index + 1}`)?.focus();
         break;
       }
       case 'Backspace': {
-        setValue((prevState) => prevState.map((item, i) => (i === index ? '' : item)));
+        setValue(value.map((item, i) => (i === index ? '' : item)));
         document.getElementById(`char${index - 1}`)?.focus();
         break;
       }
@@ -54,7 +56,7 @@ export const VerifyPage: FC = observer(() => {
   function handleSend() {
     setValue(['', '', '', '']);
     document.getElementById(`char0`)?.focus();
-    store.sendCode();
+    sendCode();
   }
 
   return (
@@ -69,12 +71,12 @@ export const VerifyPage: FC = observer(() => {
         }
       />
       <Box flex={1} paddingTop={24} paddingLeft={16} paddingRight={16} paddingBottom={40} alignItems="center">
-        {store?.validateCodePromise?.pending ? (
+        {validateCodePromise?.pending ? (
           <Loader />
         ) : (
           <>
             <Typography color={COLORS.BLACK} size={14} lineHeight={24} weight={400}>
-              Мы отправили код на номер <b>+{store.profilePromise?.value?.phone}</b> Введите 4-х значный код из СМС
+              Мы отправили код на номер <b>+{mainStore.profilePromise?.value?.phone}</b> Введите 4-х значный код из СМС
             </Typography>
             <Box flexDirection="row" justifyContent="center">
               <NumberInput onKeyPress={(key) => handleKeyDown(0, key)} value={value[0]} id="char0" />

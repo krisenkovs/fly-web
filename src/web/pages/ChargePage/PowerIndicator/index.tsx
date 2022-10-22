@@ -14,7 +14,7 @@ export const PowerIndicator = ({ value = 28, max = 29, color = COLORS.GREEN }: P
   const fillCount = Math.round((value / max) * 29);
 
   return (
-    <Box height={108} width={128} style={{ position: 'relative' }}>
+    <Box height={108} width={128} position='relative'>
       <svg width="126" height="91" viewBox="0 0 126 91" fill="none" xmlns="http://www.w3.org/2000/svg">
         {[
           'M4.78047 86.9188L13.094 83.4791C13.5873 84.6659 14.122 85.8316 14.6964 86.9743L6.65153 91C5.98096 89.666 5.35658 88.3049 4.78047 86.9188Z',

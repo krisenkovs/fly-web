@@ -4,23 +4,26 @@ import { ReactKeycloakProvider } from '@react-keycloak/web';
 import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, Suspense } from 'react';
+import { httpService } from 'web/services/HTTPService';
 import { Keycloak } from 'web/application/Keycloak';
 
 export const Application = observer(() => {
+  const { init, destroy, keycloak } = store;
+
   useEffect(() => {
-    store.init();
-    return () => store.destroy();
+    init();
+    return destroy;
   }, []);
 
   const handleTokens = useCallback(async (data: AuthClientTokens) => {
-    data?.token && store.setToken(data?.token);
+    data?.token && httpService.setToken(data?.token);
   }, []);
 
   return (
     <Suspense fallback={<Loader />}>
-      {store.keycloak && (
+      {keycloak && (
         <ReactKeycloakProvider
-          authClient={store.keycloak}
+          authClient={keycloak}
           onTokens={handleTokens}
           LoadingComponent={<Loader />}
           initOptions={{

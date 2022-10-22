@@ -1,3 +1,6 @@
+import { store as passwordModalStore } from './PasswordModal/store';
+import { store as photoModalStore } from './PhotoModal/store';
+import { store } from './store';
 import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { FloatInput } from 'components/FloatInput';
@@ -6,16 +9,16 @@ import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { useForm } from 'hooks/useForm';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
-import { store  } from 'web/application/store';
+import React, { useEffect } from 'react';
+import { store as mainStore } from 'web/application/store';
 import { AvatarView } from 'web/components/AvatarView';
 import { Header } from 'web/components/Header';
 import { PasswordModal } from 'web/pages/SettingsPage/PasswordModal';
 import { PhotoModal } from 'web/pages/SettingsPage/PhotoModal';
+import { ProfileType } from 'web/types';
 
 export const SettingsPage = observer(() => {
-  const [visible, setVisible] = useState(false);
-  const [visiblePassword, setVisiblePassword] = useState(false);
+  const { saveProfilePromise, saveProfile } = store;
   const { values, errors, hasError, changed, validateFields, setFieldValue, resetFields } = useForm({
     firstName: { required: { message: 'Заполните имя' } },
     lastName: { required: { message: 'Заполните фамилию' } },
@@ -27,23 +30,24 @@ export const SettingsPage = observer(() => {
   });
 
   useEffect(() => {
-    resetFields(store.profilePromise?.value);
-  }, [store.profilePromise?.value]);
+    resetFields(mainStore.profilePromise?.value);
+  }, [mainStore.profilePromise?.value]);
 
-  function handleAvatarChange(index?: number) {
-    setFieldValue('usePhotoAsAvatar', false);
-    setFieldValue('avatarCode', index);
-    setFieldValue('photoId', undefined);
-  }
+  useEffect(() => {
+    if (saveProfilePromise?.fulfilled) {
+      mainStore.loadProfile();
+    }
+  }, [saveProfilePromise?.fulfilled]);
 
-  function handlePhotoChange(photoId?: string) {
-    setFieldValue('usePhotoAsAvatar', true);
-    setFieldValue('photoId', photoId);
-    setFieldValue('avatarCode', undefined);
+  function handleCLose(data?: ProfileType) {
+    setFieldValue('usePhotoAsAvatar', data?.usePhotoAsAvatar);
+    setFieldValue('photoId', data?.photoId);
+    setFieldValue('avatarCode', data?.avatarCode);
+    photoModalStore.hide();
   }
 
   function handleSaveClick() {
-    validateFields().then((values) => store.saveProfile(values));
+    validateFields().then(saveProfile);
   }
 
   return (
@@ -53,7 +57,7 @@ export const SettingsPage = observer(() => {
         <Box flexDirection="row" alignItems="center" marginBottom={20}>
           <AvatarView size={100} avatarCode={values?.avatarCode} photoId={values?.photoId} />
           <Box marginLeft={20}>
-            <TouchableOpacity onPress={() => setVisible(true)}>
+            <TouchableOpacity onPress={() => photoModalStore.show(values)}>
               <Typography weight={400} size={16} lineHeight={20} color={COLORS.BLUE}>
                 Поменять фото
               </Typography>
@@ -91,7 +95,7 @@ export const SettingsPage = observer(() => {
           onChange={(value) => setFieldValue('phone', value)}
         />
         <Box paddingBottom={28}>
-          <TouchableOpacity onPress={() => setVisiblePassword(true)}>
+          <TouchableOpacity onPress={passwordModalStore.show}>
             <Typography weight={400} size={16} lineHeight={20} color={COLORS.BLUE}>
               Изменить пароль
             </Typography>
@@ -104,21 +108,14 @@ export const SettingsPage = observer(() => {
         </TouchableOpacity>
         <Box flex={1} />
         <Button
-          loading={store.saveProfilePromise?.pending}
+          loading={saveProfilePromise?.pending}
           disabled={hasError || !changed}
           onClick={handleSaveClick}
           label="Сохранить"
         />
       </Box>
-      <PhotoModal
-        visible={visible}
-        onClose={() => setVisible(false)}
-        avatarCode={values?.avatarCode}
-        photoId={values?.photoId}
-        onChangePhoto={handlePhotoChange}
-        onChangeAvatar={handleAvatarChange}
-      />
-      <PasswordModal visible={visiblePassword} onClose={() => setVisiblePassword(false)} />
+      <PhotoModal onClose={handleCLose} />
+      <PasswordModal />
     </Box>
   );
 });

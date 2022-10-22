@@ -1,18 +1,17 @@
 import { ConditionModal } from './ConditionModal';
+import { store as conditionModalStore } from './ConditionModal/store';
+import styles from './styles.module.css';
 import { Box } from 'components/Box';
 import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { FlyIcon } from 'icons';
-import React, { useState } from 'react';
-import styles from './styles.module.css';
+import React from 'react';
 import { Header } from 'web/components/Header';
 
 export function AboutPage() {
-  const [visible, setVisible] = useState(false);
-
   function handlePress() {
-    setVisible(true);
+    conditionModalStore.show();
   }
   return (
     <Box flex={1} position="relative">
@@ -42,7 +41,7 @@ export function AboutPage() {
         </Box>
         <Box flex={1} />
       </Box>
-      <ConditionModal visible={visible} onClose={() => setVisible(false)} />
+      <ConditionModal />
     </Box>
   );
 }

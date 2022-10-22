@@ -1,0 +1,44 @@
+.container {
+  z-index: 1;
+}
+
+.content {
+  height: 240px;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  user-select: none;
+  border-radius: 12px;
+}
+
+.image {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.dot-container {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.dot {
+  height: 4px;
+  border-radius: 4px;
+  background: var(--color-white);
+}

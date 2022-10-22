@@ -1,4 +1,5 @@
 import { StationsSheet } from './StationsSheet';
+import { store } from './store';
 import styles from './styles.module.css';
 import { Box, Pressable, Skeleton, TouchableOpacity, Typography } from 'components';
 import { COLORS } from 'constant';
@@ -6,7 +7,7 @@ import { BellIcon, CaretRightIcon, FlyIcon, WarningIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { store } from 'web/application/store';
+import { store as mainStore } from 'web/application/store';
 import { ROUTES } from 'web/constant';
 import { useTranslate } from 'web/helpers/useTranslate';
 
@@ -16,8 +17,8 @@ export const MainPage = observer(() => {
 
   const { push } = useHistory();
 
-  const { translate, loadCurrentTransaction, currentTransactionPromise, profilePromise } = store;
-  const t = useTranslate(translate);
+  const { loadCurrentTransaction, currentTransactionPromise, loadStations, clear } = store;
+  const t = useTranslate(mainStore.translate);
 
   useEffect(() => {
     ref?.current && setHeight(ref?.current?.clientHeight);
@@ -25,6 +26,8 @@ export const MainPage = observer(() => {
 
   useEffect(() => {
     loadCurrentTransaction();
+    loadStations();
+    return clear;
   }, []);
 
   useEffect(() => {
@@ -60,7 +63,7 @@ export const MainPage = observer(() => {
           alignItems="center"
           flexDirection="row"
         >
-          {profilePromise?.pending ? (
+          {mainStore.profilePromise?.pending ? (
             <Skeleton.Avatar size={48} />
           ) : (
             <TouchableOpacity onPress={handleUserPress}>
@@ -73,12 +76,12 @@ export const MainPage = observer(() => {
                 backgroundColor={COLORS.PALE_BLUE}
               >
                 <Typography weight={700} size={18} lineHeight={18} color={COLORS.BLUE}>
-                  {profilePromise?.value?.firstName?.substr(0, 1).toUpperCase()}
+                  {mainStore.profilePromise?.value?.firstName?.substr(0, 1).toUpperCase()}
                 </Typography>
               </Box>
             </TouchableOpacity>
           )}
-          {profilePromise?.pending ? (
+          {mainStore.profilePromise?.pending ? (
             <Box marginLeft={12} flex={1}>
               <Skeleton.Row height={40} />
             </Box>
@@ -86,7 +89,7 @@ export const MainPage = observer(() => {
             <>
               <Box marginLeft={12} flex={1} flexDirection="column">
                 <Typography weight={800} size={20} lineHeight={25} color={COLORS.BLACK}>
-                  {profilePromise?.value?.firstName}
+                  {mainStore.profilePromise?.value?.firstName}
                 </Typography>
                 <Typography weight={400} size={12} lineHeight={15} color={COLORS.LIGHT_BLACK}>
                   {t('mainPage.welcome')}
@@ -101,7 +104,7 @@ export const MainPage = observer(() => {
           )}
         </Box>
 
-        <Box height={188} marginTop={100} style={{ position: 'relative' }}>
+        <Box height={188} marginTop={100} position='relative'>
           <img src="images/waves.png" alt="" className={styles.image} />
           <Box className={styles.scannerButtonContainer}>
             <TouchableOpacity className={styles.scannerButton} onPress={handleScannerPress}>

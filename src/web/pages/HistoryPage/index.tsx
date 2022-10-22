@@ -1,3 +1,5 @@
+import { store as infoModalStore } from './InfoModal/store';
+import { store } from './store';
 import styles from './styles.module.css';
 import { TouchableOpacity } from 'components';
 import { Box } from 'components/Box';
@@ -7,35 +9,22 @@ import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { ArrowsDownUp } from 'icons';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
-import { store } from 'web/application/store';
+import React, { useEffect } from 'react';
 import { Header } from 'web/components/Header';
 import { diffDate, formatDateTime } from 'web/helpers/formatter';
 import { InfoModal } from 'web/pages/HistoryPage/InfoModal';
 import { TransactionType } from 'web/types';
 
 export const HistoryPage = observer(() => {
-  const [modal, setModal] = useState<{ visible: boolean; item?: TransactionType }>({
-    visible: false,
-    item: undefined,
-  });
-
-  const [sortDateOrder, setSortDateOrder] = useState<'asc' | 'desc'>('asc');
+  const { loadTransactions, transactionsPromise, clear, changeSortOrder } = store;
 
   useEffect(() => {
-    store.loadTransactions('created', sortDateOrder);
-  }, [sortDateOrder]);
+    loadTransactions();
+    return clear;
+  }, []);
 
   function handleItemPress(item: TransactionType) {
-    setModal({ visible: true, item });
-  }
-
-  function handleClose() {
-    setModal({ visible: false });
-  }
-
-  function changeSort() {
-    setSortDateOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+    infoModalStore.show(item);
   }
 
   return (
@@ -51,7 +40,7 @@ export const HistoryPage = observer(() => {
         marginTop={-4}
         paddingLeft={16}
       >
-        <TouchableOpacity onPress={changeSort}>
+        <TouchableOpacity onPress={changeSortOrder}>
           <Box flexDirection="row" alignItems="center">
             <ArrowsDownUp height={20} width={20} color={COLORS.BLUE} />
             <Box marginLeft={8}>
@@ -62,12 +51,12 @@ export const HistoryPage = observer(() => {
           </Box>
         </TouchableOpacity>
       </Box>
-      {store.transactionsPromise?.pending ? (
+      {transactionsPromise?.pending ? (
         <Loader />
       ) : (
         <>
           <Box flex={1} marginLeft={16} marginRight={8} paddingRight={8} overflow="auto">
-            {store.transactionsPromise?.value?.content?.map((item) => (
+            {transactionsPromise?.value?.content?.map((item) => (
               <Pressable onPress={() => handleItemPress(item)} key={item?.id}>
                 <Box paddingTop={16} paddingBottom={16} className={styles.item} paddingLeft={12} paddingRight={12}>
                   <Box flexDirection="row">
@@ -96,7 +85,7 @@ export const HistoryPage = observer(() => {
           </Box>
         </>
       )}
-      <InfoModal visible={modal.visible} onClose={handleClose} item={modal?.item} />
+      <InfoModal />
     </Box>
   );
 });
