@@ -1,8 +1,5 @@
-export type Translate = Record<string, TranslateItem>;
+export type Translate = Record<string, unknown>;
 
-// @ts-ignore
-type SimpleItem = Record<string, TranslateItem>
+//type SimpleItem = Record<string, TranslateItem>
 
-// @ts-ignore
-export type TranslateItem = string | SimpleItem | Array<SimpleItem>;
-
+//export type TranslateItem = string | SimpleItem | Array<SimpleItem>;

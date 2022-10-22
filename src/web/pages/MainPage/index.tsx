@@ -7,9 +7,9 @@ import { BellIcon, CaretRightIcon, FlyIcon, WarningIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useTranslate } from 'web/application/TranslateProvider';
 import { store as mainStore } from 'web/application/store';
 import { ROUTES } from 'web/constant';
-import { useTranslate } from 'web/helpers/useTranslate';
 
 export const MainPage = observer(() => {
   const [height, setHeight] = useState<number | undefined>(0);
@@ -18,7 +18,7 @@ export const MainPage = observer(() => {
   const { push } = useHistory();
 
   const { loadCurrentTransaction, currentTransactionPromise, loadStations, clear } = store;
-  const t = useTranslate(mainStore.translate);
+  const t = useTranslate();
 
   useEffect(() => {
     ref?.current && setHeight(ref?.current?.clientHeight);
@@ -104,7 +104,7 @@ export const MainPage = observer(() => {
           )}
         </Box>
 
-        <Box height={188} marginTop={100} position='relative'>
+        <Box height={188} marginTop={100} position="relative">
           <img src="images/waves.png" alt="" className={styles.image} />
           <Box className={styles.scannerButtonContainer}>
             <TouchableOpacity className={styles.scannerButton} onPress={handleScannerPress}>

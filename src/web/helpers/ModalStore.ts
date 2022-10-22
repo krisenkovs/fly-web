@@ -1,8 +1,8 @@
 import { action, makeObservable, observable } from 'mobx';
 
-export class ModalStore<T = any> {
+export class ModalStore<T = unknown> {
   data?: T = undefined;
-  visible: boolean = false;
+  visible = false;
 
   constructor() {
     makeObservable(this, {
