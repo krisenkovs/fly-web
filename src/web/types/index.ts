@@ -5,3 +5,4 @@ export * from './transaction';
 export * from './connector';
 export * from './card';
 export * from './paid';
+export * from './car';

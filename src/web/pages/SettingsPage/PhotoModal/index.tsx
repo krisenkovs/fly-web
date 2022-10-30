@@ -35,7 +35,7 @@ export const PhotoModal = observer(({ onClose }: Props) => {
   }
 
   function handleFileLoad(e: ChangeEvent<HTMLInputElement>) {
-    e.target?.files?.[0] && saveFile(e.target?.files?.[0]);
+    if (e.target?.files?.[0] && (e.target?.files?.[0]?.size || 0) / 1024 / 1024 < 5) saveFile(e.target?.files?.[0]);
   }
 
   function handleClose() {
@@ -62,7 +62,7 @@ export const PhotoModal = observer(({ onClose }: Props) => {
       </Box>
       <Box marginLeft={16} marginRight={16} flexDirection="row" className={styles.avatarContainer}>
         {[0, 1, 2, 3, 4, 5, 6, 7].map((index) => (
-          <TouchableOpacity onPress={() => handleAvatarChange(index)}>
+          <TouchableOpacity onPress={() => handleAvatarChange(index)} key={index}>
             <Box
               height={68}
               width={68}

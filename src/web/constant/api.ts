@@ -4,4 +4,5 @@ export const API = {
   CONNECTOR: '/api/connector',
   TRANSACTION: '/api/transaction',
   USER: '/api/user',
+  CAR: '/api/electric-vehicle',
 };
