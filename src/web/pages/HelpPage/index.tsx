@@ -19,7 +19,7 @@ export function HelpPage() {
         <ChatCircleDots />
         <Box marginTop={32}>
           <Typography color={COLORS.BLACK} weight={400} size={16} lineHeight={24}>
-            По всем вопросам касательно работе приложения можно обращаться в службу поддержки
+            По всем вопросам касательно работы приложения можно обращаться в службу поддержки
           </Typography>
         </Box>
         <Box marginTop={20}>
