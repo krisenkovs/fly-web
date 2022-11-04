@@ -20,7 +20,12 @@ import { StationPage } from 'web/pages/StationPage';
 import { VerifyPage } from 'web/pages/VerifyPage';
 
 export const Router = observer(() => {
-  useEffect(() => store.loadProfile(), []);
+  useEffect(() => {
+    store.loadProfile();
+    store.loadCard();
+    store.loadAccount();
+    store.loadCarInfo();
+  }, []);
 
   if (!store.profilePromise?.value) {
     return null;

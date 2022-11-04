@@ -1,14 +1,14 @@
 import styles from './styles.module.css';
 import { Box } from 'components/Box';
 import { COLORS } from 'constant';
-import React, { MouseEvent, TouchEvent, useEffect, useRef, useState } from 'react';
-import { API } from 'web/constant';
+import React, { MouseEvent, ReactElement, TouchEvent, useEffect, useRef, useState } from 'react';
 
 type Props = {
-  data: { id?: number; imageId?: string }[];
+  data: { key: number | string; content?: ReactElement }[];
+  onChange?: (key?: string | number) => void;
 };
 
-export function Carousel({ data }: Props) {
+export function Carousel({ data, onChange }: Props) {
   const [width, setWidth] = useState(0);
   const [down, setDown] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -16,7 +16,8 @@ export function Carousel({ data }: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    ref.current?.scrollTo({ left: activeIndex * width, behavior: 'smooth' });
+    ref.current?.scrollTo({ left: activeIndex * (width + 6), behavior: 'smooth' });
+    onChange?.(data[activeIndex]?.key);
   }, [activeIndex]);
 
   useEffect(() => {
@@ -72,7 +73,7 @@ export function Carousel({ data }: Props) {
   }
 
   return (
-    <Box height={240} borderRadius={12} marginTop={-64} position="relative" className={styles.container}>
+    <>
       <div
         className={styles.content}
         ref={ref}
@@ -87,7 +88,6 @@ export function Carousel({ data }: Props) {
         {data?.map((item) => (
           <Box
             justifyContent="center"
-            alignItems="center"
             position="relative"
             overflow="hidden"
             borderRadius={12}
@@ -96,25 +96,30 @@ export function Carousel({ data }: Props) {
               width,
               minWidth: width,
             }}
-            key={item?.id}
+            key={item.key}
           >
-            <img src={`${API.IMAGE}/${item.imageId}`} alt="" className={styles.image} />
+            {item?.content}
           </Box>
         ))}
       </div>
-      <Box alignItems="center" justifyContent="center" flexDirection="row" className={styles.dotContainer}>
+      <Box
+        className={styles.dotContainer}
+        flexDirection="row"
+        justifyContent="center"
+        alignItems="center"
+        height={8}
+        marginTop={16}
+      >
         {data?.map((_, index) => (
           <Box
-            height={4}
-            borderRadius={4}
-            backgroundColor={COLORS.WHITE}
-            style={{
-              width: index === activeIndex ? '25px' : '4px',
-            }}
+            width={8}
+            height={8}
+            borderRadius={8}
+            backgroundColor={index === activeIndex ? COLORS.BLUE : COLORS.PALE_BLUE}
             key={index}
           />
         ))}
       </Box>
-    </Box>
+    </>
   );
 }

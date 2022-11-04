@@ -21,7 +21,9 @@ export const PayErrorPage = observer(() => {
           Оплата не прошла
         </Typography>
         <Box marginTop={32} alignItems="center" justifyContent="center">
-          <img src="images/error.png" className={styles.image} />
+          <Box width={200} height={200}>
+            <img src="images/error.png" className={styles.image} alt="" />
+          </Box>
         </Box>
         <Box marginTop={28}>
           <Typography weight={400} size={16} lineHeight={24} color={COLORS.BLACK} textAlign="center">

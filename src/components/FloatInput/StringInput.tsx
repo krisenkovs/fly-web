@@ -5,13 +5,21 @@ type Props = {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   name?: string;
-  type?: 'number' | 'text';
   className?: string;
   readonly?: boolean;
   label?: string;
+  maxLength?: number;
 };
 
-export const StringInput: FC<Props> = ({ className, value, onChange, name, type, readonly = false, label }) => {
+export const StringInput: FC<Props> = ({
+  maxLength = 255,
+  className,
+  value,
+  onChange,
+  name,
+  readonly = false,
+  label,
+}) => {
   return (
     <>
       <input
@@ -20,9 +28,9 @@ export const StringInput: FC<Props> = ({ className, value, onChange, name, type,
         name={name}
         autoComplete="none"
         id={name}
-        type={type}
         className={className}
         readOnly={readonly}
+        maxLength={maxLength}
       />
       <label className={value && styles.floatInputFilled}>{label}</label>
     </>

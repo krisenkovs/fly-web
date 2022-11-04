@@ -1,8 +1,8 @@
 import { action, makeObservable, observable } from 'mobx';
-import { httpService } from 'web/services/HTTPService';
 import { API } from 'web/constant';
 import { ModalStore } from 'web/helpers/ModalStore';
 import { fromPromise, PromiseObserver } from 'web/helpers/PromiseObserver';
+import { httpService } from 'web/services/HTTPService';
 
 class Store extends ModalStore {
   changePasswordPromise?: PromiseObserver<void> = undefined;
@@ -12,7 +12,7 @@ class Store extends ModalStore {
     makeObservable(this, {
       changePasswordPromise: observable,
       changePassword: action.bound,
-      clear:action.bound
+      clear: action.bound,
     });
   }
 
@@ -20,7 +20,7 @@ class Store extends ModalStore {
     this.changePasswordPromise = fromPromise(httpService.put(`${API.USER}/profile/password`, entity));
   }
 
-  clear(){
+  clear() {
     this.hide();
     this.changePasswordPromise = undefined;
   }

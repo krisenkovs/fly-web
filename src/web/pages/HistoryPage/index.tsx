@@ -62,7 +62,7 @@ export const HistoryPage = observer(() => {
                   <Box flexDirection="row">
                     <Box flex={1}>
                       <Typography color={COLORS.BLACK} weight={500} size={16} lineHeight={20}>
-                        {item?.status}
+                        {item?.stationAddress || ''}
                       </Typography>
                     </Box>
                     <Typography color={COLORS.LIGHT_BLACK} weight={500} size={16} lineHeight={20}>

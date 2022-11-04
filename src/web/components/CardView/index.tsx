@@ -1,37 +1,74 @@
-import { Box, Typography } from 'components';
+import styles from './styles.module.css';
+import { Box, TouchableOpacity, Typography } from 'components';
 import { COLORS } from 'constant';
-import { VisaIcon } from 'icons';
-import React from 'react';
-import { CardType } from 'web/types';
+import { PlusIcon, VisaIcon } from 'icons';
+import { observer } from 'mobx-react-lite';
+import React, { useEffect } from 'react';
+import { store as mainStore } from 'web/application/store';
 
-type Props = {
-  card: CardType;
-};
+export const CardView = observer(function () {
+  const { cardPromise, tieCard, tieCardPromise } = mainStore;
 
-export function CardView({ card }: Props) {
-  return (
+  useEffect(() => {
+    if (tieCardPromise?.fulfilled) {
+      if (tieCardPromise.value?.redirectUrl) {
+        window.location.replace(tieCardPromise.value?.redirectUrl);
+      }
+    }
+  }, [tieCardPromise?.fulfilled]);
+
+  function handleAddPress() {
+    tieCard(window.location.href);
+  }
+  return cardPromise?.value ? (
     <Box
       backgroundColor={COLORS.PALE_BLUE}
       height={80}
       boxSizing="border-box"
-      flexDirection="row"
       borderRadius={8}
       paddingTop={16}
       paddingLeft={12}
       paddingRight={12}
       paddingBottom={16}
+      className={styles.container}
     >
       <Box alignItems="center" flex={1} flexDirection="row">
         <VisaIcon />
         <Box flex={1} marginLeft={12} marginRight={12}>
           <Typography color={COLORS.BLACK} weight={700} size={14} lineHeight={18}>
-            {`•••• ${card?.last4}`}
+            {`•••• ${cardPromise?.value?.last4}`}
           </Typography>
         </Box>
-        <Typography color={COLORS.BLACK} weight={700} size={14} lineHeight={18}>
-          {`${card?.expMonth}/${card?.expYear}`}
+        <Typography color={COLORS.BLACK} weight={400} size={14} lineHeight={18}>
+          {`${cardPromise?.value?.expMonth}/${cardPromise?.value?.expYear}`}
         </Typography>
       </Box>
+      <Box flex={1} />
     </Box>
+  ) : (
+    <TouchableOpacity onPress={handleAddPress} disabled={tieCardPromise?.pending}>
+      <Box
+        backgroundColor={COLORS.PALE_BLUE}
+        height={80}
+        boxSizing="border-box"
+        borderRadius={8}
+        paddingTop={16}
+        paddingLeft={12}
+        paddingRight={12}
+        paddingBottom={16}
+        className={styles.container}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Box flexDirection="row" alignItems="center">
+          <PlusIcon />
+          <Box marginLeft={8}>
+            <Typography color={COLORS.BLUE} weight={600} size={14} lineHeight={18}>
+              Добавить карту для оплаты
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+    </TouchableOpacity>
   );
-}
+});

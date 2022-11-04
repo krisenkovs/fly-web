@@ -22,8 +22,8 @@ export const ChargeIndicator = ({ color, time, percent = 30 }: Props) => {
       paddingLeft={10}
       paddingRight={10}
       paddingBottom={10}
-      position='relative'
-      boxSizing='border-box'
+      position="relative"
+      boxSizing="border-box"
     >
       <svg width="240" height="240" viewBox="0 0 240 240" fill="none">
         <circle

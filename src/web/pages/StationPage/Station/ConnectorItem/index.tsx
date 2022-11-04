@@ -1,10 +1,10 @@
-import styles from 'web/pages/StationPage/Station/ConnectorItem/styles.module.css';
 import { Box } from 'components/Box';
 import { Pressable } from 'components/Pressable';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { CSSConnector } from 'icons';
 import React from 'react';
+import styles from 'web/pages/StationPage/Station/ConnectorItem/styles.module.css';
 import { ConnectorType } from 'web/types';
 
 type Props = {

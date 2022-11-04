@@ -10,6 +10,14 @@ type FieldType = {
     value?: RegExp;
     message?: string;
   };
+  min?: {
+    value?: number;
+    message?: string;
+  };
+  max?: {
+    value?: number;
+    message?: string;
+  };
   validator?: (value: ValueType, values: Record<string, ValueType>) => string | undefined;
   dependence?: string[];
 };
@@ -33,6 +41,13 @@ export function useForm(schema: SchemaType) {
     }
     if (fieldType?.pattern?.value && !`${value}`?.match(fieldType?.pattern?.value)) {
       return fieldType?.pattern?.message;
+    }
+    if (fieldType?.min?.value && fieldType?.min?.value > value) {
+      return fieldType?.min?.message;
+    }
+
+    if (fieldType?.max?.value && fieldType?.max?.value < value) {
+      return fieldType?.max?.message;
     }
 
     if (fieldType?.validator) {

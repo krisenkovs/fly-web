@@ -1,3 +1,4 @@
+import { store } from './store';
 import { Box } from 'components/Box';
 import { Modal } from 'components/Modal';
 import { Typography } from 'components/Typography';
@@ -5,7 +6,6 @@ import { COLORS } from 'constant';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { diffDate, formatDateTime } from 'web/helpers/formatter';
-import { store } from './store';
 
 export const InfoModal = observer(() => {
   const { hide, visible, data } = store;
@@ -58,7 +58,9 @@ export const InfoModal = observer(() => {
           Адрес заправки
         </Typography>
         <Box marginTop={8}>
-          <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}></Typography>
+          <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
+            {data?.stationAddress}
+          </Typography>
         </Box>
       </Box>
       <Box marginTop={20} marginBottom={20}>

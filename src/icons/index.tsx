@@ -14,3 +14,7 @@ export { default as ChatCircleDots } from './ChatCircleDots';
 export { default as FlyIcon } from './FlyIcon';
 export { default as VisaIcon } from './VisaIcon';
 export { default as ArrowsDownUp } from './ArrowsDownUp';
+export { default as BatteryFullIcon } from './BatteryFullIcon';
+export { default as BatteryMiddleIcon } from './BatteryMiddleIcon';
+export { default as BalanceIcon } from './BalanceIcon';
+export { default as PlusIcon } from './PlusIcon';

@@ -8,6 +8,7 @@ import { FlyIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { store as mainStore } from 'web/application/store';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
 import { STEPS_CONNECTOR } from 'web/pages/StationPage/types';
@@ -15,7 +16,8 @@ import { STEPS_CONNECTOR } from 'web/pages/StationPage/types';
 export const Info = observer(() => {
   const { push } = useHistory();
 
-  const { selectedConnector, stationPromise, power, sum, payTransactionPromise, cardPromise, setStep } = store;
+  const { selectedConnector, stationPromise, power, sum, payTransactionPromise, setStep, payFromAccount } = store;
+  const { cardPromise } = mainStore;
 
   useEffect(() => {
     if (store.payTransactionPromise?.fulfilled) {
@@ -32,7 +34,7 @@ export const Info = observer(() => {
   }, [store.payTransactionPromise?.error]);
 
   function handleStart() {
-    store.payTransaction(selectedConnector?.id, power, sum, `${window.location.origin}${ROUTES.CHARGE}`);
+    store.payTransaction(`${window.location.origin}${ROUTES.CHARGE}`);
   }
 
   function handleBackClick() {
@@ -58,7 +60,7 @@ export const Info = observer(() => {
         <DescriptionField label="BYN" value={sum} />
         <DescriptionField
           label="Способ оплаты"
-          value={`${cardPromise?.value?.brand} •••• ${cardPromise?.value?.last4}`}
+          value={payFromAccount ? 'Баланс' : `${cardPromise?.value?.brand} •••• ${cardPromise?.value?.last4}`}
         />
       </Box>
       <Box flex={1} />

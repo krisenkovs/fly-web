@@ -1,10 +1,10 @@
+import { store } from './store';
 import styles from './styles.module.css';
 import { Box, Pressable, Skeleton, Typography } from 'components';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react-lite';
 import React, { MouseEvent, TouchEvent, useState } from 'react';
 import { useHistory, generatePath } from 'react-router-dom';
-import { store } from './store';
 import { ROUTES } from 'web/constant';
 
 type Props = {

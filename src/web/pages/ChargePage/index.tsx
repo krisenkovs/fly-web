@@ -61,7 +61,7 @@ export const ChargePage = observer(() => {
     <Loader />
   ) : (
     <>
-      <Box flex={1} paddingBottom={48} overflow="hidden" position='relative'>
+      <Box flex={1} paddingBottom={48} overflow="hidden" position="relative">
         <Box
           height={250}
           backgroundColor={COLORS.PALE_BLUE}

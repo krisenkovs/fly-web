@@ -1,9 +1,8 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable } from 'mobx';
 import { ModalStore } from 'web/helpers/ModalStore';
 import { CONNECTOR } from 'web/pages/CarPage/ConnectorModal/types';
 
 class Store extends ModalStore<CONNECTOR> {
-
   constructor() {
     super();
     makeObservable(this, {

@@ -6,3 +6,4 @@ export * from './connector';
 export * from './card';
 export * from './paid';
 export * from './car';
+export * from './account';

@@ -18,6 +18,7 @@ export type TransactionType = {
   startEnergyImport: number;
   currentEnergyImport: number;
   lastEvEnergyPercent: number;
+  stationAddress?: string;
 };
 
 export enum TRANSACTION_STATUS {
@@ -25,5 +26,5 @@ export enum TRANSACTION_STATUS {
   ACTIVE = 'ACTIVE',
   STOPPED = 'STOPPED',
   ERROR = 'ERROR',
-  CLOSED = 'CLOSED'
+  CLOSED = 'CLOSED',
 }

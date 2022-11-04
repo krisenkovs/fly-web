@@ -44,7 +44,7 @@ export const PhotoModal = observer(({ onClose }: Props) => {
 
   return (
     <Modal onClose={handleClose} title="Сменить фото" visible={visible}>
-      <Box marginTop={24} marginLeft={16} marginRight={16} flexDirection="row" alignItems="center">
+      <Box marginTop={24} flexDirection="row" alignItems="center">
         <AvatarView size={100} avatarCode={data?.avatarCode} photoId={data?.photoId} />
         <Box marginLeft={20}>
           <input type="file" ref={ref} hidden onChange={handleFileLoad} />
@@ -55,12 +55,12 @@ export const PhotoModal = observer(({ onClose }: Props) => {
           </TouchableOpacity>
         </Box>
       </Box>
-      <Box marginTop={20} marginBottom={20} marginLeft={16} marginRight={16}>
+      <Box marginTop={20} marginBottom={20}>
         <Typography color={COLORS.BLACK} weight={700} size={14} lineHeight={18}>
           Выбрать аватара
         </Typography>
       </Box>
-      <Box marginLeft={16} marginRight={16} flexDirection="row" className={styles.avatarContainer}>
+      <Box flexDirection="row" className={styles.avatarContainer}>
         {[0, 1, 2, 3, 4, 5, 6, 7].map((index) => (
           <TouchableOpacity onPress={() => handleAvatarChange(index)} key={index}>
             <Box

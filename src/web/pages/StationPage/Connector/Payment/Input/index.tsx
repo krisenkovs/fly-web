@@ -1,4 +1,3 @@
-import styles from 'web/pages/StationPage/Connector/Payment/Input/styles.module.css';
 import { Box } from 'components/Box';
 import { FloatInput } from 'components/FloatInput';
 import { TouchableOpacity } from 'components/TouchableOpacity';
@@ -23,7 +22,6 @@ export function Input({ value, icon, title, values, onChange }: Props) {
           <FloatInput
             type="number"
             label={title}
-            //className={styles.input}
             onChange={(e) => onChange?.(Number(e))}
             value={value?.toString()}
             hideHint
@@ -32,20 +30,22 @@ export function Input({ value, icon, title, values, onChange }: Props) {
       </Box>
       <Box marginLeft={32} flexDirection="row" marginTop={12}>
         {values.map((item, index) => (
-          <TouchableOpacity onPress={() => onChange?.(item)} className={styles.button} key={index}>
-            <Box
-              marginLeft={index ? 8 : 0}
-              height={32}
-              alignItems="center"
-              justifyContent="center"
-              backgroundColor={COLORS.PALE_BLUE}
-              borderRadius={8}
-            >
-              <Typography color={COLORS.BLUE} weight={600} size={14} lineHeight={18}>
-                {item}
-              </Typography>
-            </Box>
-          </TouchableOpacity>
+          <Box flex={1} key={index}>
+            <TouchableOpacity onPress={() => onChange?.(item)}>
+              <Box
+                marginLeft={index ? 8 : 0}
+                height={32}
+                alignItems="center"
+                justifyContent="center"
+                backgroundColor={COLORS.WHITE}
+                borderRadius={8}
+              >
+                <Typography color={COLORS.BLUE} weight={600} size={14} lineHeight={18}>
+                  {item}
+                </Typography>
+              </Box>
+            </TouchableOpacity>
+          </Box>
         ))}
       </Box>
     </Box>

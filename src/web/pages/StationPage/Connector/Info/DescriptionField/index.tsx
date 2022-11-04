@@ -6,7 +6,7 @@ import React from 'react';
 
 type Props = {
   label: string;
-  value?: string|number;
+  value?: string | number;
 };
 
 export const DescriptionField = ({ label, value }: Props) => {

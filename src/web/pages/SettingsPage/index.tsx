@@ -1,6 +1,5 @@
 import { store as passwordModalStore } from './PasswordModal/store';
 import { store as photoModalStore } from './PhotoModal/store';
-import { store } from './store';
 import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { FloatInput } from 'components/FloatInput';
@@ -18,7 +17,7 @@ import { PhotoModal } from 'web/pages/SettingsPage/PhotoModal';
 import { ProfileType } from 'web/types';
 
 export const SettingsPage = observer(() => {
-  const { saveProfilePromise, saveProfile } = store;
+  const { profilePromise, saveProfile, saveProfilePromise, loadProfile } = mainStore;
   const { values, errors, hasError, changed, validateFields, setFieldValue, resetFields } = useForm({
     firstName: { required: { message: 'Заполните имя' } },
     lastName: { required: { message: 'Заполните фамилию' } },
@@ -30,12 +29,12 @@ export const SettingsPage = observer(() => {
   });
 
   useEffect(() => {
-    resetFields(mainStore.profilePromise?.value);
-  }, [mainStore.profilePromise?.value]);
+    resetFields(profilePromise?.value);
+  }, [profilePromise?.value]);
 
   useEffect(() => {
     if (saveProfilePromise?.fulfilled) {
-      mainStore.loadProfile();
+      loadProfile();
     }
   }, [saveProfilePromise?.fulfilled]);
 
@@ -88,7 +87,7 @@ export const SettingsPage = observer(() => {
         />
         <FloatInput
           label="телефон"
-          type="text"
+          type="phone"
           value={values?.phone}
           hint={errors?.phone}
           readonly

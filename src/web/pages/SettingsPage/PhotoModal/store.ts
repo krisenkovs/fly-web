@@ -1,8 +1,8 @@
 import { action, makeObservable, observable } from 'mobx';
-import { httpService } from 'web/services/HTTPService';
 import { API } from 'web/constant';
 import { ModalStore } from 'web/helpers/ModalStore';
 import { fromPromise, PromiseObserver } from 'web/helpers/PromiseObserver';
+import { httpService } from 'web/services/HTTPService';
 import { ProfileType } from 'web/types';
 
 class Store extends ModalStore<ProfileType> {

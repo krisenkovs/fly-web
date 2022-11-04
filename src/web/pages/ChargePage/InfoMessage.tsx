@@ -1,8 +1,8 @@
+import { store } from './store';
 import { Typography } from 'components';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { store } from './store';
 import { diffDate, formatTime } from 'web/helpers/formatter';
 import { TRANSACTION_STATUS } from 'web/types';
 
@@ -12,7 +12,7 @@ type Props = {
   endDate: string;
 };
 
-export const InfoMessage=observer(({ status, startDate, endDate }: Props)=> {
+export const InfoMessage = observer(({ status, startDate, endDate }: Props) => {
   switch (status) {
     case TRANSACTION_STATUS.ACTIVE:
       return (
@@ -47,4 +47,4 @@ export const InfoMessage=observer(({ status, startDate, endDate }: Props)=> {
     default:
       return null;
   }
-})
+});

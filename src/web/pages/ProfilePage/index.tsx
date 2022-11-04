@@ -5,7 +5,7 @@ import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { BellIcon, CaretRightIcon, SlidersIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { store } from 'web/application/store';
 import { AvatarView } from 'web/components/AvatarView';
@@ -47,6 +47,25 @@ const DATA = [
 
 export const ProfilePage = observer(() => {
   const { push } = useHistory();
+  const { upAccount, upAccountPromise } = store;
+
+  useEffect(() => {
+    if (upAccountPromise?.fulfilled) {
+      if (upAccountPromise.value?.redirectUrl) {
+        window.location.href = upAccountPromise.value?.redirectUrl;
+      }
+    }
+  }, [upAccountPromise?.fulfilled]);
+
+  useEffect(() => {
+    if (upAccountPromise?.error) {
+      push(ROUTES.PAY_ERROR);
+    }
+  }, [upAccountPromise?.error]);
+
+  function handleUp() {
+    upAccount(window.location.href);
+  }
 
   function handleSettingsClick() {
     push(ROUTES.SETTINGS);
@@ -60,20 +79,21 @@ export const ProfilePage = observer(() => {
     route && push(route);
   }
 
+  function handleBackClick() {
+    push(ROUTES.MAIN);
+  }
+
   return (
     <Box flex={1}>
-      <Header title="Профиль" showBackButton showProfileButton={false} />
+      <Header title="Профиль" showBackButton showProfileButton={false} onBackClick={handleBackClick} />
       <Box paddingTop={90} paddingLeft={16} paddingRight={16}>
         <Box
           position="relative"
+          boxSizing="border-box"
           backgroundColor={COLORS.PALE_BLUE}
           borderRadius={12}
-          height={135}
-          paddingRight={24}
-          paddingLeft={24}
-          paddingTop={24}
-          paddingBottom={24}
-          justifyContent="flex-end"
+          height={168}
+          paddingTop={64}
         >
           <Box className={styles.avatar}>
             <AvatarView
@@ -114,10 +134,32 @@ export const ProfilePage = observer(() => {
           <Typography weight={400} size={14} lineHeight={18} color={COLORS.BLACK} textAlign="center">
             {store.profilePromise?.value?.email}
           </Typography>
+          <Box flex={1} />
+          <TouchableOpacity onPress={handleUp}>
+            <Box
+              height={42}
+              backgroundColor={COLORS.BLUE}
+              borderBottomLeftRadius={12}
+              borderBottomRightRadius={12}
+              flexDirection="row"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Typography color={COLORS.WHITE} size={14} weight={400} lineHeight={18}>
+                Баланс
+              </Typography>
+              <Box marginLeft={8}>
+                <Typography color={COLORS.WHITE} size={14} weight={700} lineHeight={18}>
+                  {`${store.accountPromise?.value?.amount || 0} BYN`}
+                </Typography>
+              </Box>
+            </Box>
+          </TouchableOpacity>
         </Box>
+
         <Box flex={1} paddingTop={8}>
           {DATA.map((item) => (
-            <TouchableOpacity onPress={() => handleItemRoute(item?.route)} disabled={item?.disabled}>
+            <TouchableOpacity onPress={() => handleItemRoute(item?.route)} disabled={item?.disabled} key={item.id}>
               <Box paddingTop={24} paddingBottom={24} flexDirection="row" alignItems="center" className={styles.item}>
                 <Box flex={1}>
                   <Typography weight={700} size={16} lineHeight={24} color={COLORS.BLACK}>

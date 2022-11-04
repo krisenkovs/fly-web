@@ -1,7 +1,9 @@
 import { PasswordInput } from './PasswordInput';
 import { StringInput } from './StringInput';
 import styles from './styles.module.css';
-import React, { ChangeEvent, CSSProperties, FC, useCallback, useMemo } from 'react';
+import { NumberInput } from 'components/FloatInput/NumberInput';
+import { PhoneInput } from 'components/FloatInput/PhoneInput';
+import React, { ChangeEvent, CSSProperties, FC, useMemo } from 'react';
 
 type Props = {
   value?: string;
@@ -9,12 +11,15 @@ type Props = {
   hint?: string;
   onChange?: (value?: string) => void;
   name?: string;
-  type?: 'text' | 'password' | 'number';
+  type?: 'text' | 'password' | 'number' | 'phone';
   style?: CSSProperties;
   inputClassName?: string;
   hideHint?: boolean;
   onClick?: () => void;
   readonly?: boolean;
+  min?: number;
+  max?: number;
+  maxLength?: number;
 };
 
 export const FloatInput: FC<Props> = ({
@@ -29,29 +34,59 @@ export const FloatInput: FC<Props> = ({
   hideHint,
   onClick,
   readonly = false,
+  max,
+  maxLength,
 }) => {
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      onChange?.(e.target.value);
-    },
-    [onChange],
-  );
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    onChange?.(e.target.value);
+  }
+
+  function handleNumberChange(value: string) {
+    onChange?.(value);
+  }
 
   const input = useMemo(() => {
-    return type === 'password' ? (
-      <PasswordInput value={value} onChange={handleChange} name={name} label={label} />
-    ) : (
+    if (type === 'password') {
+      return <PasswordInput value={value} onChange={handleChange} name={name} label={label} />;
+    }
+    if (type === 'number') {
+      return (
+        <NumberInput
+          value={value}
+          onChange={handleNumberChange}
+          name={name}
+          label={label}
+          max={max}
+          className={inputClassName}
+          readonly={readonly}
+        />
+      );
+    }
+    if (type === 'phone') {
+      return (
+        <PhoneInput
+          value={value}
+          onChange={handleChange}
+          name={name}
+          label={label}
+          className={inputClassName}
+          readonly={readonly}
+        />
+      );
+    }
+
+    return (
       <StringInput
         value={value}
         onChange={handleChange}
         name={name}
-        type={type}
         className={inputClassName}
         readonly={readonly}
         label={label}
+        maxLength={maxLength}
       />
     );
-  }, [type, onChange, name, value, handleChange, inputClassName, label]);
+  }, [type, onChange, name, value, handleChange, inputClassName, label, max, maxLength]);
 
   return (
     <div style={style} onClick={onClick}>

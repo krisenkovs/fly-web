@@ -1,0 +1,15 @@
+.content {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  gap: 6px;
+}
+
+.item {
+  height: 100%;
+  user-select: none;
+}
+
+.dot-container {
+  gap: 4px;
+}

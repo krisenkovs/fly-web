@@ -89,7 +89,9 @@ export const MainPage = observer(() => {
             <>
               <Box marginLeft={12} flex={1} flexDirection="column">
                 <Typography weight={800} size={20} lineHeight={25} color={COLORS.BLACK}>
-                  {mainStore.profilePromise?.value?.firstName}
+                  {`${mainStore.profilePromise?.value?.firstName || ''} ${
+                    mainStore.profilePromise?.value?.lastName || ''
+                  }`}
                 </Typography>
                 <Typography weight={400} size={12} lineHeight={15} color={COLORS.LIGHT_BLACK}>
                   {t('mainPage.welcome')}

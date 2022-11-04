@@ -1,7 +1,7 @@
 import { action, makeObservable, observable, reaction } from 'mobx';
-import { httpService } from 'web/services/HTTPService';
 import { API } from 'web/constant';
 import { fromPromise, PromiseObserver } from 'web/helpers/PromiseObserver';
+import { httpService } from 'web/services/HTTPService';
 import { Page, StationType, TransactionType } from 'web/types';
 
 class Store {
