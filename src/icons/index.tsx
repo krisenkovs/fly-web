@@ -9,6 +9,7 @@ export { default as BackIcon } from './BackIcon';
 export { default as CoinIcon } from './CoinIcon';
 export { default as LightIcon } from './LightIcon';
 export { default as CSSConnector } from './CSSConnector';
+export { default as CSHdeMOConnector } from './CSHdeMOConnector';
 export { default as SlidersIcon } from './SlidersIcon';
 export { default as ChatCircleDots } from './ChatCircleDots';
 export { default as FlyIcon } from './FlyIcon';

@@ -2,10 +2,10 @@ import { Box } from 'components/Box';
 import { Pressable } from 'components/Pressable';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
-import { CSSConnector } from 'icons';
-import React from 'react';
+import { CSHdeMOConnector, CSSConnector } from 'icons';
+import React, { useMemo } from 'react';
 import styles from 'web/pages/StationPage/Station/ConnectorItem/styles.module.css';
-import { ConnectorType } from 'web/types';
+import { CONNECTOR, ConnectorType } from 'web/types';
 
 type Props = {
   onPress: (id: number) => void;
@@ -13,6 +13,24 @@ type Props = {
 };
 
 export function ConnectorItem({ onPress, item }: Props) {
+  const connectorIcon = useMemo(() => {
+    switch (item?.type) {
+      case CONNECTOR.CSHdeMO:
+        return <CSHdeMOConnector width={24} height={24} />;
+      default:
+        return <CSSConnector width={24} height={24} />;
+    }
+  }, [item]);
+
+  const connectorColor = useMemo(() => {
+    switch (item?.type) {
+      case CONNECTOR.CSHdeMO:
+        return COLORS.BLUE;
+      default:
+        return COLORS.BLACK;
+    }
+  }, [item]);
+
   return (
     <Pressable onPress={() => item?.id && onPress(item?.id)}>
       <Box
@@ -29,12 +47,12 @@ export function ConnectorItem({ onPress, item }: Props) {
           width={40}
           height={40}
           borderRadius={20}
-          backgroundColor={COLORS.PALE_BLUE}
+          backgroundColor={connectorColor}
           marginLeft={-14}
           alignItems="center"
           justifyContent="center"
         >
-          <CSSConnector width={24} height={24} />
+          {connectorIcon}
         </Box>
         <Box marginLeft={30} flex={1}>
           <Typography color={COLORS.BLACK} weight={700} size={14} lineHeight={18}>

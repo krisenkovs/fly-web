@@ -6,8 +6,9 @@ export enum COLORS {
   LIGHT_BLACK = 'light-black',
   WHITE = 'white',
   GREY = 'grey',
-  ADDITIONAL_GREY='additional-grey',
+  ADDITIONAL_GREY = 'additional-grey',
   GREEN = 'green',
+  BG_GREEN = 'bg-green',
   RED = 'red',
-  BG_RED = 'bg-red'
+  BG_RED = 'bg-red',
 }

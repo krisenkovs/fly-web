@@ -46,7 +46,7 @@ export const VerifyPage: FC = observer(() => {
         document.getElementById(`char${index + 1}`)?.focus();
         break;
       }
-      case 'Backspace': {
+      case '': {
         setValue(value.map((item, i) => (i === index ? '' : item)));
         document.getElementById(`char${index - 1}`)?.focus();
         break;

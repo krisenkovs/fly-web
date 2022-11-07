@@ -5,5 +5,10 @@ export type ConnectorType = {
   availability: boolean;
   status: string;
   created: string;
-  type: string;
+  type: CONNECTOR;
 };
+
+export enum CONNECTOR {
+  CSS = 'CSS',
+  CSHdeMO = 'CSHdeMO',
+}

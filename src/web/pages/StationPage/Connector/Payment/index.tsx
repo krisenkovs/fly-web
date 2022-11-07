@@ -83,8 +83,9 @@ export const Payment = observer(() => {
             ]}
             onChange={handleChangePower}
           />
+          <Box flex={1} />
 
-          <Box marginTop={40} marginBottom={20}>
+          <Box marginTop={8} marginBottom={20}>
             <Typography color={COLORS.BLACK} weight={700} size={16} lineHeight={20}>
               Способ оплаты
             </Typography>
@@ -99,7 +100,8 @@ export const Payment = observer(() => {
               onChange={handleChangePayment}
             />
           )}
-          <Box marginTop={40} marginBottom={20} flex={1}>
+          <Box flex={1} />
+          <Box marginTop={8} marginBottom={20} flex={1}>
             <Typography color={COLORS.BLACK} weight={400} size={12} lineHeight={18} textAlign="center">
               При оплате картой будет списана стоимость эквивалентная за 60 kWh. Сдача будет возвращена после завершения
               зарядки

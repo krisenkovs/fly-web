@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 import { Box } from 'components';
-import React, { KeyboardEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 
 type Props = {
   value?: string;
@@ -9,9 +9,9 @@ type Props = {
 };
 
 export function NumberInput({ value, onKeyPress, id }: Props) {
-  function handleKeyDown(e: KeyboardEvent) {
-    e.preventDefault();
-    onKeyPress?.(e?.key);
+  function handleInput(e: ChangeEvent<HTMLInputElement>) {
+    const inputValue = e.target?.value?.match(/\d?/)?.[0] || '';
+    onKeyPress?.(inputValue);
   }
 
   return (
@@ -26,7 +26,7 @@ export function NumberInput({ value, onKeyPress, id }: Props) {
     >
       <input
         maxLength={1}
-        onKeyDown={handleKeyDown}
+        onInput={handleInput}
         className={styles.input}
         min={1}
         max={9}

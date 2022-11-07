@@ -121,7 +121,7 @@ export const MainPage = observer(() => {
                 paddingTop={18}
                 paddingBottom={18}
                 flexDirection="row"
-                backgroundColor={COLORS.LIGHT_BLUE}
+                backgroundColor={COLORS.BG_GREEN}
                 borderRadius={12}
                 paddingLeft={18}
                 paddingRight={18}
