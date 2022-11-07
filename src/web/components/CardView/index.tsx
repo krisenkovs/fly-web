@@ -5,14 +5,22 @@ import { PlusIcon, VisaIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { store as mainStore } from 'web/application/store';
+import { store } from 'web/components/CardView/store';
 
 export const CardView = observer(function () {
-  const { cardPromise, tieCard, tieCardPromise } = mainStore;
+  const { cardPromise, loadCard } = mainStore;
+  const { tieCard, tieCardPromise, destroy } = store;
+
+  useEffect(() => {
+    return destroy;
+  }, []);
 
   useEffect(() => {
     if (tieCardPromise?.fulfilled) {
       if (tieCardPromise.value?.redirectUrl) {
         window.location.replace(tieCardPromise.value?.redirectUrl);
+      } else {
+        loadCard();
       }
     }
   }, [tieCardPromise?.fulfilled]);

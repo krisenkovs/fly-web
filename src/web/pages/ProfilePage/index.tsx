@@ -7,10 +7,11 @@ import { BellIcon, CaretRightIcon, SlidersIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { store } from 'web/application/store';
+import { store as mainStore } from 'web/application/store';
 import { AvatarView } from 'web/components/AvatarView';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
+import { store } from 'web/pages/ProfilePage/store';
 
 const DATA = [
   {
@@ -47,12 +48,19 @@ const DATA = [
 
 export const ProfilePage = observer(() => {
   const { push } = useHistory();
-  const { upAccount, upAccountPromise } = store;
+  const { loadAccount } = mainStore;
+  const { upAccount, upAccountPromise, destroy } = store;
+
+  useEffect(() => {
+    return destroy;
+  }, []);
 
   useEffect(() => {
     if (upAccountPromise?.fulfilled) {
       if (upAccountPromise.value?.redirectUrl) {
         window.location.href = upAccountPromise.value?.redirectUrl;
+      } else {
+        loadAccount();
       }
     }
   }, [upAccountPromise?.fulfilled]);
@@ -98,8 +106,8 @@ export const ProfilePage = observer(() => {
           <Box className={styles.avatar}>
             <AvatarView
               size={100}
-              photoId={store.profilePromise?.value?.photoId}
-              avatarCode={store.profilePromise?.value?.avatarCode}
+              photoId={mainStore.profilePromise?.value?.photoId}
+              avatarCode={mainStore.profilePromise?.value?.avatarCode}
             />
           </Box>
           <TouchableOpacity onPress={handleSettingsClick}>
@@ -129,10 +137,10 @@ export const ProfilePage = observer(() => {
             </Box>
           </TouchableOpacity>
           <Typography weight={700} size={16} lineHeight={24} color={COLORS.BLACK} textAlign="center">
-            {`${store.profilePromise?.value?.firstName || ''} ${store.profilePromise?.value?.lastName || ''}`}
+            {`${mainStore.profilePromise?.value?.firstName || ''} ${mainStore.profilePromise?.value?.lastName || ''}`}
           </Typography>
           <Typography weight={400} size={14} lineHeight={18} color={COLORS.BLACK} textAlign="center">
-            {store.profilePromise?.value?.email}
+            {mainStore.profilePromise?.value?.email}
           </Typography>
           <Box flex={1} />
           <TouchableOpacity onPress={handleUp}>
@@ -150,7 +158,7 @@ export const ProfilePage = observer(() => {
               </Typography>
               <Box marginLeft={8}>
                 <Typography color={COLORS.WHITE} size={14} weight={700} lineHeight={18}>
-                  {`${store.accountPromise?.value?.amount || 0} BYN`}
+                  {`${mainStore.accountPromise?.value?.amount || 0} BYN`}
                 </Typography>
               </Box>
             </Box>

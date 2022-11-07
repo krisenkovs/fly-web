@@ -21,10 +21,16 @@ export function Carousel({ data, onChange }: Props) {
   }, [activeIndex]);
 
   useEffect(() => {
-    if (ref.current?.clientWidth) {
-      setWidth(ref.current?.clientWidth);
+    function handleResize() {
+      if (ref.current?.clientWidth) setWidth(ref.current?.clientWidth);
     }
-  }, [ref.current?.clientWidth]);
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [ref]);
 
   const next = () => {
     if (activeIndex < data?.length - 1) {
@@ -44,11 +50,11 @@ export function Carousel({ data, onChange }: Props) {
     if (down) {
       const diff = down - x;
 
-      if (diff > 5) {
+      if (diff > 10) {
         next();
       }
 
-      if (diff < -5) {
+      if (diff < -10) {
         prev();
       }
     }
@@ -92,10 +98,6 @@ export function Carousel({ data, onChange }: Props) {
             overflow="hidden"
             borderRadius={12}
             className={styles.item}
-            style={{
-              width,
-              minWidth: width,
-            }}
             key={item.key}
           >
             {item?.content}

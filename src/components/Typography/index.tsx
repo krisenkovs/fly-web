@@ -32,7 +32,7 @@ export function Typography({ children, weight, size, lineHeight, color, style, f
     if (textAlign !== undefined) {
       values['textAlign'] = textAlign;
     }
-    return { ...values, ...style };
+    return { userSelect: 'none', ...values, ...style } as CSSProperties;
   }, [weight, size, lineHeight, color, flex, textAlign, style]);
 
   return (

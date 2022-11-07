@@ -8,15 +8,23 @@ import { store as mainStore } from 'web/application/store';
 import { CardView } from 'web/components/CardView';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
+import { store } from 'web/pages/CardsPage/store';
 
 export const CardsPage = observer(() => {
   const { replace } = useHistory();
-  const { cardPromise, tieCard, tieCardPromise } = mainStore;
+  const { cardPromise, loadCard } = mainStore;
+  const { tieCard, tieCardPromise, destroy } = store;
+
+  useEffect(() => {
+    return destroy;
+  }, []);
 
   useEffect(() => {
     if (tieCardPromise?.fulfilled) {
       if (tieCardPromise.value?.redirectUrl) {
         window.location.href = tieCardPromise.value?.redirectUrl;
+      } else {
+        loadCard();
       }
     }
   }, [tieCardPromise?.fulfilled]);

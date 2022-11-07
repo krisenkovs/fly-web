@@ -5,17 +5,21 @@ import { BalanceIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { store } from 'web/application/store';
+import { store as mainStore } from 'web/application/store';
+import { store } from 'web/components/BalanceView/store';
 import { ROUTES } from 'web/constant';
 
 export const BalanceView = observer(function () {
-  const { accountPromise, upAccount, upAccountPromise } = store;
+  const { accountPromise, loadAccount } = mainStore;
+  const { upAccount, upAccountPromise } = store;
   const { push } = useHistory();
 
   useEffect(() => {
     if (upAccountPromise?.fulfilled) {
       if (upAccountPromise.value?.redirectUrl) {
         window.location.href = upAccountPromise.value?.redirectUrl;
+      } else {
+        loadAccount();
       }
     }
   }, [upAccountPromise?.fulfilled]);

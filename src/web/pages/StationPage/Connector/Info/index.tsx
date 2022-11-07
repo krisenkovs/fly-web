@@ -23,6 +23,8 @@ export const Info = observer(() => {
     if (store.payTransactionPromise?.fulfilled) {
       if (store.payTransactionPromise.value?.redirectUrl) {
         window.location.href = store.payTransactionPromise.value?.redirectUrl;
+      } else {
+        push(ROUTES.CHARGE);
       }
     }
   }, [store.payTransactionPromise?.fulfilled]);

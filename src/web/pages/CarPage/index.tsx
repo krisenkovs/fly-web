@@ -6,10 +6,13 @@ import { COLORS } from 'constant';
 import { useForm } from 'hooks/useForm';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
 import { Header } from 'web/components/Header';
+import { ROUTES } from 'web/constant';
 import { ConnectorModal } from 'web/pages/CarPage/ConnectorModal';
 import { CONNECTOR } from 'web/pages/CarPage/ConnectorModal/types';
+import { store } from 'web/pages/CarPage/store';
 import { CarType } from 'web/types';
 
 export const CarPage = observer(() => {
@@ -22,14 +25,27 @@ export const CarPage = observer(() => {
     },
     powerReserve: { required: { message: 'Укажите запас хода' } },
   });
+  const { push } = useHistory();
 
-  const { saveCarInfo, carPromise } = mainStore;
+  const { carPromise, loadCarInfo } = mainStore;
+  const { saveCarInfo, destroy, saveCarPromise } = store;
+
+  useEffect(() => {
+    return destroy;
+  }, []);
 
   useEffect(() => {
     if (carPromise?.fulfilled) {
       resetFields(carPromise?.value);
     }
   }, [carPromise?.fulfilled]);
+
+  useEffect(() => {
+    if (saveCarPromise?.fulfilled) {
+      loadCarInfo();
+      push(ROUTES.PROFILE);
+    }
+  }, [saveCarPromise?.fulfilled]);
 
   function handleSave() {
     validateFields().then((values) => saveCarInfo(values as CarType));
@@ -99,7 +115,7 @@ export const CarPage = observer(() => {
             onClick={handleSave}
             label="Сохранить"
             disabled={hasError || !changed}
-            loading={carPromise?.pending}
+            loading={saveCarPromise?.pending}
           />
         </Box>
       </>
