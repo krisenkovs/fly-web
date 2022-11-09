@@ -3,8 +3,11 @@
   overflow: hidden;
   display: flex;
   gap: 6px;
-  border-right: 12px;
-  -webkit-overflow-scrolling: touch;
+  border-radius: 12px;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
 }
 
 .item {

@@ -1,7 +1,7 @@
 import styles from './styles.module.css';
 import { Box } from 'components/Box';
 import { COLORS } from 'constant';
-import React, { MouseEvent, ReactElement, TouchEvent, useEffect, useRef, useState } from 'react';
+import React, { MouseEvent, ReactElement, TouchEvent, useEffect, useRef, useState, UIEvent } from 'react';
 
 type Props = {
   data: { key: number | string; content?: ReactElement }[];
@@ -78,6 +78,10 @@ export function Carousel({ data, onChange }: Props) {
     setDown(0);
   }
 
+  function handleScroll(e: UIEvent) {
+    e.preventDefault();
+  }
+
   return (
     <>
       <div
@@ -90,6 +94,7 @@ export function Carousel({ data, onChange }: Props) {
         onTouchStart={handleTouchDown}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleMouseUp}
+        onScroll={handleScroll}
       >
         {data?.map((item) => (
           <Box
