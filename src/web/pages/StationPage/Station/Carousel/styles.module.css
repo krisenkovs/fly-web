@@ -5,8 +5,12 @@
 .content {
   height: 240px;
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
 }
 
 .item {
@@ -27,4 +31,3 @@
   right: 0;
   gap: 4px;
 }
-

@@ -1,8 +1,11 @@
+import { Box } from 'components/Box';
 import styles from 'components/FloatInput/styles.module.css';
-import React, { ChangeEvent, FC, KeyboardEvent } from 'react';
+import { Typography } from 'components/Typography';
+import { COLORS } from 'constant';
+import React, { ChangeEvent, FC } from 'react';
 
 type Props = {
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (value: string) => void;
   value?: string;
   name?: string;
   className?: string;
@@ -11,31 +14,29 @@ type Props = {
 };
 
 export const PhoneInput: FC<Props> = ({ className, value, onChange, name, readonly = false, label }) => {
-  function handleKeyDown(e: KeyboardEvent) {
-    const selectionStart = (e?.currentTarget as HTMLInputElement).selectionStart;
-    const symbols =
-      selectionStart === 0
-        ? ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+']
-        : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace'];
-    if (!symbols.includes(e.key)) {
-      e.preventDefault();
-    }
+  function handleBlur(e: ChangeEvent<HTMLInputElement>) {
+    const inputValue = e.target?.value?.match(/[\d.]{1,12}/)?.[0] || '';
+    onChange?.(inputValue);
   }
 
   return (
-    <>
+    <Box flexDirection="row" alignItems="flex-end">
+      <Typography color={COLORS.BLACK} size={16} lineHeight={18} weight={400}>
+        +
+      </Typography>
       <input
-        value={value}
-        onInput={onChange}
+        value={`${value}`.replace('+', '')}
+        onInput={handleBlur}
+        onBlur={handleBlur}
         name={name}
         autoComplete="none"
         id={name}
         className={className}
         readOnly={readonly}
+        type="number"
         maxLength={13}
-        onKeyDown={handleKeyDown}
       />
       <label className={value && styles.floatInputFilled}>{label}</label>
-    </>
+    </Box>
   );
 };

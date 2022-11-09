@@ -134,7 +134,7 @@ export const RegisterPage: FC = () => {
                 <FloatInput
                   hint={errors?.phoneNumber}
                   value={values?.phoneNumber}
-                  type="number"
+                  type="phone"
                   label="Телефон"
                   name="user.attributes.phoneNumber"
                   onChange={(value) => setFieldValue('phoneNumber', value?.replace('+', ''))}

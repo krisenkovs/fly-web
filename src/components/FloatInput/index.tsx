@@ -66,7 +66,7 @@ export const FloatInput: FC<Props> = ({
       return (
         <PhoneInput
           value={value}
-          onChange={handleChange}
+          onChange={handleNumberChange}
           name={name}
           label={label}
           className={inputClassName}
