@@ -78,6 +78,10 @@ export function Carousel({ data, onChange }: Props) {
     setDown(0);
   }
 
+  function handleScroll(e: UIEvent) {
+    e.preventDefault();
+  }
+
   return (
     <>
       <div
@@ -90,6 +94,7 @@ export function Carousel({ data, onChange }: Props) {
         onTouchStart={handleTouchDown}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleMouseUp}
+        onScroll={handleScroll}
       >
         {data?.map((item) => (
           <Box

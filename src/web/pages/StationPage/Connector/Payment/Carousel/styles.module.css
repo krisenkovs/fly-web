@@ -1,6 +1,6 @@
 .content {
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   gap: 6px;
   border-radius: 12px;
