@@ -1,9 +1,14 @@
 .content {
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   gap: 6px;
+  border-right: 12px;
   -webkit-overflow-scrolling: touch;
+}
+
+.content::-webkit-scrollbar {
+  height: 0;
 }
 
 .item {
