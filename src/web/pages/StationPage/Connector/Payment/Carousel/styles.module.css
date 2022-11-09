@@ -4,7 +4,6 @@
   display: flex;
   gap: 6px;
   border-radius: 12px;
-  -webkit-overflow-scrolling: touch;
 }
 
 .content::-webkit-scrollbar {
