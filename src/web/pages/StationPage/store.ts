@@ -65,14 +65,14 @@ class Store {
   setSum(value: number) {
     this.sum = value;
     if (this.stationPromise?.value?.rate) {
-      this.power = Math.trunc(value / this.stationPromise?.value?.rate);
+      this.power = Math.trunc((value / this.stationPromise?.value?.rate) * 10) / 10;
     }
   }
 
   setPower(value: number) {
     this.power = value;
     if (this.stationPromise?.value?.rate) {
-      this.sum = Math.trunc(value * this.stationPromise?.value?.rate);
+      this.sum = Math.trunc(value * this.stationPromise?.value?.rate * 100) / 100;
     }
   }
 

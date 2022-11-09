@@ -35,10 +35,10 @@ export const ChargePage = observer(() => {
   }, [currentTransactionPromise?.fulfilled]);
 
   const power = useMemo(() => {
-    return (
+    return Math.round((
       (currentTransactionPromise?.value?.currentEnergyImport || 0) -
       (currentTransactionPromise?.value?.startEnergyImport || 0)
-    );
+    )*10)/10;
   }, [currentTransactionPromise?.value]);
 
   function handleCancel() {
@@ -107,10 +107,10 @@ export const ChargePage = observer(() => {
           <Box width={72}>
             <Box flexDirection="row" justifyContent="center">
               <Typography weight={700} size={18} lineHeight={22} color={COLORS.BLACK}>
-                {power.toFixed(2)}
+                {power}
               </Typography>
               <Typography weight={700} size={18} lineHeight={22} color={COLORS.LIGHT_BLACK}>
-                /{currentTransactionPromise?.value?.initAmount}
+                /{Math.round((currentTransactionPromise?.value?.initAmount||0) * 10) / 10}
               </Typography>
             </Box>
             <Typography weight={700} size={12} lineHeight={15} color={COLORS.LIGHT_BLACK} textAlign="center">
