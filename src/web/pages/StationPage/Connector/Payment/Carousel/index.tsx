@@ -65,6 +65,7 @@ export function Carousel({ data, onChange }: Props) {
   }
 
   function handleTouchMove(e: TouchEvent<HTMLDivElement>) {
+    e.preventDefault();
     move(e.touches?.[0]?.clientX || 0);
   }
 
