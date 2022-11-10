@@ -1,14 +1,16 @@
 import styles from './styles.module.css';
 import { Box } from 'components/Box';
-import { COLORS } from 'constant';
-import React, { MouseEvent, TouchEvent, useEffect, useRef, useState } from 'react';
-import { API } from 'web/constant';
+import React, { MouseEvent, ReactElement, TouchEvent, useEffect, useRef, useState, UIEvent } from 'react';
+import { InlineDots } from 'web/components/Carousel/InlineDots';
+import { OutlineDots } from 'web/components/Carousel/OutlineDots';
 
 type Props = {
-  data: { id?: number; imageId?: string }[];
+  data: { key: number | string; content?: ReactElement }[];
+  onChange?: (key?: string | number) => void;
+  inlineDotContainer?: boolean;
 };
 
-export function Carousel({ data }: Props) {
+export function Carousel({ data, onChange, inlineDotContainer = false }: Props) {
   const [width, setWidth] = useState(0);
   const [down, setDown] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -16,14 +18,21 @@ export function Carousel({ data }: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    ref.current?.scrollTo({ left: activeIndex * width, behavior: 'smooth' });
+    ref.current?.scrollTo({ left: activeIndex * (width + 6), behavior: 'smooth' });
+    onChange?.(data[activeIndex]?.key);
   }, [activeIndex]);
 
   useEffect(() => {
-    if (ref.current?.clientWidth) {
-      setWidth(ref.current?.clientWidth);
+    function handleResize() {
+      if (ref.current?.clientWidth) setWidth(ref.current?.clientWidth);
     }
-  }, [ref.current?.clientWidth]);
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [ref]);
 
   const next = () => {
     if (activeIndex < data?.length - 1) {
@@ -43,11 +52,11 @@ export function Carousel({ data }: Props) {
     if (down) {
       const diff = down - x;
 
-      if (diff > 5) {
+      if (diff > 10) {
         next();
       }
 
-      if (diff < -5) {
+      if (diff < -10) {
         prev();
       }
     }
@@ -72,8 +81,12 @@ export function Carousel({ data }: Props) {
     setDown(0);
   }
 
+  function handleScroll(e: UIEvent) {
+    e.preventDefault();
+  }
+
   return (
-    <Box height={240} borderRadius={12} marginTop={-64} position="relative" className={styles.container}>
+    <>
       <div
         className={styles.content}
         ref={ref}
@@ -84,38 +97,26 @@ export function Carousel({ data }: Props) {
         onTouchStart={handleTouchDown}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleMouseUp}
+        onScroll={handleScroll}
       >
         {data?.map((item) => (
           <Box
             justifyContent="center"
-            alignItems="center"
             position="relative"
             overflow="hidden"
             borderRadius={12}
             className={styles.item}
-            style={{
-              width,
-              minWidth: width,
-            }}
-            key={item?.id}
+            key={item.key}
           >
-            <img src={`${API.IMAGE}/${item.imageId}`} alt="" className={styles.image} />
+            {item?.content}
           </Box>
         ))}
       </div>
-      <Box alignItems="center" justifyContent="center" flexDirection="row" className={styles.dotContainer}>
-        {data?.map((_, index) => (
-          <Box
-            height={4}
-            borderRadius={4}
-            backgroundColor={COLORS.WHITE}
-            style={{
-              width: index === activeIndex ? '25px' : '4px',
-            }}
-            key={index}
-          />
-        ))}
-      </Box>
-    </Box>
+      {inlineDotContainer ? (
+        <InlineDots data={data} activeIndex={activeIndex} />
+      ) : (
+        <OutlineDots data={data} activeIndex={activeIndex} />
+      )}
+    </>
   );
 }

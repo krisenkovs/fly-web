@@ -3,7 +3,7 @@ import { COLORS } from 'constant';
 import { CoinIcon, LightIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { Input } from 'web/pages/StationPage/Connector/Payment/Input';
+import { Input } from 'web/pages/StationPage/Connector/Payment/TopCarousel/PowerInputItem/Input';
 import { store } from 'web/pages/StationPage/store';
 
 export const PowerInputItem = observer(function () {

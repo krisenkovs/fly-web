@@ -6,20 +6,29 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { generatePath, useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
-import { BalanceView } from 'web/components/BalanceView';
-import { CardView } from 'web/components/CardView';
 import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
-import { Carousel } from 'web/pages/StationPage/Connector/Payment/Carousel';
-import { FullPowerItem } from 'web/pages/StationPage/Connector/Payment/FullPowerItem';
-import { MiddlePowerItem } from 'web/pages/StationPage/Connector/Payment/MiddlePowerItem';
-import { PowerInputItem } from 'web/pages/StationPage/Connector/Payment/PowerInputItem';
+import { BottomCarousel } from 'web/pages/StationPage/Connector/Payment/BottomCarousel';
+import { InfoText } from 'web/pages/StationPage/Connector/Payment/InfoText';
+import { TopCarousel } from 'web/pages/StationPage/Connector/Payment/TopCarousel';
+import { PAYMENT_TYPE, POWER_TYPE } from 'web/pages/StationPage/Connector/Payment/types';
 import { store } from 'web/pages/StationPage/store';
 import { STEPS_CONNECTOR } from 'web/pages/StationPage/types';
 
 export const Payment = observer(() => {
   const { replace } = useHistory();
-  const { sum, power, setPower, tieCardPromise, stationPromise, setStep, setPayFromAccount } = store;
+  const {
+    sum,
+    power,
+    setPower,
+    tieCardPromise,
+    stationPromise,
+    setStep,
+    setPaymentType,
+    setPowerType,
+    powerType,
+    paymentType,
+  } = store;
   const { cardPromise, carPromise } = mainStore;
 
   useEffect(() => {
@@ -43,21 +52,20 @@ export const Payment = observer(() => {
   }
 
   function handleChangePayment(key?: string | number) {
-    if (key === 'card') {
-      setPayFromAccount(false);
-    } else {
-      setPayFromAccount(true);
-    }
+    setPaymentType(key as PAYMENT_TYPE);
   }
 
+  const fullPower = carPromise?.value?.batteryCapacity || 60;
+
   function handleChangePower(key?: string | number) {
-    if (key === 'fullPower') {
-      setPower(carPromise?.value?.batteryCapacity || 60);
+    setPowerType(key as POWER_TYPE);
+    if (key === POWER_TYPE.FULL) {
+      setPower(fullPower);
     }
-    if (key === 'middlePower') {
-      setPower(Math.round((carPromise?.value?.batteryCapacity || 60) * 0.8));
+    if (key === POWER_TYPE.MIDDLE) {
+      setPower(Math.round(fullPower * 0.8));
     }
-    if (key === 'input') {
+    if (key === POWER_TYPE.MANUAL) {
       setPower(0);
     }
   }
@@ -72,17 +80,8 @@ export const Payment = observer(() => {
               Объем зарядки
             </Typography>
           </Box>
-          <Carousel
-            data={[
-              { key: 'fullPower', content: <FullPowerItem /> },
-              { key: 'middlePower', content: <MiddlePowerItem /> },
-              {
-                key: 'input',
-                content: <PowerInputItem />,
-              },
-            ]}
-            onChange={handleChangePower}
-          />
+          <TopCarousel onChange={handleChangePower} />
+
           <Box flex={1} />
 
           <Box marginTop={8} marginBottom={20}>
@@ -91,22 +90,9 @@ export const Payment = observer(() => {
             </Typography>
           </Box>
 
-          {cardPromise?.value && (
-            <Carousel
-              data={[
-                { key: 'card', content: <CardView /> },
-                { key: 'balance', content: <BalanceView /> },
-              ]}
-              onChange={handleChangePayment}
-            />
-          )}
+          {cardPromise?.value && <BottomCarousel onChange={handleChangePayment} />}
           <Box flex={1} />
-          <Box marginTop={8} marginBottom={20} flex={1}>
-            <Typography color={COLORS.BLACK} weight={400} size={12} lineHeight={18} textAlign="center">
-              При оплате картой будет списана стоимость эквивалентная за 60 kWh. Сдача будет возвращена после завершения
-              зарядки
-            </Typography>
-          </Box>
+          <InfoText powerType={powerType} paymentType={paymentType} power={fullPower} />
           <Button label="Далее" disabled={!sum || !power} onClick={handlePress} />
         </Box>
       </Box>

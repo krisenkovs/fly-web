@@ -1,6 +1,7 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { API } from 'web/constant';
 import { fromPromise, PromiseObserver } from 'web/helpers/PromiseObserver';
+import { PAYMENT_TYPE, POWER_TYPE } from 'web/pages/StationPage/Connector/Payment/types';
 import { STEPS_CONNECTOR } from 'web/pages/StationPage/types';
 import { httpService } from 'web/services/HTTPService';
 import { ConnectorType, Page, PaidReturnType, StationType } from 'web/types';
@@ -10,6 +11,9 @@ class Store {
   sum = 0;
   power = 0;
   payFromAccount = false;
+
+  powerType: POWER_TYPE = POWER_TYPE.FULL;
+  paymentType: PAYMENT_TYPE = PAYMENT_TYPE.CARD;
 
   stationPromise?: PromiseObserver<StationType> = undefined;
   connectorsPromise?: PromiseObserver<ConnectorType[]> = undefined;
@@ -23,6 +27,8 @@ class Store {
       step: observable,
       sum: observable,
       power: observable,
+      powerType: observable,
+      paymentType: observable,
       payFromAccount: observable,
       selectedConnectorId: observable,
       tieCardPromise: observable,
@@ -36,7 +42,8 @@ class Store {
       setStep: action.bound,
       setSum: action.bound,
       setPower: action.bound,
-      setPayFromAccount: action.bound,
+      setPaymentType: action.bound,
+      setPowerType: action.bound,
       tieCard: action.bound,
       clearSelectedConnector: action.bound,
       clear: action.bound,
@@ -76,8 +83,13 @@ class Store {
     }
   }
 
-  setPayFromAccount(value: boolean) {
-    this.payFromAccount = value;
+  setPaymentType(value: PAYMENT_TYPE) {
+    this.paymentType = value;
+    this.payFromAccount = value === PAYMENT_TYPE.ACCOUNT;
+  }
+
+  setPowerType(value: POWER_TYPE) {
+    this.powerType = value;
   }
 
   payTransaction(returnUrl?: string) {
@@ -114,6 +126,8 @@ class Store {
     this.sum = 0;
     this.power = 0;
     this.payFromAccount = false;
+    this.paymentType = PAYMENT_TYPE.CARD;
+    this.powerType = POWER_TYPE.FULL;
   }
 }
 
