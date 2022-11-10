@@ -32,8 +32,8 @@ export const Payment = observer(() => {
   const { cardPromise, carPromise } = mainStore;
 
   useEffect(() => {
-    setPower(carPromise?.value?.powerReserve || 60);
-  }, []);
+    setPower(carPromise?.value?.batteryCapacity || 60);
+  }, [carPromise?.value, stationPromise?.value]);
 
   useEffect(() => {
     if (tieCardPromise?.fulfilled) {
