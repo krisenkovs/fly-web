@@ -6,7 +6,7 @@ import { Page, TransactionType } from 'web/types';
 
 class Store {
   transactionsPromise?: PromiseObserver<Page<TransactionType>> = undefined;
-  sortOrder: 'asc' | 'desc' = 'asc';
+  sortOrder: 'asc' | 'desc' = 'desc';
 
   constructor() {
     makeObservable(this, {

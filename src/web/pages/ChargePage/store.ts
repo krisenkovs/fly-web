@@ -6,11 +6,13 @@ import { Page, StationType, TransactionType } from 'web/types';
 
 class Store {
   currentTransactionPromise?: PromiseObserver<TransactionType> = undefined;
+  stopTransactionPromise?: PromiseObserver<TransactionType> = undefined;
   stationPromise?: PromiseObserver<StationType> = undefined;
 
   constructor() {
     makeObservable(this, {
       currentTransactionPromise: observable,
+      stopTransactionPromise: observable,
       stationPromise: observable,
       loadCurrentTransaction: action.bound,
       stopTransaction: action.bound,
@@ -20,6 +22,14 @@ class Store {
     reaction(
       () => this.stationId,
       (value) => value && this.loadStation(value),
+    );
+    reaction(
+      () => this.stopTransactionPromise?.fulfilled,
+      (value) => {
+        if (value) {
+          this.currentTransactionPromise = this.stopTransactionPromise;
+        }
+      },
     );
   }
 
@@ -44,6 +54,7 @@ class Store {
 
   clear() {
     this.currentTransactionPromise = undefined;
+    this.stopTransactionPromise = undefined;
     this.stationPromise = undefined;
   }
 }

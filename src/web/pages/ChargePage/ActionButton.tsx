@@ -1,7 +1,6 @@
 import { Button } from 'components';
-import React, { FC } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { store } from 'web/application/store';
 import { ROUTES } from 'web/constant';
 import { TRANSACTION_STATUS } from 'web/types';
 

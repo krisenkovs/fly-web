@@ -20,6 +20,7 @@ type Props = {
   min?: number;
   max?: number;
   maxLength?: number;
+  precision?: 0 | 1 | 2;
 };
 
 export const FloatInput: FC<Props> = ({
@@ -36,6 +37,7 @@ export const FloatInput: FC<Props> = ({
   readonly = false,
   max,
   maxLength,
+  precision,
 }) => {
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     onChange?.(e.target.value);
@@ -59,6 +61,7 @@ export const FloatInput: FC<Props> = ({
           max={max}
           className={inputClassName}
           readonly={readonly}
+          precision={precision}
         />
       );
     }
@@ -86,7 +89,7 @@ export const FloatInput: FC<Props> = ({
         maxLength={maxLength}
       />
     );
-  }, [type, onChange, name, value, handleChange, inputClassName, label, max, maxLength]);
+  }, [type, onChange, name, value, handleChange, inputClassName, label, max, maxLength, precision]);
 
   return (
     <div style={style} onClick={onClick}>

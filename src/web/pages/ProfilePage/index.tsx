@@ -52,6 +52,7 @@ export const ProfilePage = observer(() => {
   const { upAccount, upAccountPromise, destroy } = store;
 
   useEffect(() => {
+    loadAccount();
     return destroy;
   }, []);
 
@@ -158,7 +159,7 @@ export const ProfilePage = observer(() => {
               </Typography>
               <Box marginLeft={8}>
                 <Typography color={COLORS.WHITE} size={14} weight={700} lineHeight={18}>
-                  {`${mainStore.accountPromise?.value?.amount || 0} BYN`}
+                  {`${mainStore.accountPromise?.value?.amount?.toFixed(2) || 0} BYN`}
                 </Typography>
               </Box>
             </Box>

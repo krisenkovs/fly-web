@@ -20,11 +20,12 @@ import { TRANSACTION_STATUS } from 'web/types';
 
 export const ChargePage = observer(() => {
   const { push, replace } = useHistory();
-  const { currentTransactionPromise, loadCurrentTransaction, stopTransaction, stationPromise } = store;
+  const { currentTransactionPromise, loadCurrentTransaction, stopTransaction, stationPromise, stopTransactionPromise } =
+    store;
 
   useEffect(() => {
     loadCurrentTransaction();
-    const interval = setInterval(() => loadCurrentTransaction(), 5000);
+    const interval = setInterval(() => loadCurrentTransaction(), 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -35,10 +36,13 @@ export const ChargePage = observer(() => {
   }, [currentTransactionPromise?.fulfilled]);
 
   const power = useMemo(() => {
-    return Math.round((
-      (currentTransactionPromise?.value?.currentEnergyImport || 0) -
-      (currentTransactionPromise?.value?.startEnergyImport || 0)
-    )*10)/10;
+    return (
+      Math.round(
+        ((currentTransactionPromise?.value?.currentEnergyImport || 0) -
+          (currentTransactionPromise?.value?.startEnergyImport || 0)) *
+          10,
+      ) / 10
+    );
   }, [currentTransactionPromise?.value]);
 
   function handleCancel() {
@@ -110,7 +114,7 @@ export const ChargePage = observer(() => {
                 {power}
               </Typography>
               <Typography weight={700} size={18} lineHeight={22} color={COLORS.LIGHT_BLACK}>
-                /{Math.round((currentTransactionPromise?.value?.initAmount||0) * 10) / 10}
+                /{Math.round((currentTransactionPromise?.value?.initAmount || 0) * 10) / 10}
               </Typography>
             </Box>
             <Typography weight={700} size={12} lineHeight={15} color={COLORS.LIGHT_BLACK} textAlign="center">
@@ -135,7 +139,11 @@ export const ChargePage = observer(() => {
           />
         </Box>
         <Box marginTop={12} paddingLeft={16} paddingRight={16} justifyContent="center" flexDirection="row">
-          <TouchableOpacity onPress={infoModalStore.show}>
+          <TouchableOpacity
+            onPress={() =>
+              infoModalStore.show({ transaction: currentTransactionPromise?.value, station: stationPromise?.value })
+            }
+          >
             <Typography weight={700} size={16} lineHeight={20} color={COLORS.BLUE} textAlign="center">
               Подробнее о заправке
             </Typography>
@@ -146,7 +154,7 @@ export const ChargePage = observer(() => {
           <ActionButton
             onStart={() => console.log('start')}
             onStop={stopTransaction}
-            loading={currentTransactionPromise?.pending}
+            loading={!!stopTransactionPromise?.pending}
             status={currentTransactionPromise?.value?.status}
           />
         </Box>

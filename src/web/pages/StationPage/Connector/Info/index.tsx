@@ -59,7 +59,7 @@ export const Info = observer(() => {
         <DescriptionField label="№ колонки" value={stationPromise?.value?.id} />
         <DescriptionField label="Тип разъема" value={selectedConnector?.type} />
         <DescriptionField label="Киловаты" value={power} />
-        <DescriptionField label="BYN" value={sum} />
+        <DescriptionField label="BYN" value={sum?.toFixed(2)} />
         <DescriptionField
           label="Способ оплаты"
           value={payFromAccount ? 'Баланс' : `${cardPromise?.value?.brand} •••• ${cardPromise?.value?.last4}`}

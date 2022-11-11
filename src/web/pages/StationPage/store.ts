@@ -38,6 +38,7 @@ class Store {
       setSelectedConnector: action.bound,
       selectedConnector: computed,
       load: action.bound,
+      loadConnectors: action.bound,
       payTransaction: action.bound,
       setStep: action.bound,
       setSum: action.bound,
@@ -52,8 +53,12 @@ class Store {
 
   load(id: string) {
     this.stationPromise = fromPromise(httpService.get<Page<StationType>>(`${API.STATION}/${id}`));
+  }
+
+  loadConnectors(id: string) {
     this.connectorsPromise = fromPromise(
       httpService.get<ConnectorType[]>(`${API.CONNECTOR}/available?chargeStationId=${id}`),
+      this.connectorsPromise?.value,
     );
   }
 
@@ -72,14 +77,14 @@ class Store {
   setSum(value: number) {
     this.sum = value;
     if (this.stationPromise?.value?.rate) {
-      this.power = Math.trunc((value / this.stationPromise?.value?.rate) * 10) / 10;
+      this.power = Math.round((value / this.stationPromise?.value?.rate) * 10) / 10;
     }
   }
 
   setPower(value: number) {
     this.power = value;
     if (this.stationPromise?.value?.rate) {
-      this.sum = Math.trunc(value * this.stationPromise?.value?.rate * 100) / 100;
+      this.sum = Math.round(value * this.stationPromise?.value?.rate * 100) / 100;
     }
   }
 

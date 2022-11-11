@@ -19,9 +19,16 @@ export const PowerInputItem = observer(function () {
       borderRadius={8}
       height={244}
     >
-      <Input icon={<CoinIcon />} title="BYN" values={[15, 25, 50, 75]} onChange={setSum} value={sum} />
+      <Input icon={<CoinIcon />} title="BYN" values={[15, 25, 50, 75]} onChange={setSum} value={sum} precision={2} />
       <Box flex={1} />
-      <Input icon={<LightIcon />} title="Киловаты" values={[15, 25, 50, 75]} onChange={setPower} value={power} />
+      <Input
+        icon={<LightIcon />}
+        title="Киловаты"
+        values={[15, 25, 50, 75]}
+        onChange={setPower}
+        value={power}
+        precision={1}
+      />
     </Box>
   );
 });

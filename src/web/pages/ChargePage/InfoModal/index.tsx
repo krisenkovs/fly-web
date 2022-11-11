@@ -8,7 +8,10 @@ import { formatDateTime } from 'web/helpers/formatter';
 export const InfoModal = observer(() => {
   const { visible, hide, data } = store;
   const power = useMemo(() => {
-    return (data?.transaction?.currentEnergyImport || 0) - (data?.transaction?.startEnergyImport || 0);
+    return (
+      Math.round(((data?.transaction?.currentEnergyImport || 0) - (data?.transaction?.startEnergyImport || 0)) * 10) /
+      10
+    );
   }, [data?.transaction]);
 
   return (
@@ -41,7 +44,7 @@ export const InfoModal = observer(() => {
         </Typography>
         <Box marginTop={8}>
           <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
-            {Math.round(power * (data?.station?.rate || 0))}
+            {Math.round(power * (data?.station?.rate || 0) * 100) / 100}
           </Typography>
         </Box>
       </Box>

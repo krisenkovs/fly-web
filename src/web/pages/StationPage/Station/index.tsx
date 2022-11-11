@@ -61,11 +61,13 @@ export const Station = observer(() => {
             </Typography>
           </Box>
           <Box marginTop={16}>
-            {connectorsPromise?.value?.map((item) => (
-              <Box marginTop={16} key={item.id}>
-                <ConnectorItem onPress={() => handlePress(item)} item={item} />
-              </Box>
-            ))}
+            {connectorsPromise?.value
+              ?.filter((item) => item.availability)
+              ?.map((item) => (
+                <Box marginTop={16} key={item.id}>
+                  <ConnectorItem onPress={() => handlePress(item)} item={item} />
+                </Box>
+              ))}
           </Box>
         </Box>
       )}

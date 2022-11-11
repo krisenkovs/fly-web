@@ -60,15 +60,15 @@ class Store {
   }
 
   loadCard() {
-    this.cardPromise = fromPromise(httpService.get(`${API.USER}/payment-card`));
+    this.cardPromise = fromPromise(httpService.get(`${API.USER}/payment-card`), this.cardPromise?.value);
   }
 
   loadAccount() {
-    this.accountPromise = fromPromise(httpService.get(API.ACCOUNT));
+    this.accountPromise = fromPromise(httpService.get(API.ACCOUNT), this.accountPromise?.value);
   }
 
   loadCarInfo() {
-    this.carPromise = fromPromise(httpService.get(API.CAR));
+    this.carPromise = fromPromise(httpService.get(API.CAR), this.carPromise?.value);
   }
 
   destroy() {

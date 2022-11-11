@@ -54,7 +54,7 @@ export const BalanceView = observer(function () {
           </Typography>
         </Box>
         <Typography color={COLORS.BLACK} weight={400} size={14} lineHeight={18}>
-          {`${accountPromise?.value?.amount || 0} BYN`}
+          {`${accountPromise?.value?.amount?.toFixed(2) || 0} BYN`}
         </Typography>
       </Box>
       <Box marginTop={8} marginLeft={52}>

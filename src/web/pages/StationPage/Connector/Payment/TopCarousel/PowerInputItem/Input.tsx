@@ -11,9 +11,13 @@ type Props = {
   value?: number;
   values: number[];
   onChange?: (value: number) => void;
+  precision?: 0 | 1 | 2;
 };
 
-export function Input({ value, icon, title, values, onChange }: Props) {
+export function Input({ value, icon, title, values, onChange, precision }: Props) {
+  function handleChange(value?: string) {
+    onChange?.(parseFloat(value || ''));
+  }
   return (
     <Box>
       <Box flexDirection="row" alignItems="flex-end">
@@ -22,9 +26,10 @@ export function Input({ value, icon, title, values, onChange }: Props) {
           <FloatInput
             type="number"
             label={title}
-            onChange={(e) => onChange?.(Number(e))}
+            onChange={handleChange}
             value={value?.toString()}
             hideHint
+            precision={precision}
           />
         </Box>
       </Box>

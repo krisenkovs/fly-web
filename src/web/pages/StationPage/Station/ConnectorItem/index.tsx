@@ -5,7 +5,7 @@ import { COLORS } from 'constant';
 import { CSHdeMOConnector, CSSConnector } from 'icons';
 import React, { useMemo } from 'react';
 import styles from 'web/pages/StationPage/Station/ConnectorItem/styles.module.css';
-import { CONNECTOR, ConnectorType } from 'web/types';
+import { CONNECTOR, ConnectorType, STATUS } from 'web/types';
 
 type Props = {
   onPress: (id: number) => void;
@@ -31,6 +31,17 @@ export function ConnectorItem({ onPress, item }: Props) {
     }
   }, [item]);
 
+  const connectorStatus = useMemo(() => {
+    switch (item?.status) {
+      case STATUS.AVAILABLE:
+        return 'Доступно';
+      case STATUS.PREPARING:
+        return 'Подготовка';
+      default:
+        return 'Не известно';
+    }
+  }, [item]);
+
   return (
     <Pressable onPress={() => item?.id && onPress(item?.id)}>
       <Box
@@ -42,15 +53,15 @@ export function ConnectorItem({ onPress, item }: Props) {
         className={styles.container}
         flexDirection="row"
       >
-        <Box width={40} height={40} borderRadius={20} backgroundColor={COLORS.BLACK} />
+        <Box width={40} height={40} borderRadius={20} backgroundColor={connectorColor} />
         <Box
           width={40}
           height={40}
           borderRadius={20}
-          backgroundColor={connectorColor}
           marginLeft={-14}
           alignItems="center"
           justifyContent="center"
+          backgroundColor={COLORS.PALE_BLUE}
         >
           {connectorIcon}
         </Box>
@@ -60,7 +71,7 @@ export function ConnectorItem({ onPress, item }: Props) {
           </Typography>
           <Box marginTop={8}>
             <Typography color={item?.availability ? COLORS.GREEN : COLORS.RED} weight={500} size={12} lineHeight={15}>
-              {item?.availability ? 'Доступна' : 'Не доступна'}
+              {connectorStatus}
             </Typography>
           </Box>
         </Box>

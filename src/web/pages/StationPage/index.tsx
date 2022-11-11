@@ -9,11 +9,16 @@ import { Station } from 'web/pages/StationPage/Station';
 export const StationPage = observer(() => {
   const { stationId } = useParams<{ stationId: string }>();
 
-  const { load, clear, stationPromise } = store;
+  const { load, clear, stationPromise, loadConnectors } = store;
 
   useEffect(() => {
     load(stationId);
-    return clear;
+    loadConnectors(stationId);
+    const interval = setInterval(() => loadConnectors(stationId), 5000);
+    return () => {
+      clear();
+      clearInterval(interval);
+    };
   }, [stationId]);
 
   if (!stationPromise) {

@@ -1,5 +1,5 @@
 import styles from 'components/FloatInput/styles.module.css';
-import React, { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 
 type Props = {
   onChange?: (value: string) => void;
@@ -9,24 +9,45 @@ type Props = {
   readonly?: boolean;
   label?: string;
   max?: number;
+  precision?: 0 | 1 | 2;
 };
 
-export const NumberInput: FC<Props> = ({ className, value, onChange, name, readonly = false, label }) => {
+const REGEXP = [/^\d+/, /^\d+([,.]\d)?/, /^\d+([,.]\d{1,2})?/];
+
+export const NumberInput: FC<Props> = ({
+  precision = 0,
+  className,
+  value,
+  onChange,
+  name,
+  readonly = false,
+  label,
+}) => {
+  const [input, setInput] = useState({ value });
+
+  useEffect(() => {
+    setInput({ value });
+  }, [value]);
+
   function handleBlur(e: ChangeEvent<HTMLInputElement>) {
-    const inputValue = e.target?.value?.match(/[\d.]*/)?.[0] || '';
+    const regexp = REGEXP[precision];
+    const inputValue = e.target?.value?.match(regexp as RegExp)?.[0] || '';
+    setInput({ value: inputValue });
     onChange?.(inputValue);
   }
 
   return (
     <>
       <input
-        value={value}
+        value={input?.value}
         onInput={handleBlur}
         onBlur={handleBlur}
         name={name}
         autoComplete="none"
         id={name}
         type="number"
+        lang="en"
+        step={0.01}
         className={className}
         readOnly={readonly}
       />

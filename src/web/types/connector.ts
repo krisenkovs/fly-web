@@ -3,12 +3,17 @@ export type ConnectorType = {
   chargeStationId: number;
   externalId: number;
   availability: boolean;
-  status: string;
+  status: STATUS;
   created: string;
   type: CONNECTOR;
 };
 
 export enum CONNECTOR {
   CSS = 'CSS',
-  CSHdeMO = 'CSHdeMO',
+  CSHdeMO = 'CHAdeMO',
+}
+
+export enum STATUS {
+  AVAILABLE = 'Available',
+  PREPARING = 'Preparing',
 }

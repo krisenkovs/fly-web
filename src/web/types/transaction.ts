@@ -13,7 +13,7 @@ export type TransactionType = {
   status: TRANSACTION_STATUS;
   created: string;
   externalId: string;
-  errorMessage: TRANSACTION_STATUS;
+  errorMessage: string;
   powerImport: number;
   startEnergyImport: number;
   currentEnergyImport: number;
