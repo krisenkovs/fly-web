@@ -21,6 +21,7 @@ export function ActionButton({ status, loading, onStart, onStop }: Props) {
     case TRANSACTION_STATUS.ACTIVE:
       return <Button label="Остановить" onClick={onStop} loading={loading} />;
     case TRANSACTION_STATUS.CLOSED:
+    case TRANSACTION_STATUS.CLOSING:
       return <Button label="Круто" onClick={handleFinishClick} loading={loading} />;
     case TRANSACTION_STATUS.STOPPED:
       return <Button label="Возобновить" onClick={onStart} loading={loading} />;

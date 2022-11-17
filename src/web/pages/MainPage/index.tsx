@@ -1,15 +1,16 @@
 import { StationsSheet } from './StationsSheet';
 import { store } from './store';
 import styles from './styles.module.css';
-import { Box, Pressable, Skeleton, TouchableOpacity, Typography } from 'components';
+import { Box, Skeleton, TouchableOpacity, Typography } from 'components';
 import { COLORS } from 'constant';
-import { BellIcon, CaretRightIcon, FlyIcon, WarningIcon } from 'icons';
+import { BellIcon, FlyIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslate } from 'web/application/TranslateProvider';
 import { store as mainStore } from 'web/application/store';
 import { ROUTES } from 'web/constant';
+import { Transaction } from 'web/pages/MainPage/Transaction';
 
 export const MainPage = observer(() => {
   const [height, setHeight] = useState<number | undefined>(0);
@@ -38,10 +39,6 @@ export const MainPage = observer(() => {
 
   function handleScannerPress() {
     push(ROUTES.SCANNER);
-  }
-
-  function handleTransaction() {
-    push(`${ROUTES.CHARGE}`);
   }
 
   function handleUserPress() {
@@ -115,32 +112,7 @@ export const MainPage = observer(() => {
           </Box>
         </Box>
         <Box marginTop={44} marginLeft={16} marginRight={16} height={60} marginBottom={40}>
-          {currentTransactionPromise?.value?.status === 'ACTIVE' ? (
-            <Pressable onPress={handleTransaction}>
-              <Box
-                paddingTop={18}
-                paddingBottom={18}
-                flexDirection="row"
-                backgroundColor={COLORS.BG_GREEN}
-                borderRadius={12}
-                paddingLeft={18}
-                paddingRight={18}
-                alignItems="center"
-              >
-                <WarningIcon />
-                <Box flex={1} marginLeft={14} marginRight={14}>
-                  <Typography color={COLORS.BLACK} weight={700} size={16} lineHeight={20}>
-                    Идет зарядка
-                  </Typography>
-                </Box>
-                <CaretRightIcon color={COLORS.BLUE} width={24} height={24} />
-              </Box>
-            </Pressable>
-          ) : (
-            <Typography weight={400} size={16} lineHeight={24} color={COLORS.BLACK} textAlign="center">
-              Отсканируйте QR код на заправочной станции
-            </Typography>
-          )}
+          <Transaction />
         </Box>
         <Box flex={1} refContainer={ref} />
         {!!height && <StationsSheet height={height} />}

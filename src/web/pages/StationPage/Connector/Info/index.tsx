@@ -55,7 +55,7 @@ export const Info = observer(() => {
 
       <Box flex={1} />
       <Box paddingLeft={16} paddingRight={16}>
-        <DescriptionField label="Адрес" value={stationPromise?.value?.address} />
+        <DescriptionField label="Адрес" value={stationPromise?.value?.name} />
         <DescriptionField label="№ колонки" value={stationPromise?.value?.id} />
         <DescriptionField label="Тип разъема" value={selectedConnector?.type} />
         <DescriptionField label="Киловаты" value={power} />

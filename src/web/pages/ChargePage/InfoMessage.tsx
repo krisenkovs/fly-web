@@ -26,6 +26,12 @@ export const InfoMessage = observer(({ status, startDate, endDate }: Props) => {
           {`Зарядка остановлена в ${formatTime(endDate)} с момента зарядки прошло ${diffDate(startDate, endDate)}`}
         </Typography>
       );
+    case TRANSACTION_STATUS.CLOSING:
+      return (
+        <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
+          Завержение процесса зарядки
+        </Typography>
+      );
     case TRANSACTION_STATUS.CLOSED:
       return (
         <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">

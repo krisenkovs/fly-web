@@ -10,9 +10,10 @@ import { CONNECTOR, ConnectorType, STATUS } from 'web/types';
 type Props = {
   onPress: (id: number) => void;
   item?: ConnectorType;
+  power?: string;
 };
 
-export function ConnectorItem({ onPress, item }: Props) {
+export function ConnectorItem({ onPress, item, power }: Props) {
   const connectorIcon = useMemo(() => {
     switch (item?.type) {
       case CONNECTOR.CSHdeMO:
@@ -77,7 +78,7 @@ export function ConnectorItem({ onPress, item }: Props) {
         </Box>
         <Box marginLeft={30}>
           <Typography color={COLORS.LIGHT_BLACK} weight={500} size={12} lineHeight={15} textAlign="right">
-            138kW
+            {`${power}kW`}
           </Typography>
           <Box marginTop={8}>
             <Typography color={COLORS.LIGHT_BLACK} weight={500} size={12} lineHeight={15} textAlign="right">

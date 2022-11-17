@@ -105,7 +105,7 @@ export const StationsSheet = observer(function StationsSheet({ height }: Props) 
               <Pressable onPress={() => handleStationClick(item?.id)} key={item?.id}>
                 <Box className={styles.listItem}>
                   <Typography size={16} lineHeight={20} weight={500} color={COLORS.BLACK}>
-                    {item.address}
+                    {item?.name}
                   </Typography>
                   <Box marginTop={4}>
                     <Typography

@@ -52,7 +52,7 @@ export const Station = observer(() => {
 
           <Box marginTop={16}>
             <Typography color={COLORS.BLACK} weight={600} size={18} lineHeight={22}>
-              {stationPromise?.value?.address}
+              {stationPromise?.value?.name}
             </Typography>
           </Box>
           <Box marginTop={8}>
@@ -65,7 +65,11 @@ export const Station = observer(() => {
               ?.filter((item) => item.availability)
               ?.map((item) => (
                 <Box marginTop={16} key={item.id}>
-                  <ConnectorItem onPress={() => handlePress(item)} item={item} />
+                  <ConnectorItem
+                    onPress={() => handlePress(item)}
+                    item={item}
+                    power={stationPromise?.value?.maxPower}
+                  />
                 </Box>
               ))}
           </Box>
