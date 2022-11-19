@@ -23,7 +23,7 @@ export const PowerInputItem = observer(function () {
       <Box flex={1} />
       <Input
         icon={<LightIcon />}
-        title="Киловаты"
+        title="kWh"
         values={[15, 25, 50, 75]}
         onChange={setPower}
         value={power}

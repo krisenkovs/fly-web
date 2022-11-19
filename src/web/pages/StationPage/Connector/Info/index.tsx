@@ -58,7 +58,7 @@ export const Info = observer(() => {
         <DescriptionField label="Адрес" value={stationPromise?.value?.address} />
         <DescriptionField label="№ колонки" value={stationPromise?.value?.id} />
         <DescriptionField label="Тип разъема" value={selectedConnector?.type} />
-        <DescriptionField label="Киловаты" value={power} />
+        <DescriptionField label="kWh" value={power} />
         <DescriptionField label="BYN" value={sum?.toFixed(2)} />
         <DescriptionField
           label="Способ оплаты"

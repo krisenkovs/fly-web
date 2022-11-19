@@ -74,7 +74,7 @@ export const Payment = observer(() => {
   return (
     <>
       <Box flex={1}>
-        <Header showProfileButton={false} showBackButton title="Цена и киловаты" onBackClick={handleBackClick} />
+        <Header showProfileButton={false} showBackButton title="Условия зарядки" onBackClick={handleBackClick} />
         <Box flex={1} paddingLeft={16} paddingRight={16} paddingBottom={48}>
           <Box marginTop={32} marginBottom={20}>
             <Typography color={COLORS.BLACK} weight={700} size={16} lineHeight={20}>

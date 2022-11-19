@@ -13,7 +13,7 @@ class Store {
   payFromAccount = false;
 
   powerType: POWER_TYPE = POWER_TYPE.FULL;
-  paymentType: PAYMENT_TYPE = PAYMENT_TYPE.CARD;
+  paymentType: PAYMENT_TYPE = PAYMENT_TYPE.ACCOUNT;
 
   stationPromise?: PromiseObserver<StationType> = undefined;
   connectorsPromise?: PromiseObserver<ConnectorType[]> = undefined;
@@ -131,7 +131,7 @@ class Store {
     this.sum = 0;
     this.power = 0;
     this.payFromAccount = false;
-    this.paymentType = PAYMENT_TYPE.CARD;
+    this.paymentType = PAYMENT_TYPE.ACCOUNT;
     this.powerType = POWER_TYPE.FULL;
   }
 }
