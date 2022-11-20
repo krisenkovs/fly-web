@@ -12,8 +12,8 @@ export function BottomCarousel({ onChange }: Props) {
   return (
     <Carousel
       data={[
-        { key: PAYMENT_TYPE.ACCOUNT, content: <CardView /> },
-        { key: PAYMENT_TYPE.CARD, content: <BalanceView /> },
+        { key: PAYMENT_TYPE.ACCOUNT, content: <BalanceView /> },
+        { key: PAYMENT_TYPE.CARD, content: <CardView /> },
       ]}
       onChange={onChange}
     />
