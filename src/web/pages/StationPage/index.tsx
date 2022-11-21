@@ -13,11 +13,9 @@ export const StationPage = observer(() => {
 
   useEffect(() => {
     load(stationId);
-    loadConnectors(stationId);
-    const interval = setInterval(() => loadConnectors(stationId), 5000);
+    loadConnectors(+stationId);
     return () => {
       clear();
-      clearInterval(interval);
     };
   }, [stationId]);
 

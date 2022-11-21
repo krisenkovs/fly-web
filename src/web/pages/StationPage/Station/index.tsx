@@ -4,7 +4,7 @@ import { Loader } from 'components/Loader';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { generatePath, useHistory } from 'react-router-dom';
 import { Carousel } from 'web/components/Carousel';
 import { Header } from 'web/components/Header';
@@ -14,8 +14,15 @@ import { store } from 'web/pages/StationPage/store';
 import { ConnectorType } from 'web/types';
 
 export const Station = observer(() => {
-  const { stationPromise, connectorsPromise } = store;
+  const { stationPromise, connectorsPromise, loadConnectors } = store;
   const { push, replace } = useHistory();
+
+  useEffect(() => {
+    const interval = setInterval(() => stationPromise?.value?.id && loadConnectors(stationPromise?.value?.id), 5000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [stationPromise]);
 
   function handlePress(connector: ConnectorType) {
     push(generatePath(ROUTES.CONNECTOR, { stationId: connector?.chargeStationId, connectorId: connector?.id }));

@@ -55,7 +55,7 @@ class Store {
     this.stationPromise = fromPromise(httpService.get<Page<StationType>>(`${API.STATION}/${id}`));
   }
 
-  loadConnectors(id: string) {
+  loadConnectors(id: number) {
     this.connectorsPromise = fromPromise(
       httpService.get<ConnectorType[]>(`${API.CONNECTOR}/available?chargeStationId=${id}`),
       this.connectorsPromise?.value,

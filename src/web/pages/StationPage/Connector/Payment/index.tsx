@@ -29,10 +29,9 @@ export const Payment = observer(() => {
     powerType,
     paymentType,
   } = store;
-  const { cardPromise, carPromise, loadAccount } = mainStore;
+  const { cardPromise, carPromise } = mainStore;
 
   useEffect(() => {
-    loadAccount();
     setPower(carPromise?.value?.batteryCapacity || 60);
   }, [carPromise?.value, stationPromise?.value]);
 
