@@ -1,3 +1,5 @@
+import { store } from 'web/application/store';
+
 export class HTTPService {
   private token?: string;
 
@@ -5,12 +7,7 @@ export class HTTPService {
     this.token = token;
   }
 
-  private makeRequest<T>(
-    method: 'GET' | 'POST' | 'PUT',
-    url: string,
-    data?: any,
-    contentType: string = 'application/json',
-  ) {
+  private makeRequest<T>(method: 'GET' | 'POST' | 'PUT', url: string, data?: any, contentType = 'application/json') {
     const body = contentType === 'application/json' ? JSON.stringify(data) : data;
 
     const contentHeader: Record<string, string> = contentType === 'none' ? {} : { 'content-type': contentType };
@@ -24,6 +21,10 @@ export class HTTPService {
       },
     })
       .then(async (data) => {
+        if (data.status === 401) {
+          store?.keycloak?.login();
+          return Promise.reject('login');
+        }
 
         if (data.status == 200) {
           if (data.headers.get('content-type') === 'application/json') {

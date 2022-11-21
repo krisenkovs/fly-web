@@ -105,6 +105,7 @@ class Store {
         initPrice: this.sum,
         returnUrl,
         payFromAccount: this.payFromAccount,
+        gradualWithdraw: this.payFromAccount,
       }),
     );
   }
