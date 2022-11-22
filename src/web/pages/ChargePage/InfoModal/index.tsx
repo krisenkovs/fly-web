@@ -58,6 +58,16 @@ export const InfoModal = observer(() => {
           </Typography>
         </Box>
       </Box>
+      <Box marginTop={20}>
+        <Typography color={COLORS.LIGHT_BLACK} weight={400} size={14} lineHeight={18}>
+          Максимальная мощность
+        </Typography>
+        <Box marginTop={8}>
+          <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
+            {`${data?.transaction?.maxPowerImport} kW*h`}
+          </Typography>
+        </Box>
+      </Box>
       <Box marginTop={20} marginBottom={20}>
         <Typography color={COLORS.LIGHT_BLACK} weight={400} size={14} lineHeight={18}>
           Адрес заправки

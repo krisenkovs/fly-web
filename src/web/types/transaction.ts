@@ -19,6 +19,7 @@ export type TransactionType = {
   currentEnergyImport: number;
   lastEvEnergyPercent: number;
   stationAddress?: string;
+  maxPowerImport?: number;
 };
 
 export enum TRANSACTION_STATUS {
