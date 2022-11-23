@@ -29,7 +29,7 @@ export const InfoMessage = observer(({ status, startDate, endDate }: Props) => {
     case TRANSACTION_STATUS.CLOSING:
       return (
         <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
-          Завержение процесса зарядки
+          Идет завершение процесса зарядки
         </Typography>
       );
     case TRANSACTION_STATUS.CLOSED:

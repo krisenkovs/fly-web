@@ -23,6 +23,12 @@ export function Title({ status }: Props) {
           Зарядка остановлена
         </Typography>
       );
+    case TRANSACTION_STATUS.CLOSING:
+      return (
+        <Typography weight={800} size={24} lineHeight={30} color={COLORS.BLACK} textAlign="center">
+          Завершение зарядки
+        </Typography>
+      );
     case TRANSACTION_STATUS.CLOSED:
       return (
         <Typography weight={800} size={24} lineHeight={30} color={COLORS.BLACK} textAlign="center">

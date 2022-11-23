@@ -30,7 +30,11 @@ export const ChargePage = observer(() => {
   }, []);
 
   useEffect(() => {
-    if (!currentTransactionPromise?.value?.id && currentTransactionPromise?.fulfilled) {
+    if (
+      (!currentTransactionPromise?.value?.id ||
+        currentTransactionPromise?.value.status === TRANSACTION_STATUS.CLOSED) &&
+      currentTransactionPromise?.fulfilled
+    ) {
       replace(ROUTES.MAIN);
     }
   }, [currentTransactionPromise?.fulfilled]);
