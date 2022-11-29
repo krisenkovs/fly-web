@@ -3,6 +3,7 @@ import { action, makeObservable, observable, runInAction } from 'mobx';
 import { API } from 'web/constant';
 import { fromPromise, PromiseObserver } from 'web/helpers/PromiseObserver';
 import { httpService } from 'web/services/HTTPService';
+import { wsService } from 'web/services/WSService';
 import { AccountType, CardType, CarType, ProfileType } from 'web/types';
 import { Translate } from 'web/types/translate';
 
@@ -78,6 +79,7 @@ class Store {
     this.keycloak = undefined;
     this.accountPromise = undefined;
     this.carPromise = undefined;
+    wsService.disconnect();
   }
 }
 

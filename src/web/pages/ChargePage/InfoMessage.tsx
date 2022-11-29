@@ -7,9 +7,9 @@ import { diffDate, formatTime } from 'web/helpers/formatter';
 import { TRANSACTION_STATUS } from 'web/types';
 
 type Props = {
-  status: TRANSACTION_STATUS;
+  status?: TRANSACTION_STATUS;
   startDate?: string;
-  endDate: string;
+  endDate?: string;
 };
 
 export const InfoMessage = observer(({ status, startDate, endDate }: Props) => {

@@ -33,7 +33,7 @@ export function MiddlePowerItem() {
         </Typography>
       </Box>
       <Typography color={COLORS.LIGHT_BLACK} weight={400} size={12} lineHeight={18}>
-        Это наиболее щадящий вариант который позволяет продлить ресурс батареи
+        Это наиболее эффетивный вариант, который позволяет продлить ресурс батареи
       </Typography>
     </Box>
   );

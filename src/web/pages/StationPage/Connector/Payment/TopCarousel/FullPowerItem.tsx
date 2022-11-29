@@ -33,7 +33,7 @@ export function FullPowerItem() {
         </Typography>
       </Box>
       <Typography color={COLORS.LIGHT_BLACK} weight={400} size={12} lineHeight={18}>
-        Полная зарядка до 100% емкости батареи вашего электромобиля
+        Быстрая зарядка до 100% емкости батареи вашего электромобиля
       </Typography>
     </Box>
   );

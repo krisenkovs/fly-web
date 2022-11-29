@@ -95,6 +95,9 @@ module.exports = {
       'react-dom': 'preact/compat', // Must be below test-utils
       'react/jsx-runtime': 'preact/jsx-runtime',
     },
+    fallback: {
+      net: false,
+    },
   },
   target: 'web',
 };

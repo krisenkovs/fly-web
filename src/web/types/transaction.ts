@@ -20,6 +20,9 @@ export type TransactionType = {
   lastEvEnergyPercent: number;
   stationAddress?: string;
   maxPowerImport?: number;
+  rate?: number;
+  currentEnergyPercent?: number;
+  paymentType?: 'CARD' | 'ACCOUNT';
 };
 
 export enum TRANSACTION_STATUS {

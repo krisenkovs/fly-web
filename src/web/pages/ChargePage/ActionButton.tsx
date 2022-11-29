@@ -5,7 +5,7 @@ import { ROUTES } from 'web/constant';
 import { TRANSACTION_STATUS } from 'web/types';
 
 type Props = {
-  status: TRANSACTION_STATUS;
+  status?: TRANSACTION_STATUS;
   loading: boolean;
   onStart: () => void;
   onStop: () => void;

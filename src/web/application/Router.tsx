@@ -18,6 +18,7 @@ import { ScannerPage } from 'web/pages/ScannerPage';
 import { SettingsPage } from 'web/pages/SettingsPage';
 import { StationPage } from 'web/pages/StationPage';
 import { VerifyPage } from 'web/pages/VerifyPage';
+import { wsService } from 'web/services/WSService';
 
 export const Router = observer(() => {
   useEffect(() => {
@@ -25,6 +26,7 @@ export const Router = observer(() => {
     store.loadCard();
     store.loadAccount();
     store.loadCarInfo();
+    wsService.connect();
   }, []);
 
   if (!store.profilePromise?.value) {

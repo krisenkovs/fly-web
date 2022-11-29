@@ -10,13 +10,13 @@ import { TRANSACTION_STATUS } from 'web/types';
 
 export const Transaction = observer(() => {
   const { push } = useHistory();
-  const { currentTransactionPromise } = store;
+  const { currentTransaction } = store;
 
   function handleTransaction() {
     push(`${ROUTES.CHARGE}`);
   }
 
-  if (currentTransactionPromise?.value?.status === TRANSACTION_STATUS.ACTIVE) {
+  if (currentTransaction?.status === TRANSACTION_STATUS.ACTIVE) {
     return (
       <Pressable onPress={handleTransaction}>
         <Box
@@ -41,7 +41,7 @@ export const Transaction = observer(() => {
     );
   }
 
-  if (currentTransactionPromise?.value?.status === TRANSACTION_STATUS.CLOSING) {
+  if (currentTransaction?.status === TRANSACTION_STATUS.CLOSING) {
     return (
       <Pressable onPress={handleTransaction}>
         <Box

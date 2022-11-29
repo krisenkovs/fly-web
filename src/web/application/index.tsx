@@ -13,7 +13,9 @@ export const Application = observer(() => {
 
   useEffect(() => {
     init();
-    return destroy;
+    return () => {
+      destroy;
+    };
   }, []);
 
   const handleTokens = useCallback(async (data: AuthClientTokens) => {

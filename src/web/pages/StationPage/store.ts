@@ -11,6 +11,7 @@ class Store {
   sum = 0;
   power = 0;
   payFromAccount = false;
+  percLimit?: number = undefined;
 
   powerType: POWER_TYPE = POWER_TYPE.FULL;
   paymentType: PAYMENT_TYPE = PAYMENT_TYPE.ACCOUNT;
@@ -29,6 +30,7 @@ class Store {
       power: observable,
       powerType: observable,
       paymentType: observable,
+      percLimit: observable,
       payFromAccount: observable,
       selectedConnectorId: observable,
       tieCardPromise: observable,
@@ -94,6 +96,13 @@ class Store {
   }
 
   setPowerType(value: POWER_TYPE) {
+    this.percLimit = undefined;
+    if (value === POWER_TYPE.FULL) {
+      this.percLimit = 100;
+    }
+    if (value === POWER_TYPE.MIDDLE) {
+      this.percLimit = 800;
+    }
     this.powerType = value;
   }
 
@@ -104,6 +113,7 @@ class Store {
         amount: this.power,
         initPrice: this.sum,
         returnUrl,
+        percLimit: this.percLimit,
         payFromAccount: this.payFromAccount,
         gradualWithdraw: this.payFromAccount,
       }),

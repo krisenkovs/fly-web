@@ -1,12 +1,10 @@
 import { Typography } from 'components';
 import { COLORS } from 'constant';
-import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { store } from 'web/application/store';
 import { TRANSACTION_STATUS } from 'web/types';
 
 type Props = {
-  status: TRANSACTION_STATUS;
+  status?: TRANSACTION_STATUS;
 };
 
 export function Title({ status }: Props) {

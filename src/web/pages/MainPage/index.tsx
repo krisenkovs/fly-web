@@ -11,6 +11,7 @@ import { useTranslate } from 'web/application/TranslateProvider';
 import { store as mainStore } from 'web/application/store';
 import { ROUTES } from 'web/constant';
 import { Transaction } from 'web/pages/MainPage/Transaction';
+import { wsService } from 'web/services/WSService';
 
 export const MainPage = observer(() => {
   const [height, setHeight] = useState<number | undefined>(0);
@@ -18,7 +19,7 @@ export const MainPage = observer(() => {
 
   const { push } = useHistory();
 
-  const { loadCurrentTransaction, currentTransactionPromise, loadStations, clear } = store;
+  const { loadCurrentTransaction, currentTransactionPromise, loadStations, clear, setCurrentTransaction } = store;
   const t = useTranslate();
 
   useEffect(() => {
@@ -32,9 +33,13 @@ export const MainPage = observer(() => {
   }, []);
 
   useEffect(() => {
-    if (currentTransactionPromise?.value?.status === 'ACTIVE') {
-      setTimeout(() => loadCurrentTransaction(), 5000);
+    let topic: number;
+    if (currentTransactionPromise?.value?.id) {
+      topic = wsService.subscribe(`/topic/transaction/${currentTransactionPromise?.value?.id}`, setCurrentTransaction);
     }
+    return () => {
+      wsService.unsubscribe(topic);
+    };
   }, [currentTransactionPromise?.value]);
 
   function handleScannerPress() {

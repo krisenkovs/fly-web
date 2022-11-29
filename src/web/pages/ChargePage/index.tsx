@@ -16,45 +16,52 @@ import { ActionButton } from 'web/pages/ChargePage/ActionButton';
 import { InfoMessage } from 'web/pages/ChargePage/InfoMessage';
 import { InfoModal } from 'web/pages/ChargePage/InfoModal';
 import { Title } from 'web/pages/ChargePage/Title';
+import { wsService } from 'web/services/WSService';
 import { TRANSACTION_STATUS } from 'web/types';
 
 export const ChargePage = observer(() => {
   const { push, replace } = useHistory();
-  const { currentTransactionPromise, loadCurrentTransaction, stopTransaction, stationPromise, stopTransactionPromise } =
-    store;
+  const {
+    currentTransactionPromise,
+    loadCurrentTransaction,
+    stopTransaction,
+    stopTransactionPromise,
+    currentTransaction,
+    setCurrentTransaction,
+  } = store;
 
   useEffect(() => {
     loadCurrentTransaction();
-    const interval = setInterval(() => loadCurrentTransaction(), 3000);
-    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
+    let topic: number;
+    if (currentTransactionPromise?.value?.id) {
+      topic = wsService.subscribe(`/topic/transaction/${currentTransactionPromise?.value?.id}`, setCurrentTransaction);
+    }
+    return () => {
+      wsService.unsubscribe(topic);
+    };
+  }, [currentTransactionPromise?.value]);
+
+  useEffect(() => {
     if (
-      (!currentTransactionPromise?.value?.id ||
-        currentTransactionPromise?.value.status === TRANSACTION_STATUS.CLOSED) &&
+      (!currentTransaction?.id ||
+        ![TRANSACTION_STATUS.ACTIVE, TRANSACTION_STATUS.CLOSING, TRANSACTION_STATUS.ACTIVE].includes(
+          currentTransaction?.status,
+        )) &&
       currentTransactionPromise?.fulfilled
     ) {
       replace(ROUTES.MAIN);
     }
-  }, [currentTransactionPromise?.fulfilled]);
-
-  const power = useMemo(() => {
-    return (
-      Math.round(
-        ((currentTransactionPromise?.value?.currentEnergyImport || 0) -
-          (currentTransactionPromise?.value?.startEnergyImport || 0)) *
-          10,
-      ) / 10
-    );
-  }, [currentTransactionPromise?.value]);
+  }, [currentTransactionPromise?.fulfilled, currentTransaction]);
 
   function handleCancel() {
     push(ROUTES.MAIN);
   }
 
   const colorIndicator = useMemo(() => {
-    switch (currentTransactionPromise?.value?.status) {
+    switch (currentTransaction?.status) {
       case TRANSACTION_STATUS.STOPPED:
         return COLORS.BLUE;
       case TRANSACTION_STATUS.ERROR:
@@ -63,7 +70,7 @@ export const ChargePage = observer(() => {
       default:
         return COLORS.GREEN;
     }
-  }, [currentTransactionPromise?.value?.status]);
+  }, [currentTransaction?.status]);
 
   return !currentTransactionPromise?.value ? (
     <Loader />
@@ -92,15 +99,13 @@ export const ChargePage = observer(() => {
             </TouchableOpacity>
           </Box>
           <Box marginTop={12}>
-            <Title status={currentTransactionPromise?.value?.status} />
+            <Title status={currentTransaction?.status} />
           </Box>
           <Box marginBottom={-130} height={260} marginTop={16} justifyContent="center" alignItems="center">
             <ChargeIndicator
               color={colorIndicator}
-              percent={currentTransactionPromise?.value?.lastEvEnergyPercent || 0}
-              time={
-                Math.round((Date.now() - Date.parse(currentTransactionPromise?.value?.startTime || '')) / 60000) || 0
-              }
+              percent={currentTransaction?.lastEvEnergyPercent || 0}
+              time={Math.round((Date.now() - Date.parse(currentTransaction?.startTime || '')) / 60000) || 0}
             />
           </Box>
         </Box>
@@ -115,20 +120,22 @@ export const ChargePage = observer(() => {
           <Box width={72}>
             <Box flexDirection="row" justifyContent="center">
               <Typography weight={700} size={18} lineHeight={22} color={COLORS.BLACK}>
-                {power}
+                {currentTransaction?.finalAmount}
               </Typography>
-              <Typography weight={700} size={18} lineHeight={22} color={COLORS.LIGHT_BLACK}>
-                /{Math.round((currentTransactionPromise?.value?.initAmount || 0) * 10) / 10}
-              </Typography>
+              {currentTransaction?.initAmount && (
+                <Typography weight={700} size={18} lineHeight={22} color={COLORS.LIGHT_BLACK}>
+                  /{Math.round((currentTransaction?.initAmount || 0) * 10) / 10}
+                </Typography>
+              )}
             </Box>
             <Typography weight={700} size={12} lineHeight={15} color={COLORS.LIGHT_BLACK} textAlign="center">
               kW*h
             </Typography>
           </Box>
-          <PowerIndicator max={60} value={currentTransactionPromise?.value?.powerImport || 0} color={colorIndicator} />
+          <PowerIndicator max={60} value={currentTransaction?.powerImport || 0} color={colorIndicator} />
           <Box width={72}>
             <Typography weight={700} size={18} lineHeight={22} color={COLORS.BLACK} textAlign="center">
-              {Math.round(power * (stationPromise?.value?.rate || 0) * 100) / 100}
+              {Math.round((currentTransaction?.finalPrice || 0) * 100) / 100}
             </Typography>
             <Typography weight={700} size={12} lineHeight={15} color={COLORS.LIGHT_BLACK} textAlign="center">
               BYN
@@ -137,17 +144,13 @@ export const ChargePage = observer(() => {
         </Box>
         <Box marginTop={12} paddingLeft={16} paddingRight={16}>
           <InfoMessage
-            status={currentTransactionPromise?.value?.status}
-            startDate={currentTransactionPromise?.value?.startTime}
-            endDate={currentTransactionPromise?.value?.stopTime}
+            status={currentTransaction?.status}
+            startDate={currentTransaction?.startTime}
+            endDate={currentTransaction?.stopTime}
           />
         </Box>
         <Box marginTop={12} paddingLeft={16} paddingRight={16} justifyContent="center" flexDirection="row">
-          <TouchableOpacity
-            onPress={() =>
-              infoModalStore.show({ transaction: currentTransactionPromise?.value, station: stationPromise?.value })
-            }
-          >
+          <TouchableOpacity onPress={() => infoModalStore.show(currentTransaction)}>
             <Typography weight={700} size={16} lineHeight={20} color={COLORS.BLUE} textAlign="center">
               Подробнее о заправке
             </Typography>
@@ -159,7 +162,7 @@ export const ChargePage = observer(() => {
             onStart={() => console.log('start')}
             onStop={stopTransaction}
             loading={!!stopTransactionPromise?.pending}
-            status={currentTransactionPromise?.value?.status}
+            status={currentTransaction?.status}
           />
         </Box>
         <InfoModal />

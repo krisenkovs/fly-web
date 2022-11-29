@@ -2,35 +2,44 @@ import { action, makeObservable, observable, reaction } from 'mobx';
 import { API } from 'web/constant';
 import { fromPromise, PromiseObserver } from 'web/helpers/PromiseObserver';
 import { httpService } from 'web/services/HTTPService';
-import { Page, StationType, TransactionType } from 'web/types';
+import { TransactionType } from 'web/types';
 
 class Store {
   currentTransactionPromise?: PromiseObserver<TransactionType> = undefined;
   stopTransactionPromise?: PromiseObserver<TransactionType> = undefined;
-  stationPromise?: PromiseObserver<StationType> = undefined;
+  currentTransaction?: TransactionType = undefined;
 
   constructor() {
     makeObservable(this, {
       currentTransactionPromise: observable,
+      currentTransaction: observable,
       stopTransactionPromise: observable,
-      stationPromise: observable,
       loadCurrentTransaction: action.bound,
       stopTransaction: action.bound,
-      loadStation: action.bound,
+      setCurrentTransaction: action.bound,
       clear: action.bound,
     });
-    reaction(
-      () => this.stationId,
-      (value) => value && this.loadStation(value),
-    );
     reaction(
       () => this.stopTransactionPromise?.fulfilled,
       (value) => {
         if (value) {
           this.currentTransactionPromise = this.stopTransactionPromise;
+          this.currentTransaction = this.stopTransactionPromise?.value;
         }
       },
     );
+    reaction(
+      () => this.currentTransactionPromise?.fulfilled,
+      (value) => {
+        if (value) {
+          this.currentTransaction = this.currentTransactionPromise?.value;
+        }
+      },
+    );
+  }
+
+  setCurrentTransaction(value: TransactionType) {
+    this.currentTransaction = value;
   }
 
   loadCurrentTransaction() {
@@ -40,22 +49,14 @@ class Store {
     );
   }
 
-  loadStation(id: number) {
-    this.stationPromise = fromPromise(httpService.get<Page<StationType>>(`${API.STATION}/${id}`));
-  }
-
   stopTransaction() {
     this.currentTransactionPromise = fromPromise(httpService.post(`/api/transaction/stop`, {}));
-  }
-
-  get stationId() {
-    return this.currentTransactionPromise?.value?.chargeStationId;
   }
 
   clear() {
     this.currentTransactionPromise = undefined;
     this.stopTransactionPromise = undefined;
-    this.stationPromise = undefined;
+    this.currentTransaction = undefined;
   }
 }
 
