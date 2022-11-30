@@ -9,20 +9,22 @@ enum PROMISE_TYPE {
 export class PromiseObserver<T> {
   state: PROMISE_TYPE = PROMISE_TYPE.PENDING;
   value?: T = undefined;
+  error?: Record<string, string> = undefined;
 
   constructor(promise: Promise<T>, oldValue?: T) {
     this.value = oldValue;
     makeObservable(this, {
       state: observable,
       value: observable,
+      error: observable,
       pending: computed,
       fulfilled: computed,
-      error: computed,
+      rejected: computed,
       onResolve: action.bound,
       onReject: action.bound,
     });
 
-    promise.then((response: T) => this.onResolve(response)).catch(() => this.onReject());
+    promise.then((response: T) => this.onResolve(response)).catch((response) => this.onReject(response));
   }
 
   onResolve(response: T) {
@@ -30,8 +32,9 @@ export class PromiseObserver<T> {
     this.value = response;
   }
 
-  onReject() {
+  onReject(response: Record<string, string>) {
     this.state = PROMISE_TYPE.ERROR;
+    this.error = response;
   }
 
   get pending() {
@@ -42,7 +45,7 @@ export class PromiseObserver<T> {
     return this.state === PROMISE_TYPE.FULFILLED;
   }
 
-  get error() {
+  get rejected() {
     return this.state === PROMISE_TYPE.ERROR;
   }
 }

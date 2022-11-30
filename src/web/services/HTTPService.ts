@@ -23,7 +23,17 @@ export class HTTPService {
       .then(async (data) => {
         if (data.status === 401) {
           store?.keycloak?.login();
-          return Promise.reject('login');
+          return Promise.reject('');
+        }
+
+        if (data.status === 500) {
+          return Promise.reject({ message: 'system-error' });
+        }
+
+        if (data.status === 400) {
+          const error = await data.json();
+
+          return Promise.reject({ message: error?.message });
         }
 
         if (data.status == 200) {

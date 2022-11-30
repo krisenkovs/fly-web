@@ -25,10 +25,10 @@ export const BalanceView = observer(function () {
   }, [upAccountPromise?.fulfilled]);
 
   useEffect(() => {
-    if (upAccountPromise?.error) {
+    if (upAccountPromise?.rejected) {
       push(ROUTES.PAY_ERROR);
     }
-  }, [upAccountPromise?.error]);
+  }, [upAccountPromise?.rejected]);
 
   function handleUp() {
     upAccount(window.location.href);

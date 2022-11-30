@@ -1,6 +1,7 @@
 import { store } from '../../store';
 import { DescriptionField } from './DescriptionField';
 import styles from './styles.module.css';
+import { Typography } from 'components';
 import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { COLORS } from 'constant';
@@ -10,6 +11,7 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
 import { Header } from 'web/components/Header';
+import { notification } from 'web/components/NotificationManager';
 import { ROUTES } from 'web/constant';
 import { STEPS_CONNECTOR } from 'web/pages/StationPage/types';
 
@@ -20,20 +22,30 @@ export const Info = observer(() => {
   const { cardPromise } = mainStore;
 
   useEffect(() => {
-    if (store.payTransactionPromise?.fulfilled) {
-      if (store.payTransactionPromise.value?.redirectUrl) {
-        window.location.href = store.payTransactionPromise.value?.redirectUrl;
+    if (payTransactionPromise?.fulfilled) {
+      if (payTransactionPromise.value?.redirectUrl) {
+        window.location.href = payTransactionPromise.value?.redirectUrl;
       } else {
         push(ROUTES.CHARGE);
       }
     }
-  }, [store.payTransactionPromise?.fulfilled]);
+  }, [payTransactionPromise?.fulfilled]);
 
   useEffect(() => {
-    if (store.payTransactionPromise?.error) {
-      push(ROUTES.PAY_ERROR);
+    if (payTransactionPromise?.rejected) {
+      if (payTransactionPromise?.error?.message === 'bepaid-error') {
+        push(ROUTES.PAY_ERROR);
+      } else {
+        notification({
+          content: (
+            <Typography color={COLORS.BLACK} weight={500} size={16} lineHeight={24}>
+              {payTransactionPromise?.error?.message}
+            </Typography>
+          ),
+        });
+      }
     }
-  }, [store.payTransactionPromise?.error]);
+  }, [payTransactionPromise?.rejected]);
 
   function handleStart() {
     store.payTransaction(`${window.location.origin}${ROUTES.CHARGE}`);
