@@ -47,7 +47,7 @@ export const ChargePage = observer(() => {
   useEffect(() => {
     if (
       (!currentTransaction?.id ||
-        ![TRANSACTION_STATUS.ACTIVE, TRANSACTION_STATUS.CLOSING, TRANSACTION_STATUS.ACTIVE].includes(
+        ![TRANSACTION_STATUS.CLOSED, TRANSACTION_STATUS.CLOSING, TRANSACTION_STATUS.ACTIVE].includes(
           currentTransaction?.status,
         )) &&
       currentTransactionPromise?.fulfilled

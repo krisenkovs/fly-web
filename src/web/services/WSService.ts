@@ -13,10 +13,14 @@ class WSService {
         webSocketFactory: () => new SockJS(`wsocket`, undefined),
         debug: (message) => console.debug(message),
         onConnect: () => {
-          this.subscriptions.forEach(({ topic, callback }) => {
-            this.stompClient?.subscribe(`${topic}`, (message) => {
-              callback(JSON.parse(message.body));
-            });
+          this.subscriptions.forEach(({ topic, callback }, key) => {
+            const i = this.stompClient?.subscribe(
+              `${topic}`,
+              (message) => {
+                callback(JSON.parse(message.body));
+              },
+              { id: key.toString() },
+            );
           });
         },
 
@@ -57,9 +61,13 @@ class WSService {
       }
       if (callback) {
         if (this.stompClient?.connected) {
-          this.stompClient.subscribe(topic, (message) => {
-            callback(JSON.parse(message.body));
-          });
+          const i = this.stompClient.subscribe(
+            topic,
+            (message) => {
+              callback(JSON.parse(message.body));
+            },
+            { id: id.toString() },
+          );
         }
 
         this.subscriptions.set(id, { topic, callback });
@@ -73,8 +81,7 @@ class WSService {
   unsubscribe(id: number) {
     if (id) {
       if (this.stompClient?.connected) {
-        const topic = this.subscriptions.get(id)?.topic;
-        topic && this.stompClient.unsubscribe(topic);
+        this.stompClient.unsubscribe(id.toString());
       }
       this.subscriptions.delete(id);
     }
