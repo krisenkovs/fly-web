@@ -22,6 +22,7 @@ export const NumberInput: FC<Props> = ({
   name,
   readonly = false,
   label,
+  max,
 }) => {
   const [input, setInput] = useState({ value });
 
@@ -32,8 +33,13 @@ export const NumberInput: FC<Props> = ({
   function handleBlur(e: ChangeEvent<HTMLInputElement>) {
     const regexp = REGEXP[precision];
     const inputValue = e.target?.value?.match(regexp as RegExp)?.[0] || '';
-    setInput({ value: inputValue });
-    onChange?.(inputValue);
+    if (max !== undefined && Number(inputValue) > Number(max)) {
+      setInput({ value: max.toString() });
+      onChange?.(max.toString());
+    } else {
+      setInput({ value: inputValue });
+      onChange?.(inputValue);
+    }
   }
 
   return (

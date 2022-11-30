@@ -6,7 +6,11 @@ import React from 'react';
 import { Input } from 'web/pages/StationPage/Connector/Payment/TopCarousel/PowerInputItem/Input';
 import { store } from 'web/pages/StationPage/store';
 
-export const PowerInputItem = observer(function () {
+type Props = {
+  rate?: number;
+};
+
+export const PowerInputItem = observer(function ({ rate }: Props) {
   const { sum, setSum, power, setPower } = store;
   return (
     <Box
@@ -19,7 +23,15 @@ export const PowerInputItem = observer(function () {
       borderRadius={8}
       height={244}
     >
-      <Input icon={<CoinIcon />} title="BYN" values={[15, 25, 50, 75]} onChange={setSum} value={sum} precision={2} />
+      <Input
+        icon={<CoinIcon />}
+        title="BYN"
+        values={[15, 25, 50, 75]}
+        onChange={setSum}
+        value={sum}
+        precision={2}
+        max={100 * (rate || 1)}
+      />
       <Box flex={1} />
       <Input
         icon={<LightIcon />}
@@ -28,6 +40,7 @@ export const PowerInputItem = observer(function () {
         onChange={setPower}
         value={power}
         precision={1}
+        max={100}
       />
     </Box>
   );

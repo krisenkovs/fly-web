@@ -41,7 +41,6 @@ class Store {
   }
 
   setCurrentTransaction(value: TransactionType) {
-    console.log('data', value);
     this.currentTransaction = value;
   }
 

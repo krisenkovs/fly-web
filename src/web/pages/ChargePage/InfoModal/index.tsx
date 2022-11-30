@@ -1,76 +1,38 @@
 import { store } from './store';
-import { Box, Modal, Typography } from 'components';
-import { COLORS } from 'constant';
+import { Box, Modal } from 'components';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { formatDateTime } from 'web/helpers/formatter';
+import { diffDate, formatDateTime } from 'web/helpers/formatter';
+import { Field } from 'web/pages/ChargePage/InfoModal/Field';
+import { PAYMENT_TYPE } from 'web/types';
 
 export const InfoModal = observer(() => {
   const { visible, hide, data } = store;
 
   return (
     <Modal onClose={hide} title="Информация о заправке" visible={visible}>
-      <Box marginTop={20}>
-        <Typography color={COLORS.LIGHT_BLACK} weight={400} size={14} lineHeight={18}>
-          Время старта
-        </Typography>
-        <Box marginTop={8}>
-          <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
-            {formatDateTime(data?.startTime)}
-          </Typography>
-        </Box>
-      </Box>
-      {formatDateTime(data?.stopTime) && (
-        <Box marginTop={20}>
-          <Typography color={COLORS.LIGHT_BLACK} weight={400} size={14} lineHeight={18}>
-            Время завершения
-          </Typography>
-          <Box marginTop={8}>
-            <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
-              {formatDateTime(data?.stopTime)}
-            </Typography>
-          </Box>
-        </Box>
-      )}
-      <Box marginTop={20}>
-        <Typography color={COLORS.LIGHT_BLACK} weight={400} size={14} lineHeight={18}>
-          Сумма
-        </Typography>
-        <Box marginTop={8}>
-          <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
-            {Math.round((data?.finalPrice || 0) * 100) / 100}
-          </Typography>
-        </Box>
-      </Box>
-      <Box marginTop={20}>
-        <Typography color={COLORS.LIGHT_BLACK} weight={400} size={14} lineHeight={18}>
-          Заряд
-        </Typography>
-        <Box marginTop={8}>
-          <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
-            {`${data?.finalAmount} kW*h`}
-          </Typography>
-        </Box>
-      </Box>
-      <Box marginTop={20}>
-        <Typography color={COLORS.LIGHT_BLACK} weight={400} size={14} lineHeight={18}>
-          Максимальная мощность
-        </Typography>
-        <Box marginTop={8}>
-          <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
-            {`${data?.maxPowerImport} kW*h`}
-          </Typography>
-        </Box>
-      </Box>
-      <Box marginTop={20} marginBottom={20}>
-        <Typography color={COLORS.LIGHT_BLACK} weight={400} size={14} lineHeight={18}>
-          Адрес заправки
-        </Typography>
-        <Box marginTop={8}>
-          <Typography color={COLORS.LIGHT_BLACK} weight={600} size={14} lineHeight={18}>
-            {data?.stationAddress}
-          </Typography>
-        </Box>
+      <Box marginBottom={20} overflow="auto">
+        <Field label="Время старта" value={formatDateTime(data?.startTime)} />
+
+        {data?.percLimit === 100 && <Field label="Режим заправки" value="Полный бак" />}
+        {data?.percLimit === 80 && <Field label="Режим заправки" value="80%" />}
+        {!data?.percLimit && <Field label="Режим заправки" value="Фиксированная сумма" />}
+        {!!data?.stopTime && <Field label="Время завершения" value={formatDateTime(data?.stopTime)} />}
+        {!!data?.stopTime && <Field label="Время зарядки" value={diffDate(data?.startTime, data?.stopTime)} />}
+        <Field label="Тип оплаты" value={data?.paymentType === 'CARD' ? 'Карта' : 'Баланс'} />
+        {!!data?.finalPrice && <Field label="Сумма" value={`${data?.finalPrice} BYN`} />}
+        {!!data?.initPrice && data?.paymentType === PAYMENT_TYPE.CARD && (
+          <Field label="Списано с карты" value={`${data?.initPrice} BYN`} />
+        )}
+        {!!data?.refundAmount && data?.paymentType == PAYMENT_TYPE.CARD && (
+          <Field label="Возврат" value={`${data?.initPrice} BYN`} />
+        )}
+        {!!data?.maxPowerImport && <Field label="Максимальная мощность" value={`${data?.maxPowerImport} kW*h`} />}
+        {!!data?.finalAmount && <Field label="Заряд" value={`${data?.finalAmount} kW*h`} />}
+        {!!data?.initAmount && <Field label="Запрошено" value={`${data?.initAmount} kW*h`} />}
+        {!!data?.currentEnergyPercent && <Field label="Заряжено" value={`${data?.currentEnergyPercent} %`} />}
+        {!!data?.rate && <Field label="Тариф" value={data?.rate} />}
+        <Field label="Адрес заправки" value={data?.stationAddress} />
       </Box>
     </Modal>
   );

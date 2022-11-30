@@ -5,7 +5,7 @@
     "ws": true,
     "secure": false
   },
-  "/websocket": {
+  "/wsocket": {
     "target": "https://batteryfly.io",
     "changeOrigin": true,
     "ws": true,

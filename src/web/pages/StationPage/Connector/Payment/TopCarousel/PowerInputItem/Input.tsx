@@ -12,9 +12,10 @@ type Props = {
   values: number[];
   onChange?: (value: number) => void;
   precision?: 0 | 1 | 2;
+  max?: number;
 };
 
-export function Input({ value, icon, title, values, onChange, precision }: Props) {
+export function Input({ value, icon, title, values, onChange, precision, max }: Props) {
   function handleChange(value?: string) {
     onChange?.(parseFloat(value || ''));
   }
@@ -29,6 +30,7 @@ export function Input({ value, icon, title, values, onChange, precision }: Props
             onChange={handleChange}
             value={value?.toString()}
             hideHint
+            max={max}
             precision={precision}
           />
         </Box>

@@ -71,7 +71,7 @@ export function Modal({ title, visible, children, onClose }: Props) {
             </Box>
           </TouchableOpacity>
         </Box>
-        <Box>{children}</Box>
+        <Box overflow="hidden">{children}</Box>
       </Box>
     </>
   );

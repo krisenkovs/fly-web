@@ -22,8 +22,15 @@ export type TransactionType = {
   maxPowerImport?: number;
   rate?: number;
   currentEnergyPercent?: number;
-  paymentType?: 'CARD' | 'ACCOUNT';
+  paymentType: PAYMENT_TYPE;
+  percLimit?: number;
+  refundAmount?: number;
 };
+
+export enum PAYMENT_TYPE {
+  CARD = 'CARD',
+  AMOUNT = 'AMOUNT',
+}
 
 export enum TRANSACTION_STATUS {
   CREATED = 'CREATED',

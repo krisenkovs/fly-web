@@ -7,9 +7,10 @@ import { POWER_TYPE } from 'web/pages/StationPage/Connector/Payment/types';
 
 type Props = {
   onChange: (key?: string | number) => void;
+  rate?: number;
 };
 
-export function TopCarousel({ onChange }: Props) {
+export function TopCarousel({ onChange, rate }: Props) {
   return (
     <Carousel
       data={[
@@ -17,7 +18,7 @@ export function TopCarousel({ onChange }: Props) {
         { key: POWER_TYPE.MIDDLE, content: <MiddlePowerItem /> },
         {
           key: POWER_TYPE.MANUAL,
-          content: <PowerInputItem />,
+          content: <PowerInputItem rate={rate} />,
         },
       ]}
       onChange={onChange}

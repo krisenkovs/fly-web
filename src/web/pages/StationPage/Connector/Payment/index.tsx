@@ -59,12 +59,7 @@ export const Payment = observer(() => {
 
   function handleChangePower(key?: string | number) {
     setPowerType(key as POWER_TYPE);
-    if (key === POWER_TYPE.FULL) {
-      setPower(fullPower);
-    }
-    if (key === POWER_TYPE.MIDDLE) {
-      setPower(Math.round(fullPower * 0.8));
-    }
+
     if (key === POWER_TYPE.MANUAL) {
       setPower(0);
     }
@@ -80,7 +75,7 @@ export const Payment = observer(() => {
               Объем зарядки
             </Typography>
           </Box>
-          <TopCarousel onChange={handleChangePower} />
+          <TopCarousel onChange={handleChangePower} rate={stationPromise?.value?.rate} />
 
           <Box flex={1} />
 
