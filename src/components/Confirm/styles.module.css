@@ -1,0 +1,25 @@
+.overlay {
+  position: absolute;
+  display: block;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.2;
+  background: var(--color-black);
+  z-index: 2;
+}
+
+.container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+}
+
+.content {
+  min-width: 150px;
+  max-width: 250px;
+}

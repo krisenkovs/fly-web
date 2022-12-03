@@ -9,14 +9,15 @@ import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { ArrowsDownUp } from 'icons';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Header } from 'web/components/Header';
 import { diffDate, formatDateTime } from 'web/helpers/formatter';
 import { InfoModal } from 'web/pages/HistoryPage/InfoModal';
 import { TransactionType } from 'web/types';
 
 export const HistoryPage = observer(() => {
-  const { loadTransactions, transactionsPromise, clear, changeSortOrder } = store;
+  const { loadTransactions, transactionsPromise, clear, changeSortOrder, loadNextPage, data } = store;
+  const listRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     loadTransactions();
@@ -25,6 +26,16 @@ export const HistoryPage = observer(() => {
 
   function handleItemPress(item: TransactionType) {
     infoModalStore.show(item);
+  }
+
+  function handleScroll(e: React.UIEvent<HTMLElement, UIEvent>) {
+    if (
+      Math.ceil(e.currentTarget.scrollHeight) - Math.ceil(e.currentTarget.scrollTop) <=
+      (listRef?.current?.clientHeight || 0)
+    ) {
+      console.log('load next page');
+      loadNextPage();
+    }
   }
 
   return (
@@ -51,40 +62,46 @@ export const HistoryPage = observer(() => {
           </Box>
         </TouchableOpacity>
       </Box>
-      {transactionsPromise?.pending ? (
-        <Loader />
-      ) : (
-        <>
-          <Box flex={1} marginLeft={16} marginRight={8} paddingRight={8} overflow="auto">
-            {transactionsPromise?.value?.content?.map((item) => (
-              <Pressable onPress={() => handleItemPress(item)} key={item?.id}>
-                <Box paddingTop={16} paddingBottom={16} className={styles.item} paddingLeft={12} paddingRight={12}>
-                  <Box flexDirection="row">
-                    <Box flex={1}>
-                      <Typography color={COLORS.BLACK} weight={500} size={16} lineHeight={20}>
-                        {item?.stationAddress || ''}
-                      </Typography>
-                    </Box>
-                    <Typography color={COLORS.LIGHT_BLACK} weight={500} size={16} lineHeight={20}>
-                      {`№ ${item?.chargeStationId}`}
+      <>
+        <Box
+          flex={1}
+          marginLeft={16}
+          marginRight={8}
+          paddingRight={8}
+          overflow="auto"
+          onScroll={handleScroll}
+          refContainer={listRef}
+        >
+          {data?.map((item) => (
+            <Pressable onPress={() => handleItemPress(item)} key={item?.id}>
+              <Box paddingTop={16} paddingBottom={16} className={styles.item} paddingLeft={12} paddingRight={12}>
+                <Box flexDirection="row">
+                  <Box flex={1}>
+                    <Typography color={COLORS.BLACK} weight={500} size={16} lineHeight={20}>
+                      {item?.stationAddress || ''}
                     </Typography>
                   </Box>
-                  <Box flexDirection="row" marginTop={12}>
-                    <Box flex={1}>
-                      <Typography color={COLORS.BLACK} weight={400} size={14} lineHeight={18}>
-                        {`${formatDateTime(item?.startTime)} ${diffDate(item?.startTime, item.stopTime)}`}
-                      </Typography>
-                    </Box>
-                    <Typography color={COLORS.LIGHT_BLACK} weight={400} size={14} lineHeight={18}>
-                      {`${(item?.currentEnergyImport || 0) - (item?.startEnergyImport || 0)} kW*h`}
-                    </Typography>
-                  </Box>
+                  <Typography color={COLORS.LIGHT_BLACK} weight={500} size={16} lineHeight={20}>
+                    {`№ ${item?.chargeStationId}`}
+                  </Typography>
                 </Box>
-              </Pressable>
-            ))}
-          </Box>
-        </>
-      )}
+                <Box flexDirection="row" marginTop={12}>
+                  <Box flex={1}>
+                    <Typography color={COLORS.BLACK} weight={400} size={14} lineHeight={18}>
+                      {`${formatDateTime(item?.startTime)} ${diffDate(item?.startTime, item.stopTime)}`}
+                    </Typography>
+                  </Box>
+                  <Typography color={COLORS.LIGHT_BLACK} weight={400} size={14} lineHeight={18}>
+                    {`${item?.finalAmount || ''} kW*h`}
+                  </Typography>
+                </Box>
+              </Box>
+            </Pressable>
+          ))}
+
+          {transactionsPromise?.pending && <Loader showOverlay />}
+        </Box>
+      </>
       <InfoModal />
     </Box>
   );

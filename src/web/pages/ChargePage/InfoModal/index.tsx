@@ -30,7 +30,7 @@ export const InfoModal = observer(() => {
         {!!data?.maxPowerImport && <Field label="Максимальная мощность" value={`${data?.maxPowerImport} kW*h`} />}
         {!!data?.finalAmount && <Field label="Заряд" value={`${data?.finalAmount} kW*h`} />}
         {!!data?.initAmount && <Field label="Запрошено" value={`${data?.initAmount} kW*h`} />}
-        {!!data?.currentEnergyPercent && <Field label="Заряжено" value={`${data?.currentEnergyPercent} %`} />}
+        {!!data?.lastEvEnergyPercent && <Field label="Заряжено" value={`${data?.lastEvEnergyPercent} %`} />}
         {!!data?.rate && <Field label="Тариф" value={data?.rate} />}
         <Field label="Адрес заправки" value={data?.stationAddress} />
       </Box>

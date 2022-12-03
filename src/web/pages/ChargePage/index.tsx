@@ -11,6 +11,7 @@ import { CrossIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useConfirmModal } from 'web/components/ConfirmProvider';
 import { ROUTES } from 'web/constant';
 import { ActionButton } from 'web/pages/ChargePage/ActionButton';
 import { InfoMessage } from 'web/pages/ChargePage/InfoMessage';
@@ -21,6 +22,7 @@ import { TRANSACTION_STATUS } from 'web/types';
 
 export const ChargePage = observer(() => {
   const { push, replace } = useHistory();
+  const confirmModal = useConfirmModal();
   const {
     currentTransactionPromise,
     loadCurrentTransaction,
@@ -58,6 +60,17 @@ export const ChargePage = observer(() => {
 
   function handleCancel() {
     push(ROUTES.MAIN);
+  }
+
+  function handleStop() {
+    confirmModal.open({
+      content: (
+        <Typography color={COLORS.BLACK} size={16} lineHeight={20} weight={600}>
+          Желаете остановить заправку?
+        </Typography>
+      ),
+      onOk: () => stopTransaction(),
+    });
   }
 
   const colorIndicator = useMemo(() => {
@@ -160,7 +173,7 @@ export const ChargePage = observer(() => {
         <Box paddingLeft={16} paddingRight={16}>
           <ActionButton
             onStart={() => console.log('start')}
-            onStop={stopTransaction}
+            onStop={handleStop}
             loading={!!stopTransactionPromise?.pending}
             status={currentTransaction?.status}
           />
