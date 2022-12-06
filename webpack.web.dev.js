@@ -66,7 +66,6 @@ module.exports = merge(common, {
         },
         {
           from: resolve(__dirname, 'public/sw.js'),
-          to: 'js',
         },
       ],
     }),

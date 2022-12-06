@@ -16,11 +16,9 @@ render(
   document.getElementById('root'),
 );
 
-console.log(window.location);
-
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
-    .register(`${window.location.origin}/js/sw.js`)
+    .register(`/sw.js`)
     .then(() => console.log('register'))
     .catch((err) => console.log(err));
 }
