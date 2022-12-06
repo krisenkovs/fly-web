@@ -40,6 +40,10 @@ module.exports = merge(common, {
           from: resolve(__dirname, 'public/images'),
           to: 'images',
         },
+        {
+          from: resolve(__dirname, 'public/sw.js'),
+          to: 'js',
+        },
       ],
     }),
   ],

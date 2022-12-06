@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { store } from 'web/application/store';
+import { CookieConsent } from 'web/components/CookieConsent';
 import { ROUTES } from 'web/constant';
 import { AboutPage } from 'web/pages/AboutPage';
 import { CarPage } from 'web/pages/CarPage';
@@ -27,6 +28,17 @@ export const Router = observer(() => {
     store.loadAccount();
     store.loadCarInfo();
     wsService.connect();
+  }, []);
+
+  useEffect(() => {
+    function handler() {
+      console.log('reconnect socket');
+      wsService.reconnect();
+    }
+    window.addEventListener('pageshow', handler);
+    return () => {
+      window.removeEventListener('pageshow', handler);
+    };
   }, []);
 
   if (!store.profilePromise?.value) {
@@ -55,6 +67,7 @@ export const Router = observer(() => {
       ) : (
         <VerifyPage />
       )}
+      <CookieConsent />
     </Box>
   );
 });

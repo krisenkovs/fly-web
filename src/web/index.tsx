@@ -15,3 +15,10 @@ render(
   </BrowserRouter>,
   document.getElementById('root'),
 );
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker
+    .register('js/sw.js')
+    .then(() => console.log('register'))
+    .catch((err) => console.log(err));
+}

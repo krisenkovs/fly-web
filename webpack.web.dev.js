@@ -21,7 +21,7 @@ module.exports = merge(common, {
     port,
     open: true,
     compress: true,
-    server: 'https',
+    server: 'http',
     proxy: proxy,
     client: {
       logging: 'none',
@@ -63,6 +63,10 @@ module.exports = merge(common, {
         {
           from: resolve(__dirname, 'public/images'),
           to: 'images',
+        },
+        {
+          from: resolve(__dirname, 'public/sw.js'),
+          to: 'js',
         },
       ],
     }),

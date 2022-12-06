@@ -47,13 +47,7 @@ export const ChargePage = observer(() => {
   }, [currentTransactionPromise?.value]);
 
   useEffect(() => {
-    if (
-      (!currentTransaction?.id ||
-        ![TRANSACTION_STATUS.CLOSED, TRANSACTION_STATUS.CLOSING, TRANSACTION_STATUS.ACTIVE].includes(
-          currentTransaction?.status,
-        )) &&
-      currentTransactionPromise?.fulfilled
-    ) {
+    if (!currentTransaction?.id && currentTransactionPromise?.fulfilled) {
       replace(ROUTES.MAIN);
     }
   }, [currentTransactionPromise?.fulfilled, currentTransaction]);

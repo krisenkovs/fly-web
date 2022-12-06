@@ -95,7 +95,7 @@ export const StationsSheet = observer(function StationsSheet({ height }: Props) 
         </Typography>
       </Box>
       <Box flex={1} overflow="hidden">
-        {store.stationsPromise?.pending ? (
+        {store.stationsPromise?.pending && !store.stationsPromise?.value ? (
           <Box className={styles.list}>
             <Skeleton.Row height={24} />
           </Box>

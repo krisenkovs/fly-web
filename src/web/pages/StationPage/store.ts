@@ -101,7 +101,7 @@ class Store {
       this.percLimit = 100;
     }
     if (value === POWER_TYPE.MIDDLE) {
-      this.percLimit = 800;
+      this.percLimit = 80;
     }
     this.powerType = value;
   }

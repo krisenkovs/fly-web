@@ -12,7 +12,7 @@ import { useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
 import { Header } from 'web/components/Header';
 import { notification } from 'web/components/NotificationManager';
-import { ROUTES } from 'web/constant';
+import { ERRORS, ROUTES } from 'web/constant';
 import { STEPS_CONNECTOR } from 'web/pages/StationPage/types';
 
 export const Info = observer(() => {
@@ -39,7 +39,7 @@ export const Info = observer(() => {
         notification({
           content: (
             <Typography color={COLORS.BLACK} weight={500} size={16} lineHeight={24}>
-              {payTransactionPromise?.error?.message}
+              {ERRORS[payTransactionPromise?.error?.message || ''] || payTransactionPromise?.error?.message}
             </Typography>
           ),
         });

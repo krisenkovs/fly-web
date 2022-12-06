@@ -28,6 +28,7 @@ export const Payment = observer(() => {
     setPowerType,
     powerType,
     paymentType,
+    percLimit,
   } = store;
   const { cardPromise, carPromise } = mainStore;
 
@@ -88,7 +89,7 @@ export const Payment = observer(() => {
           {cardPromise?.value && <BottomCarousel onChange={handleChangePayment} />}
           <Box flex={1} />
           <InfoText powerType={powerType} paymentType={paymentType} power={fullPower} />
-          <Button label="Далее" disabled={!sum || !power} onClick={handlePress} />
+          <Button label="Далее" disabled={!((sum && power) || percLimit)} onClick={handlePress} />
         </Box>
       </Box>
     </>

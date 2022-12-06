@@ -30,6 +30,7 @@ class Store {
   loadStations() {
     this.stationsPromise = fromPromise(
       httpService.get<Page<StationType>>(`${API.STATION}/available?page=0&size=10&sort=id,desc&sort=name,asc`),
+      this.stationsPromise?.value,
     );
   }
 
@@ -45,9 +46,9 @@ class Store {
   }
 
   clear() {
-    this.stationsPromise = undefined;
-    this.currentTransactionPromise = undefined;
-    this.currentTransaction = undefined;
+    //this.stationsPromise = undefined;
+    //this.currentTransactionPromise = undefined;
+    //this.currentTransaction = undefined;
   }
 }
 
