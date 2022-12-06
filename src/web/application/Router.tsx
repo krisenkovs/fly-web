@@ -46,7 +46,7 @@ export const Router = observer(() => {
   }
 
   return (
-    <Box flex={1} overflow="hidden">
+    <Box flex={1} overflow="hidden" position="relative">
       {store.profilePromise?.value?.isValidatedPhone ? (
         <Switch>
           <Route path={ROUTES.MAIN} exact component={MainPage} />

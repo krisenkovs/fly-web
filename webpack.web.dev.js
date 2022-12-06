@@ -21,7 +21,7 @@ module.exports = merge(common, {
     port,
     open: true,
     compress: true,
-    server: 'http',
+    server: 'https',
     proxy: proxy,
     client: {
       logging: 'none',
