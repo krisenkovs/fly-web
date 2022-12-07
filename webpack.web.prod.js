@@ -49,7 +49,7 @@ module.exports = merge(common, {
       mode: 'production',
       runtimeCaching: [
         {
-          urlPattern: /\.(ttf|png|svg)$/,
+          urlPattern: /\.(ttf|png|svg|js|css|json)$/,
           handler: 'CacheFirst',
           options: {
             cacheName: 'static',

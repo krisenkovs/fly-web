@@ -10,11 +10,12 @@ class WSService {
   connect() {
     if (!this.stompClient) {
       this.stompClient = new Client({
-        webSocketFactory: () => new SockJS(`wsocket`, undefined),
+        webSocketFactory: () => new SockJS(`/wsocket`, undefined),
         debug: (message) => console.debug(message),
         onConnect: () => {
           this.subscriptions.forEach(({ topic, callback }, key) => {
-            const i = this.stompClient?.subscribe(
+            console.log(key);
+            this.stompClient?.subscribe(
               `${topic}`,
               (message) => {
                 callback(JSON.parse(message.body));
