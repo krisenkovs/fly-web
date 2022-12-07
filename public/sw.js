@@ -7,5 +7,5 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  return fetch(event.request)
+  //return fetch(event.request)
 });
