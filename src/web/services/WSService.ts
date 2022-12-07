@@ -14,7 +14,6 @@ class WSService {
         debug: (message) => console.debug(message),
         onConnect: () => {
           this.subscriptions.forEach(({ topic, callback }, key) => {
-            console.log(key);
             this.stompClient?.subscribe(
               `${topic}`,
               (message) => {
