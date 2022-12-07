@@ -1,6 +1,6 @@
 {
   "name": "fly-web",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "BatteryFly web",
   "main": "index.js",
   "repository": {
@@ -72,7 +72,8 @@
     "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.10.0",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "workbox-webpack-plugin": "^6.5.4"
   },
   "keywords": [],
   "author": "Krisenko_VS",

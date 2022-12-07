@@ -46,7 +46,7 @@ class Store {
 
   loadTransactions() {
     this.transactionsPromise = fromPromise(
-      httpService.get(`${API.TRANSACTION}/by-user?sort=created,${this.sortOrder}&page=${this.page}&size=${this.size}`),
+      httpService.get(`${API.TRANSACTION}/by-user?sort=id,${this.sortOrder}&page=${this.page}&size=${this.size}`),
     );
   }
 
@@ -65,7 +65,6 @@ class Store {
 
   clear() {
     this.transactionsPromise = undefined;
-    this.sortOrder = 'asc';
     this.page = 0;
     this.size = 15;
     this.totalElements = 0;

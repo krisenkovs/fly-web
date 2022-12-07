@@ -7,6 +7,7 @@ const common = require('./webpack.common.js');
 const { join, resolve } = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -40,8 +41,32 @@ module.exports = merge(common, {
           from: resolve(__dirname, 'public/images'),
           to: 'images',
         },
+      ],
+    }),
+    new WorkboxPlugin.GenerateSW({
+      exclude: [/.*/],
+      disableDevLogs: true,
+      mode: 'production',
+      runtimeCaching: [
         {
-          from: resolve(__dirname, 'public/sw.js'),
+          urlPattern: /\.(ttf|png|svg)$/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'static',
+            expiration: {
+              maxEntries: 20,
+            },
+          },
+        },
+        {
+          urlPattern: /api\/image/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'images',
+            expiration: {
+              maxEntries: 10,
+            },
+          },
         },
       ],
     }),
