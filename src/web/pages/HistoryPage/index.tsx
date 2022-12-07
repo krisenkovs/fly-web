@@ -33,7 +33,6 @@ export const HistoryPage = observer(() => {
       Math.ceil(e.currentTarget.scrollHeight) - Math.ceil(e.currentTarget.scrollTop) <=
       (listRef?.current?.clientHeight || 0)
     ) {
-      console.log('load next page');
       loadNextPage();
     }
   }
