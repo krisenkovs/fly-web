@@ -54,7 +54,7 @@ module.exports = merge(common, {
           options: {
             cacheName: 'static',
             expiration: {
-              maxEntries: 20,
+              maxEntries: 40,
             },
           },
         },
