@@ -1,3 +1,5 @@
+import { CONNECTOR } from 'web/types/connector';
+
 export type TransactionType = {
   id: number;
   connectorId: number;
@@ -29,7 +31,7 @@ export type TransactionType = {
 
 export enum PAYMENT_TYPE {
   CARD = 'CARD',
-  AMOUNT = 'AMOUNT',
+  ACCOUNT = 'ACCOUNT',
 }
 
 export enum TRANSACTION_STATUS {
@@ -40,3 +42,19 @@ export enum TRANSACTION_STATUS {
   CLOSED = 'CLOSED',
   CLOSING = 'CLOSING',
 }
+
+export type PreCheck = {
+  id: string;
+  userId: string;
+  amount: number;
+  initPrice: number;
+  connectorId: number;
+  percLimit: number;
+  paymentMethod: PAYMENT_TYPE;
+  status: string;
+  error: string;
+  createdAt: string;
+  updatedAt: string;
+  chargeStationAddress: string;
+  connectorType: CONNECTOR;
+};

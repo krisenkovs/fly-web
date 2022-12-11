@@ -11,30 +11,28 @@ import { ROUTES } from 'web/constant';
 import { BottomCarousel } from 'web/pages/StationPage/Connector/Payment/BottomCarousel';
 import { InfoText } from 'web/pages/StationPage/Connector/Payment/InfoText';
 import { TopCarousel } from 'web/pages/StationPage/Connector/Payment/TopCarousel';
-import { PAYMENT_TYPE, POWER_TYPE } from 'web/pages/StationPage/Connector/Payment/types';
+import { POWER_TYPE } from 'web/pages/StationPage/Connector/Payment/types';
 import { store } from 'web/pages/StationPage/store';
 import { STEPS_CONNECTOR } from 'web/pages/StationPage/types';
+import { PAYMENT_TYPE } from 'web/types';
 
 export const Payment = observer(() => {
   const { replace } = useHistory();
   const {
     sum,
     power,
-    setPower,
     tieCardPromise,
     stationPromise,
+    preCheckTransactionPromise,
     setStep,
     setPaymentType,
     setPowerType,
     powerType,
     paymentType,
     percLimit,
+    preCheckTransaction,
   } = store;
   const { cardPromise, carPromise } = mainStore;
-
-  useEffect(() => {
-    setPower(carPromise?.value?.batteryCapacity || 60);
-  }, [carPromise?.value, stationPromise?.value]);
 
   useEffect(() => {
     if (tieCardPromise?.fulfilled) {
@@ -44,9 +42,11 @@ export const Payment = observer(() => {
     }
   }, [tieCardPromise?.fulfilled]);
 
-  function handlePress() {
-    setStep(STEPS_CONNECTOR.INFO);
-  }
+  useEffect(() => {
+    if (preCheckTransactionPromise?.fulfilled) {
+      setStep(STEPS_CONNECTOR.INFO);
+    }
+  }, [preCheckTransactionPromise?.fulfilled]);
 
   function handleBackClick() {
     replace(generatePath(ROUTES.STATION, { stationId: `${stationPromise?.value?.id}` }));
@@ -60,10 +60,6 @@ export const Payment = observer(() => {
 
   function handleChangePower(key?: string | number) {
     setPowerType(key as POWER_TYPE);
-
-    if (key === POWER_TYPE.MANUAL) {
-      setPower(0);
-    }
   }
 
   return (
@@ -89,7 +85,12 @@ export const Payment = observer(() => {
           {cardPromise?.value && <BottomCarousel onChange={handleChangePayment} />}
           <Box flex={1} />
           <InfoText powerType={powerType} paymentType={paymentType} power={fullPower} />
-          <Button label="Далее" disabled={!((sum && power) || percLimit)} onClick={handlePress} />
+          <Button
+            label="Далее"
+            disabled={!((sum && power) || percLimit)}
+            onClick={preCheckTransaction}
+            loading={preCheckTransactionPromise?.pending}
+          />
         </Box>
       </Box>
     </>

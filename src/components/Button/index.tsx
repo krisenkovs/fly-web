@@ -4,7 +4,7 @@ import React, { CSSProperties, FC, PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
   label?: string;
-  onClick: () => void;
+  onClick: (e?: any) => void;
   style?: CSSProperties;
   disabled?: boolean;
   loading?: boolean;

@@ -1,10 +1,10 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { API } from 'web/constant';
 import { fromPromise, PromiseObserver } from 'web/helpers/PromiseObserver';
-import { PAYMENT_TYPE, POWER_TYPE } from 'web/pages/StationPage/Connector/Payment/types';
+import { POWER_TYPE } from 'web/pages/StationPage/Connector/Payment/types';
 import { STEPS_CONNECTOR } from 'web/pages/StationPage/types';
 import { httpService } from 'web/services/HTTPService';
-import { ConnectorType, Page, PaidReturnType, StationType } from 'web/types';
+import { ConnectorType, Page, PaidReturnType, PAYMENT_TYPE, PreCheck, StationType } from 'web/types';
 
 class Store {
   step: STEPS_CONNECTOR = STEPS_CONNECTOR.PAYMENT;
@@ -20,6 +20,7 @@ class Store {
   connectorsPromise?: PromiseObserver<ConnectorType[]> = undefined;
   tieCardPromise?: PromiseObserver<PaidReturnType> = undefined;
   payTransactionPromise?: PromiseObserver<PaidReturnType> = undefined;
+  preCheckTransactionPromise?: PromiseObserver<PreCheck> = undefined;
 
   selectedConnectorId?: string = undefined;
 
@@ -37,6 +38,7 @@ class Store {
       stationPromise: observable,
       connectorsPromise: observable,
       payTransactionPromise: observable,
+      preCheckTransactionPromise: observable,
       setSelectedConnector: action.bound,
       selectedConnector: computed,
       load: action.bound,
@@ -49,6 +51,7 @@ class Store {
       setPowerType: action.bound,
       tieCard: action.bound,
       clearSelectedConnector: action.bound,
+      preCheckTransaction: action.bound,
       clear: action.bound,
     });
   }
@@ -74,6 +77,12 @@ class Store {
 
   setStep(step: STEPS_CONNECTOR) {
     this.step = step;
+    if (step === STEPS_CONNECTOR.INFO) {
+      this.payTransactionPromise = undefined;
+    }
+    if (step === STEPS_CONNECTOR.PAYMENT) {
+      this.preCheckTransactionPromise = undefined;
+    }
   }
 
   setSum(value: number) {
@@ -104,18 +113,29 @@ class Store {
       this.percLimit = 80;
     }
     this.powerType = value;
+    this.power = 0;
+    this.sum = 0;
   }
 
-  payTransaction(returnUrl?: string) {
-    this.payTransactionPromise = fromPromise(
-      httpService.post(`${API.TRANSACTION}/pay`, {
+  preCheckTransaction() {
+    this.preCheckTransactionPromise = fromPromise(
+      httpService.post(`${API.TRANSACTION}/create-pre-check`, {
         connectorId: this.selectedConnectorId,
         amount: this.power,
         initPrice: this.sum,
-        returnUrl,
         percLimit: this.percLimit,
         payFromAccount: this.payFromAccount,
         gradualWithdraw: this.payFromAccount,
+        paymentMethod: this.paymentType,
+      }),
+    );
+  }
+
+  payTransaction(id?: string, returnUrl?: string) {
+    this.payTransactionPromise = fromPromise(
+      httpService.post(`${API.TRANSACTION}/pay-pre-check`, {
+        id,
+        returnUrl,
       }),
     );
   }
@@ -129,6 +149,7 @@ class Store {
     this.power = 0;
     this.selectedConnectorId = undefined;
     this.payTransactionPromise = undefined;
+    this.preCheckTransactionPromise = undefined;
     this.step = STEPS_CONNECTOR.PAYMENT;
   }
 
@@ -144,6 +165,7 @@ class Store {
     this.payFromAccount = false;
     this.paymentType = PAYMENT_TYPE.ACCOUNT;
     this.powerType = POWER_TYPE.FULL;
+    this.preCheckTransactionPromise = undefined;
   }
 }
 

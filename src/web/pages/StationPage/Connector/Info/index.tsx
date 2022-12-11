@@ -14,11 +14,12 @@ import { Header } from 'web/components/Header';
 import { notification } from 'web/components/NotificationManager';
 import { ERRORS, ROUTES } from 'web/constant';
 import { STEPS_CONNECTOR } from 'web/pages/StationPage/types';
+import { PAYMENT_TYPE } from 'web/types';
 
 export const Info = observer(() => {
   const { push } = useHistory();
 
-  const { selectedConnector, stationPromise, power, sum, payTransactionPromise, setStep, payFromAccount } = store;
+  const { payTransactionPromise, setStep, preCheckTransactionPromise } = store;
   const { cardPromise } = mainStore;
 
   useEffect(() => {
@@ -48,7 +49,7 @@ export const Info = observer(() => {
   }, [payTransactionPromise?.rejected]);
 
   function handleStart() {
-    store.payTransaction(`${window.location.origin}${ROUTES.CHARGE}`);
+    store.payTransaction(preCheckTransactionPromise?.value?.id, `${window.location.origin}${ROUTES.CHARGE}`);
   }
 
   function handleBackClick() {
@@ -67,14 +68,28 @@ export const Info = observer(() => {
 
       <Box flex={1} />
       <Box paddingLeft={16} paddingRight={16}>
-        <DescriptionField label="Адрес" value={stationPromise?.value?.address} />
-        <DescriptionField label="№ колонки" value={stationPromise?.value?.id} />
-        <DescriptionField label="Тип разъема" value={selectedConnector?.type} />
-        <DescriptionField label="kWh" value={power} />
-        <DescriptionField label="BYN" value={sum?.toFixed(2)} />
+        <DescriptionField label="Адрес" value={preCheckTransactionPromise?.value?.chargeStationAddress} />
+        {preCheckTransactionPromise?.value?.percLimit === 100 && (
+          <DescriptionField label="Режим заправки" value="Полный бак" />
+        )}
+        {preCheckTransactionPromise?.value?.percLimit === 80 && <DescriptionField label="Режим заправки" value="80%" />}
+        {!preCheckTransactionPromise?.value?.percLimit && (
+          <DescriptionField label="Режим заправки" value="Фиксированная сумма" />
+        )}
+        <DescriptionField label="Тип разъема" value={preCheckTransactionPromise?.value?.connectorType} />
+        {!!preCheckTransactionPromise?.value?.amount && (
+          <DescriptionField label="kWh" value={preCheckTransactionPromise?.value?.amount} />
+        )}
+        {!!preCheckTransactionPromise?.value?.initPrice && (
+          <DescriptionField label="BYN" value={preCheckTransactionPromise?.value?.initPrice} />
+        )}
         <DescriptionField
           label="Способ оплаты"
-          value={payFromAccount ? 'Баланс' : `${cardPromise?.value?.brand} •••• ${cardPromise?.value?.last4}`}
+          value={
+            preCheckTransactionPromise?.value?.paymentMethod === PAYMENT_TYPE.ACCOUNT
+              ? 'Баланс'
+              : `${cardPromise?.value?.brand} •••• ${cardPromise?.value?.last4}`
+          }
         />
       </Box>
       <Box flex={1} />

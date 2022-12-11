@@ -1,7 +1,8 @@
 import { Box, Typography } from 'components';
 import { COLORS } from 'constant';
 import React, { useMemo } from 'react';
-import { PAYMENT_TYPE, POWER_TYPE } from 'web/pages/StationPage/Connector/Payment/types';
+import { POWER_TYPE } from 'web/pages/StationPage/Connector/Payment/types';
+import { PAYMENT_TYPE } from 'web/types';
 
 type Props = {
   powerType: POWER_TYPE;

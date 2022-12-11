@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
 import { AvatarView } from 'web/components/AvatarView';
 import { Header } from 'web/components/Header';
+import { PWAButton } from 'web/components/PWAButton';
 import { ROUTES } from 'web/constant';
 import { store } from 'web/pages/ProfilePage/store';
 
@@ -180,6 +181,9 @@ export const ProfilePage = observer(() => {
             </TouchableOpacity>
           ))}
         </Box>
+      </Box>
+      <Box marginBottom={48} marginLeft={16} marginRight={16}>
+        <PWAButton />
       </Box>
     </Box>
   );
