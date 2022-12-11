@@ -9,7 +9,19 @@ import { TranslateProvider } from 'web/application/TranslateProvider';
 import { httpService } from 'web/services/HTTPService';
 
 export const Application = observer(() => {
-  const { init, destroy, keycloak } = store;
+  const { init, destroy, keycloak, setPromptInstall } = store;
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      console.log('beforeinstallprompt', e);
+      e.preventDefault();
+      setPromptInstall(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handler);
+
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
 
   useEffect(() => {
     init();

@@ -1,19 +1,10 @@
 import { Button } from 'components';
-import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { store } from 'web/application/store';
 
-export function PWAButton() {
-  const [promptInstall, setPromptInstall] = useState<any>(null);
-
-  useEffect(() => {
-    const handler = (e: any) => {
-      console.log('beforeinstallprompt', e);
-      e.preventDefault();
-      setPromptInstall(e);
-    };
-    window.addEventListener('', handler);
-
-    return () => window.removeEventListener('beforeinstallprompt', handler);
-  }, []);
+export const PWAButton = observer(() => {
+  const { promptInstall } = store;
 
   function handleClick(evt: any) {
     evt.preventDefault();
@@ -24,4 +15,4 @@ export function PWAButton() {
   }
 
   return <Button label="Установить" onClick={handleClick} />;
-}
+});

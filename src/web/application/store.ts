@@ -14,6 +14,7 @@ class Store {
   carPromise?: PromiseObserver<CarType> = undefined;
   accountPromise?: PromiseObserver<AccountType> = undefined;
   keycloak?: KeycloakInstance = undefined;
+  promptInstall?: any = undefined;
 
   translate?: Translate = undefined;
 
@@ -26,15 +27,20 @@ class Store {
       carPromise: observable,
       accountPromise: observable,
       translate: observable,
+      promptInstall: observable,
       init: action.bound,
       loadProfile: action.bound,
       saveProfile: action.bound,
       loadCard: action.bound,
       loadAccount: action.bound,
       loadCarInfo: action.bound,
-
+      setPromptInstall: action.bound,
       destroy: action.bound,
     });
+  }
+
+  setPromptInstall(value: any) {
+    this.promptInstall = value;
   }
 
   async init() {

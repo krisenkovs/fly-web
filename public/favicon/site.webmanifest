@@ -1,7 +1,7 @@
 {
   "name": "BatteryFly",
   "short_name": "BatteryFly",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "orientation": "portrait",
   "icons": [
@@ -14,9 +14,14 @@
       "src": "android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "theme_color": "#005eeb",
-  "background_color": "#005eeb",
-  "display": "standalone"
+  "background_color": "#005eeb"
 }
