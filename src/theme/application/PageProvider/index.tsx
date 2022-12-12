@@ -6,6 +6,7 @@ import { InfoPage } from 'theme/pages/InfoPage';
 import { LoginPage } from 'theme/pages/LoginPage';
 import { RegisterPage } from 'theme/pages/RegisterPage';
 import { ResetPasswordPage } from 'theme/pages/ResetPasswordPage';
+import { UpdateProfilePage } from 'theme/pages/UpdateProfilePage';
 
 export const PageProvider: FC = () => {
   const theme = useContext(ThemeApplicationContext);
@@ -21,6 +22,8 @@ export const PageProvider: FC = () => {
       return <ResetPasswordPage />;
     case 'info':
       return <InfoPage />;
+    case 'update-profile':
+      return <UpdateProfilePage />;
     case 'error':
     case 'login-page-expired':
       return <ErrorPage />;

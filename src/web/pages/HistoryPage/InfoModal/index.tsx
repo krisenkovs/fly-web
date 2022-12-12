@@ -25,7 +25,7 @@ export const InfoModal = observer(() => {
           <Field label="Списано с карты" value={`${data?.initPrice} BYN`} />
         )}
         {!!data?.refundAmount && data?.paymentType == PAYMENT_TYPE.CARD && (
-          <Field label="Возврат" value={`${data?.initPrice} BYN`} />
+          <Field label="Возврат" value={`${data?.refundAmount} BYN`} />
         )}
         {!!data?.maxPowerImport && <Field label="Максимальная мощность" value={`${data?.maxPowerImport} kW*h`} />}
         {!!data?.finalAmount && <Field label="Заряд" value={`${data?.finalAmount} kW*h`} />}

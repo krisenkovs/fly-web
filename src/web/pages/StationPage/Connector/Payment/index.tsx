@@ -7,7 +7,8 @@ import React, { useEffect } from 'react';
 import { generatePath, useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
 import { Header } from 'web/components/Header';
-import { ROUTES } from 'web/constant';
+import { notification } from 'web/components/NotificationManager';
+import { ERRORS, ROUTES } from 'web/constant';
 import { BottomCarousel } from 'web/pages/StationPage/Connector/Payment/BottomCarousel';
 import { InfoText } from 'web/pages/StationPage/Connector/Payment/InfoText';
 import { TopCarousel } from 'web/pages/StationPage/Connector/Payment/TopCarousel';
@@ -47,6 +48,18 @@ export const Payment = observer(() => {
       setStep(STEPS_CONNECTOR.INFO);
     }
   }, [preCheckTransactionPromise?.fulfilled]);
+
+  useEffect(() => {
+    if (preCheckTransactionPromise?.rejected) {
+      notification({
+        content: (
+          <Typography color={COLORS.BLACK} weight={500} size={16} lineHeight={24}>
+            {preCheckTransactionPromise?.error?.message || ERRORS['system-error']}
+          </Typography>
+        ),
+      });
+    }
+  }, [preCheckTransactionPromise?.rejected]);
 
   function handleBackClick() {
     replace(generatePath(ROUTES.STATION, { stationId: `${stationPromise?.value?.id}` }));

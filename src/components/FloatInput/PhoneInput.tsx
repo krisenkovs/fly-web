@@ -36,7 +36,7 @@ export const PhoneInput: FC<Props> = ({ className, value, onChange, name, readon
         type="number"
         maxLength={13}
       />
-      <label className={value && styles.floatInputFilled}>{label}</label>
+      <label className={styles.floatInputFilled}>{label}</label>
     </Box>
   );
 };

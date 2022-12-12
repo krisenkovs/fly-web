@@ -56,7 +56,6 @@ export const RegisterPage: FC = () => {
 
   function handleLoginClick() {
     validateFields().then(() => formRef?.current?.submit());
-    formRef?.current?.submit();
   }
 
   function handleNextClick() {

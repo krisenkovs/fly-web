@@ -1,12 +1,9 @@
-import { COLORS } from 'constant';
-import React, { FC, useContext } from 'react';
-import { ThemeApplicationContext } from 'theme/application/ThemeApplication';
-
 import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { Typography } from 'components/Typography';
-
-import styles from './styles.module.css';
+import { COLORS } from 'constant';
+import React, { FC, useContext } from 'react';
+import { ThemeApplicationContext } from 'theme/application/ThemeApplication';
 
 export const ErrorPage: FC = () => {
   const theme = useContext(ThemeApplicationContext);
@@ -16,7 +13,7 @@ export const ErrorPage: FC = () => {
   };
 
   return (
-    <Box paddingLeft={16} paddingRight={16} paddingBottom={48} flex={1} className={styles.container}>
+    <Box paddingLeft={16} paddingRight={16} paddingBottom={48} flex={1} backgroundColor={COLORS.PALE_BLUE}>
       <Box flex={1} />
       <Typography weight={800} size={24} lineHeight={30} textAlign="center" color={COLORS.BLACK}>
         Что-то пошло не так!

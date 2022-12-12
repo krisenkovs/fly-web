@@ -78,7 +78,7 @@
   <body>
     <script type="text/javascript">
       const theme = {
-        page: 'register',
+        page: 'update-profile',
         realm: 'master',
         message: {
           type: '',
@@ -92,7 +92,11 @@
           action: 'https://localhost:8091',
           resource: '/auth/resources/tbkxb/login/keycloak'.replace(/amp;/g, ''),
         },
-        fields: {},
+        fields: {
+          email: 'email@g.com',
+          firstName: 'firstName',
+          lastName: 'lastName',
+        },
         fieldsError: {},
       };
       theme.url.resetPassword =
