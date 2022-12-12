@@ -89,7 +89,7 @@ export const RegisterPage: FC = () => {
         }
       />
       <Box flex={1} paddingTop={24} paddingLeft={16} paddingRight={16} paddingBottom={40}>
-        <form action={theme?.url?.action} method="post" ref={formRef} >
+        <form action={theme?.url?.action} method="post" ref={formRef}>
           {step === 2 && (
             <>
               <FloatInput
@@ -176,23 +176,22 @@ export const RegisterPage: FC = () => {
             <Button onClick={handleLoginClick} label="Закончить регистрацию" disabled={hasError || !changed} />
           </Box>
         )}
-        {step === 1 && !!theme?.url.social?.length && (
+        <Box flex={1} />
+        {step === 1 && theme?.url?.social?.['Google'] && (
           <>
-            <Box flex={1} />
             <Typography weight={500} size={16} lineHeight={20} textAlign="center" color={COLORS.BLACK}>
               Или через соц сети
             </Typography>
-            <Box marginTop={24} justifyContent="center" alignItems="center" marginBottom={24}>
-              <ProviderButton type="google" href="#" />
-            </Box>
-
-            <Box flexDirection="row" justifyContent="center">
-              <Link weight={700} size={16} height={24} href={theme?.url?.login}>
-                Войти в аккаунт
-              </Link>
+            <Box marginTop={16} justifyContent="center" alignItems="center" marginBottom={24}>
+              <ProviderButton type="google" href={theme?.url?.social['Google']} />
             </Box>
           </>
         )}
+        <Box flexDirection="row" justifyContent="center">
+          <Link weight={700} size={16} height={24} href={theme?.url?.login}>
+            Войти в аккаунт
+          </Link>
+        </Box>
       </Box>
     </Box>
   );

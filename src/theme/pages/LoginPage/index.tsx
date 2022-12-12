@@ -80,13 +80,13 @@ export const LoginPage: FC = () => {
           <Button onClick={handleLoginClick} label="Войти" disabled={hasError || !changed} />
         </Box>
         <Box flex={1} />
-        {!!theme?.url.social?.length && (
+        {theme?.url?.social?.['Google'] && (
           <>
             <Typography weight={500} size={16} lineHeight={20} textAlign="center" color={COLORS.BLACK}>
               Или через соц сети
             </Typography>
             <Box marginTop={16} justifyContent="center" alignItems="center" marginBottom={24}>
-              <ProviderButton type="google" href="#" />
+              <ProviderButton type="google" href={theme?.url?.social['Google']} />
             </Box>
           </>
         )}

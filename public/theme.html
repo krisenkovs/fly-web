@@ -78,7 +78,7 @@
   <body>
     <script type="text/javascript">
       const theme = {
-        page: 'update-profile',
+        page: 'register',
         realm: 'master',
         message: {
           type: '',
@@ -91,6 +91,9 @@
           base: 'https://localhost:8091',
           action: 'https://localhost:8091',
           resource: '/auth/resources/tbkxb/login/keycloak'.replace(/amp;/g, ''),
+          social: {
+            Google: 'google',
+          },
         },
         fields: {
           email: 'email@g.com',
