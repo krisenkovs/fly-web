@@ -1,24 +1,24 @@
-import {Box} from 'components/Box';
-import {Button} from 'components/Button';
-import {FloatInput} from 'components/FloatInput';
-import {Typography} from 'components/Typography';
-import {COLORS} from "constant";
-import React, {FC, useContext, useRef, useState} from 'react';
-import {ThemeApplicationContext} from 'theme/application/ThemeApplication';
-import {Header} from 'theme/components/Header';
+import { Box } from 'components/Box';
+import { Button } from 'components/Button';
+import { FloatInput } from 'components/FloatInput';
+import { Typography } from 'components/Typography';
+import { COLORS } from 'constant';
+import { useForm } from 'hooks/useForm';
+import React, { FC, useContext, useRef } from 'react';
+import { ThemeApplicationContext } from 'theme/application/ThemeApplication';
+import { Header } from 'theme/components/Header';
 
 export const ResetPasswordPage: FC = () => {
-  const [formValues, setFormValues] = useState<{ password?: string }>({});
-  const [formErrors] = useState<{ password?: string }>({});
+  const { values, errors, hasError, changed, validateFields, setFieldValue } = useForm({
+    'password-new': {
+      required: { message: 'Укажите пароль' },
+    },
+  });
   const theme = useContext(ThemeApplicationContext);
   const formRef = useRef<HTMLFormElement>(null);
 
-  function handleUsernameChange(username?: string) {
-    setFormValues((prevValue) => ({ ...prevValue, username }));
-  }
-
   function handleFormClick() {
-    formRef?.current?.submit();
+    validateFields().then(() => formRef?.current?.submit());
   }
 
   return (
@@ -40,21 +40,20 @@ export const ResetPasswordPage: FC = () => {
         <Box flex={1} />
         <form action={theme?.url?.action} method="post" ref={formRef}>
           <FloatInput
-            hint={formErrors?.password}
-            value={formValues?.password}
+            hint={errors['password-new']}
+            value={values['password-new']}
             type="password"
             label="Пароль"
             name="password-new"
-            onChange={handleUsernameChange}
+            onChange={(value) => {
+              setFieldValue('password-new', value);
+              setFieldValue('password-confirm', value);
+            }}
           />
-          <input hidden name="password-confirm" id="password-confirm" value={formValues?.password} />
+          <input hidden name="password-confirm" id="password-confirm" value={values['password-confirm']} />
         </form>
         <Box marginTop={24}>
-          <Button
-            onClick={handleFormClick}
-            label="Востановить пароль"
-            disabled={!formValues?.password || !!formErrors?.password}
-          />
+          <Button onClick={handleFormClick} label="Востановить пароль" disabled={!changed || hasError} />
         </Box>
         <Box flex={1} />
       </Box>

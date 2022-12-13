@@ -9,14 +9,17 @@ import { COLORS } from 'constant';
 import { useForm } from 'hooks/useForm';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
 import { AvatarView } from 'web/components/AvatarView';
 import { Header } from 'web/components/Header';
+import { ROUTES } from 'web/constant';
 import { PasswordModal } from 'web/pages/SettingsPage/PasswordModal';
 import { PhotoModal } from 'web/pages/SettingsPage/PhotoModal';
 import { ProfileType } from 'web/types';
 
 export const SettingsPage = observer(() => {
+  const { replace } = useHistory();
   const { profilePromise, saveProfile, saveProfilePromise, loadProfile } = mainStore;
   const { values, errors, hasError, changed, validateFields, setFieldValue, resetFields } = useForm({
     firstName: { required: { message: 'Заполните имя' } },
@@ -49,9 +52,13 @@ export const SettingsPage = observer(() => {
     validateFields().then(saveProfile);
   }
 
+  function handleBackClick() {
+    replace(ROUTES.PROFILE);
+  }
+
   return (
     <Box flex={1} position="relative">
-      <Header title="Настройки профиля" showBackButton showProfileButton={false} />
+      <Header title="Настройки профиля" showBackButton showProfileButton={false} onBackClick={handleBackClick} />
       <Box paddingTop={30} paddingLeft={16} paddingRight={16} paddingBottom={48} flex={1}>
         <Box flexDirection="row" alignItems="center" marginBottom={20}>
           <AvatarView size={100} avatarCode={values?.avatarCode} photoId={values?.photoId} />

@@ -10,7 +10,9 @@ import { COLORS } from 'constant';
 import { ArrowsDownUp } from 'icons';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Header } from 'web/components/Header';
+import { ROUTES } from 'web/constant';
 import { diffDate, formatDateTime } from 'web/helpers/formatter';
 import { InfoModal } from 'web/pages/HistoryPage/InfoModal';
 import { TransactionType } from 'web/types';
@@ -18,6 +20,7 @@ import { TransactionType } from 'web/types';
 export const HistoryPage = observer(() => {
   const { loadTransactions, transactionsPromise, clear, changeSortOrder, loadNextPage, data } = store;
   const listRef = useRef<HTMLDivElement | null>(null);
+  const { replace } = useHistory();
 
   useEffect(() => {
     loadTransactions();
@@ -37,9 +40,13 @@ export const HistoryPage = observer(() => {
     }
   }
 
+  function handleBackClick() {
+    replace(ROUTES.PROFILE);
+  }
+
   return (
     <Box flex={1} position="relative" overflow="hidden">
-      <Header title="История заправок" showBackButton showProfileButton={false} />
+      <Header title="История заправок" showBackButton showProfileButton={false} onBackClick={handleBackClick} />
       <Box
         borderBottomLeftRadius={12}
         borderBottomRightRadius={12}

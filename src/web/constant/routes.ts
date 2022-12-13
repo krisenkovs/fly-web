@@ -16,4 +16,5 @@ export enum ROUTES {
   ABOUT = '/about',
   CARDS = '/cards',
   NOTIFICATION = '/notification',
+  BALANCE = '/balance',
 }

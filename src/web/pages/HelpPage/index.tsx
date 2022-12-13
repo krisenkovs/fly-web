@@ -4,16 +4,23 @@ import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { ChatCircleDots } from 'icons';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Header } from 'web/components/Header';
+import { ROUTES } from 'web/constant';
 
 export function HelpPage() {
+  const { replace } = useHistory();
   function handlePress() {
     window.location.href = 'mailto:support@batteryfly.io';
   }
 
+  function handleBackClick() {
+    replace(ROUTES.PROFILE);
+  }
+
   return (
     <Box flex={1}>
-      <Header title="Помощь" showBackButton showProfileButton={false} />
+      <Header title="Помощь" showBackButton showProfileButton={false} onBackClick={handleBackClick} />
       <Box flex={1} marginLeft={16} marginRight={16}>
         <Box flex={1} />
         <ChatCircleDots />

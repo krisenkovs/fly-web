@@ -8,6 +8,7 @@ import { CookieConsent } from 'web/components/CookieConsent';
 import { NotificationManager } from 'web/components/NotificationManager';
 import { ROUTES } from 'web/constant';
 import { AboutPage } from 'web/pages/AboutPage';
+import { BalancePage } from 'web/pages/BalancePage';
 import { CarPage } from 'web/pages/CarPage';
 import { CardsPage } from 'web/pages/CardsPage';
 import { ChargePage } from 'web/pages/ChargePage';
@@ -32,16 +33,6 @@ export const Router = observer(() => {
     wsService.connect();
   }, []);
 
-  /*useEffect(() => {
-    function handler() {
-      if (!wsService.stompClient?.connected) wsService.reconnect();
-    }
-    window.addEventListener('pageshow', handler);
-    return () => {
-      window.removeEventListener('pageshow', handler);
-    };
-  }, []);*/
-
   if (!store.profilePromise?.value) {
     return null;
   }
@@ -65,6 +56,7 @@ export const Router = observer(() => {
               <Route path={ROUTES.HELP} component={HelpPage} />
               <Route path={ROUTES.ABOUT} component={AboutPage} />
               <Route path={ROUTES.CARDS} component={CardsPage} />
+              <Route path={ROUTES.BALANCE} component={BalancePage} />
               <Route path={ROUTES.NOTIFICATION} component={NotificationPage} />
             </Switch>
           ) : (

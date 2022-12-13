@@ -62,7 +62,7 @@
                 overflow: hidden;
                 background: var(--color-white);
                 flex: 1;
-                max-width: 1024px;
+                max-width: 500px;
               }
 
               /* Chrome, Safari, Edge, Opera */

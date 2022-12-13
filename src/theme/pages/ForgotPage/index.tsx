@@ -33,7 +33,7 @@ export const ForgotPage: FC = () => {
         info={
           <>
             <Typography weight={400} size={16} lineHeight={24} color={COLORS.BLACK}>
-              Напомни нам email или телефон,
+              Напомни нам email
             </Typography>
             <Typography weight={400} size={16} lineHeight={24} color={COLORS.BLACK}>
               и мы вышлем тебе волшебную ссылку
@@ -47,7 +47,7 @@ export const ForgotPage: FC = () => {
           <FloatInput
             hint={errors?.username}
             value={values?.username}
-            label="Email или телефон"
+            label="Email"
             name="username"
             onChange={(value) => setFieldValue('username', value)}
           />

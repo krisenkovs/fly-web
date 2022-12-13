@@ -21,6 +21,11 @@
                 },
                 fieldsError: {}
             };
+            <#if social.providers??>
+               <#list social.providers as p>
+                   theme.url.social['${p.displayName!}'] = "${p.loginUrl}".replace(/amp;/g, '');
+               </#list>
+            </#if>
 
             <#if message?has_content>
             theme.message.text = '${message.summary}';

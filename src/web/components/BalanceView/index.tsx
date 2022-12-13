@@ -3,35 +3,17 @@ import { Box, TouchableOpacity, Typography } from 'components';
 import { COLORS } from 'constant';
 import { BalanceIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
-import { store } from 'web/components/BalanceView/store';
 import { ROUTES } from 'web/constant';
 
 export const BalanceView = observer(function () {
-  const { accountPromise, loadAccount } = mainStore;
-  const { upAccount, upAccountPromise } = store;
-  const { push } = useHistory();
-
-  useEffect(() => {
-    if (upAccountPromise?.fulfilled) {
-      if (upAccountPromise.value?.redirectUrl) {
-        window.location.href = upAccountPromise.value?.redirectUrl;
-      } else {
-        loadAccount();
-      }
-    }
-  }, [upAccountPromise?.fulfilled]);
-
-  useEffect(() => {
-    if (upAccountPromise?.rejected) {
-      push(ROUTES.PAY_ERROR);
-    }
-  }, [upAccountPromise?.rejected]);
+  const { accountPromise } = mainStore;
+  const { replace } = useHistory();
 
   function handleUp() {
-    upAccount(window.location.href);
+    replace(ROUTES.BALANCE);
   }
 
   return (

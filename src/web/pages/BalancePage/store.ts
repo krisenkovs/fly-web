@@ -6,19 +6,26 @@ import { PaidReturnType } from 'web/types';
 
 class Store {
   upAccountPromise?: PromiseObserver<PaidReturnType> = undefined;
+  sum?: string = '0';
 
   constructor() {
     makeObservable(this, {
       upAccountPromise: observable,
+      sum: observable,
       upAccount: action.bound,
+      setSum: action.bound,
       destroy: action.bound,
     });
+  }
+
+  setSum(value?: string) {
+    this.sum = value;
   }
 
   upAccount(returnUrl?: string) {
     this.upAccountPromise = fromPromise(
       httpService.post(`${API.TRANSACTION}/pay`, {
-        initPrice: 10,
+        initPrice: this.sum,
         returnUrl,
         topUp: true,
       }),
@@ -27,6 +34,7 @@ class Store {
 
   destroy() {
     this.upAccountPromise = undefined;
+    this.sum = '0';
   }
 }
 

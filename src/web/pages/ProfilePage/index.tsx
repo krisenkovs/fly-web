@@ -12,7 +12,6 @@ import { AvatarView } from 'web/components/AvatarView';
 import { Header } from 'web/components/Header';
 import { PWAButton } from 'web/components/PWAButton';
 import { ROUTES } from 'web/constant';
-import { store } from 'web/pages/ProfilePage/store';
 
 const DATA = [
   {
@@ -48,49 +47,31 @@ const DATA = [
 ];
 
 export const ProfilePage = observer(() => {
-  const { push } = useHistory();
+  const { replace } = useHistory();
   const { loadAccount } = mainStore;
-  const { upAccount, upAccountPromise, destroy } = store;
 
   useEffect(() => {
     loadAccount();
-    return destroy;
   }, []);
 
-  useEffect(() => {
-    if (upAccountPromise?.fulfilled) {
-      if (upAccountPromise.value?.redirectUrl) {
-        window.location.href = upAccountPromise.value?.redirectUrl;
-      } else {
-        loadAccount();
-      }
-    }
-  }, [upAccountPromise?.fulfilled]);
-
-  useEffect(() => {
-    if (upAccountPromise?.rejected) {
-      push(ROUTES.PAY_ERROR);
-    }
-  }, [upAccountPromise?.rejected]);
-
   function handleUp() {
-    upAccount(window.location.href);
+    replace(ROUTES.BALANCE);
   }
 
   function handleSettingsClick() {
-    push(ROUTES.SETTINGS);
+    replace(ROUTES.SETTINGS);
   }
 
   function handleNotificationClick() {
-    push(ROUTES.NOTIFICATION);
+    replace(ROUTES.NOTIFICATION);
   }
 
   function handleItemRoute(route?: ROUTES) {
-    route && push(route);
+    route && replace(route);
   }
 
   function handleBackClick() {
-    push(ROUTES.MAIN);
+    replace(ROUTES.MAIN);
   }
 
   return (

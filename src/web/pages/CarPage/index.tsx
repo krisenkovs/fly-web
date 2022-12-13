@@ -25,7 +25,7 @@ export const CarPage = observer(() => {
     },
     powerReserve: { required: { message: 'Укажите запас хода' } },
   });
-  const { push } = useHistory();
+  const { replace } = useHistory();
 
   const { carPromise, loadCarInfo } = mainStore;
   const { saveCarInfo, destroy, saveCarPromise } = store;
@@ -43,7 +43,7 @@ export const CarPage = observer(() => {
   useEffect(() => {
     if (saveCarPromise?.fulfilled) {
       loadCarInfo();
-      push(ROUTES.PROFILE);
+      replace(ROUTES.PROFILE);
     }
   }, [saveCarPromise?.fulfilled]);
 
@@ -60,9 +60,13 @@ export const CarPage = observer(() => {
     connectorModalStore.show(values.connectorType);
   }
 
+  function handleBackClick() {
+    replace(ROUTES.PROFILE);
+  }
+
   return (
     <Box flex={1} position="relative">
-      <Header title="Мой автомобиль" showBackButton showProfileButton={false} />
+      <Header title="Мой автомобиль" showBackButton showProfileButton={false} onBackClick={handleBackClick} />
 
       <>
         <Box
