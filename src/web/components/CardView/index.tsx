@@ -32,6 +32,8 @@ export const CardView = observer(function () {
   if (!cardPromise?.fulfilled){
     return null;
   }  
+  
+  console.log(cardPromise?.fulfilled,cardPromise?.value);
 
   return cardPromise?.value ? (
     <Box
