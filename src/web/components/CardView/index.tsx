@@ -28,6 +28,10 @@ export const CardView = observer(function () {
   function handleAddPress() {
     tieCard(window.location.href);
   }
+  
+  if (!cardPromise?.fulfilled){
+    return null;
+  }  
 
   return cardPromise?.value ? (
     <Box
