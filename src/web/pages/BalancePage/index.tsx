@@ -46,6 +46,10 @@ export const BalancePage = observer(() => {
     replace(ROUTES.PROFILE);
   }
 
+  if (!accountPromise?.fulfilled){
+    return null;
+  }
+
   return (
     <Box flex={1}>
       <Header title="Пополнение баланса" showBackButton showProfileButton={false} onBackClick={handleBackClick} />
