@@ -13,6 +13,7 @@
                     registration: "",
                     resetPassword: "",
                     login: "",
+                    social: {},
                     action: "${url.loginAction}".replace(/amp;/g, ''),
                     resource: "${url.resourcesPath}".replace(/amp;/g, '')
                 },
