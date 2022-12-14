@@ -33,7 +33,7 @@ export const Payment = observer(() => {
     percLimit,
     preCheckTransaction,
   } = store;
-  const { cardPromise, carPromise } = mainStore;
+  const { carPromise } = mainStore;
 
   useEffect(() => {
     if (tieCardPromise?.fulfilled) {
@@ -95,7 +95,7 @@ export const Payment = observer(() => {
             </Typography>
           </Box>
 
-          {cardPromise?.value && <BottomCarousel onChange={handleChangePayment} />}
+          <BottomCarousel onChange={handleChangePayment} />
           <Box flex={1} />
           <InfoText powerType={powerType} paymentType={paymentType} power={fullPower} />
           <Button

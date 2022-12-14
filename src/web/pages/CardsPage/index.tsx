@@ -44,7 +44,9 @@ export const CardsPage = observer(() => {
         <Typography color={COLORS.BLACK} weight={700} size={16} lineHeight={20}>
           Способ оплаты
         </Typography>
-        <Box paddingTop={20}>{cardPromise?.value && <CardView />}</Box>
+        <Box paddingTop={20}>
+          <CardView />
+        </Box>
         {cardPromise?.value && (
           <Box paddingTop={20} justifyContent="end" flexDirection="row">
             <TouchableOpacity onPress={handleChangePress}>
