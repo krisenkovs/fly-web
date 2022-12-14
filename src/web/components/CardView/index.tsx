@@ -29,10 +29,6 @@ export const CardView = observer(function () {
     tieCard(window.location.href);
   }
 
-  if (!cardPromise?.fulfilled) {
-    return null;
-  }
-
   return cardPromise?.value ? (
     <Box
       backgroundColor={COLORS.PALE_BLUE}
