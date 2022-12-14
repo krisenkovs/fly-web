@@ -18,7 +18,6 @@ export const BalancePage = observer(() => {
   const { upAccount, upAccountPromise, destroy, sum, setSum } = store;
 
   useEffect(() => {
-    !accountPromise?.fulfilled && loadAccount();
     return destroy;
   }, []);
 
@@ -44,10 +43,6 @@ export const BalancePage = observer(() => {
 
   function handleBackClick() {
     replace(ROUTES.PROFILE);
-  }
-
-  if (!accountPromise?.fulfilled){
-    return null;
   }
 
   return (
