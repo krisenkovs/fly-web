@@ -13,7 +13,6 @@ export const Application = observer(() => {
 
   useEffect(() => {
     const handler = (e: any) => {
-      console.log('beforeinstallprompt', e);
       e.preventDefault();
       setPromptInstall(e);
     };

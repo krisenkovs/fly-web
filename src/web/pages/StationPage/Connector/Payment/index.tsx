@@ -54,7 +54,7 @@ export const Payment = observer(() => {
       notification({
         content: (
           <Typography color={COLORS.BLACK} weight={500} size={16} lineHeight={24}>
-            {preCheckTransactionPromise?.error?.message || ERRORS['system-error']}
+            {ERRORS[preCheckTransactionPromise?.error?.message || ''] || ERRORS['system-error']}
           </Typography>
         ),
       });

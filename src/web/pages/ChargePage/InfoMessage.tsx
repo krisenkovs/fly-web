@@ -3,6 +3,7 @@ import { Typography } from 'components';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { ERRORS } from 'web/constant';
 import { diffDate, formatTime } from 'web/helpers/formatter';
 import { TRANSACTION_STATUS } from 'web/types';
 
@@ -41,7 +42,8 @@ export const InfoMessage = observer(({ status, startDate, endDate }: Props) => {
     case TRANSACTION_STATUS.ERROR:
       return (
         <Typography weight={400} size={16} lineHeight={24} color={COLORS.RED} textAlign="center">
-          {store.currentTransactionPromise?.value?.errorMessage}
+          {ERRORS[store.currentTransactionPromise?.value?.errorMessage || ''] ||
+            store.currentTransactionPromise?.value?.errorMessage}
         </Typography>
       );
     case TRANSACTION_STATUS.CREATED:

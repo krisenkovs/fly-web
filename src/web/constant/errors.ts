@@ -27,5 +27,14 @@ export const ERRORS: Record<string, string> = {
 
   'start-transaction-error':
     'Ошибка старта транзакции. Повторите попытку позже или обратитесь в службу технической поддержки.',
+
+  'amount-validation-error': 'Неверная сумма',
+  'percent-limit-validation-error': 'Неверный процент заряда',
+  'cant-find-connector': 'Не найден коннектор',
+
+  'unable-find-precheck': 'Ошибка старта зарядки',
+  'wrong-user': 'Ошибка пользователя',
+  'invalid-precheck-status': 'Ошибка старта зарядки',
+
   'system-error': 'Системная ошибка',
 };

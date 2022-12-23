@@ -13,7 +13,7 @@ import { Header } from 'web/components/Header';
 import { ROUTES } from 'web/constant';
 
 export const BalancePage = observer(() => {
-  const { replace } = useHistory();
+  const { replace, location } = useHistory();
   const { loadAccount, accountPromise } = mainStore;
   const { upAccount, upAccountPromise, destroy, sum, setSum } = store;
 
@@ -38,7 +38,13 @@ export const BalancePage = observer(() => {
   }, [upAccountPromise?.rejected]);
 
   function handleUp() {
-    upAccount(window.location.href);
+    const params = new URLSearchParams(location.search);
+
+    if (params.get('redirect')) {
+      upAccount(`${window.location.origin}${params.get('redirect')}`);
+    } else {
+      upAccount(window.location.href);
+    }
   }
 
   function handleBackClick() {

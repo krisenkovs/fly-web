@@ -37,7 +37,7 @@ export function ConnectorItem({ onPress, item, power }: Props) {
       case STATUS.AVAILABLE:
         return 'Доступно';
       case STATUS.PREPARING:
-        return 'Подготовка';
+        return 'Ожидание';
       default:
         return 'Не известно';
     }

@@ -10,10 +10,10 @@ import { ROUTES } from 'web/constant';
 
 export const BalanceView = observer(function () {
   const { accountPromise } = mainStore;
-  const { replace } = useHistory();
+  const { replace, location } = useHistory();
 
   function handleUp() {
-    replace(ROUTES.BALANCE);
+    replace(`${ROUTES.BALANCE}?redirect=${location.pathname}`);
   }
 
   return (

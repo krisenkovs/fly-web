@@ -55,7 +55,7 @@ export const ProfilePage = observer(() => {
   }, []);
 
   function handleUp() {
-    replace(ROUTES.BALANCE);
+    replace(`${ROUTES.BALANCE}?redirect=/profile`);
   }
 
   function handleSettingsClick() {
