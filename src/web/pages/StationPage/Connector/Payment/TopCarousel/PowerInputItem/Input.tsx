@@ -8,16 +8,16 @@ import React, { ReactElement } from 'react';
 type Props = {
   icon: ReactElement;
   title: string;
-  value?: number;
+  value?: string | number;
   values: number[];
-  onChange?: (value: number) => void;
+  onChange?: (value: string) => void;
   precision?: 0 | 1 | 2;
   max?: number;
 };
 
 export function Input({ value, icon, title, values, onChange, precision, max }: Props) {
   function handleChange(value?: string) {
-    onChange?.(parseFloat(value || ''));
+    onChange?.(value || '');
   }
   return (
     <Box>
@@ -38,7 +38,7 @@ export function Input({ value, icon, title, values, onChange, precision, max }: 
       <Box marginLeft={32} flexDirection="row" marginTop={12}>
         {values.map((item, index) => (
           <Box flex={1} key={index}>
-            <TouchableOpacity onPress={() => onChange?.(item)}>
+            <TouchableOpacity onPress={() => onChange?.(`${item}`)}>
               <Box
                 marginLeft={index ? 8 : 0}
                 height={32}

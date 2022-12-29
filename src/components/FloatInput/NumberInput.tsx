@@ -33,6 +33,7 @@ export const NumberInput: FC<Props> = ({
   function handleBlur(e: ChangeEvent<HTMLInputElement>) {
     const regexp = REGEXP[precision];
     const inputValue = e.target?.value?.match(regexp as RegExp)?.[0] || '';
+
     if (max !== undefined && Number(inputValue) > Number(max)) {
       setInput({ value: max.toString() });
       onChange?.(max.toString());
@@ -52,7 +53,6 @@ export const NumberInput: FC<Props> = ({
         autoComplete="none"
         id={name}
         type="number"
-        lang="en"
         step={0.01}
         className={className}
         readOnly={readonly}

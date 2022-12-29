@@ -26,7 +26,7 @@ export function ActionButton({ status, loading, onStart, onStop }: Props) {
     case TRANSACTION_STATUS.STOPPED:
       return <Button label="Возобновить" onClick={onStart} loading={loading} />;
     case TRANSACTION_STATUS.ERROR:
-      return <Button label="Возобновить" onClick={onStart} loading={loading} />;
+      return <Button label="Закрыть" onClick={handleFinishClick} loading={loading} />;
     default:
       return null;
   }

@@ -8,8 +8,8 @@ import { ConnectorType, Page, PaidReturnType, PAYMENT_TYPE, PreCheck, StationTyp
 
 class Store {
   step: STEPS_CONNECTOR = STEPS_CONNECTOR.PAYMENT;
-  sum = 0;
-  power = 0;
+  sum: number | string = 0;
+  power: number | string = 0;
   payFromAccount = false;
   percLimit?: number = undefined;
 
@@ -85,17 +85,17 @@ class Store {
     }
   }
 
-  setSum(value: number) {
+  setSum(value: string) {
     this.sum = value;
     if (this.stationPromise?.value?.rate) {
-      this.power = Math.round((value / this.stationPromise?.value?.rate) * 10) / 10;
+      this.power = Math.round((parseFloat(value) / this.stationPromise?.value?.rate) * 10) / 10;
     }
   }
 
-  setPower(value: number) {
+  setPower(value: string) {
     this.power = value;
     if (this.stationPromise?.value?.rate) {
-      this.sum = Math.round(value * this.stationPromise?.value?.rate * 100) / 100;
+      this.sum = Math.round(parseFloat(value) * this.stationPromise?.value?.rate * 100) / 100;
     }
   }
 
