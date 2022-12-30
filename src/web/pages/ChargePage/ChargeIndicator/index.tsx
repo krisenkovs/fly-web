@@ -30,9 +30,10 @@ export const ChargeIndicator = ({ color, time, percent = 30 }: Props) => {
           cx="120"
           cy="120"
           r="118.5"
-          transform="rotate(-90 120 120)"
+          transform="rotate(-180 120 120)"
           stroke="url(#paint0_linear_14_202)"
           strokeWidth="3"
+          className={styles.circle}
         />
         <defs>
           <linearGradient

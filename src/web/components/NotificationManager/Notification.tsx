@@ -1,9 +1,7 @@
 import { NotificationOptions } from './index';
 import styles from './styles.module.css';
 import { Box } from 'components/Box';
-import { TouchableOpacity } from 'components/TouchableOpacity';
 import { COLORS } from 'constant';
-import { CrossIcon } from 'icons';
 import React, { useEffect } from 'react';
 
 type Props = {
@@ -16,7 +14,7 @@ export function Notification({ onDelete, item, id }: Props) {
   useEffect(() => {
     const timer = setTimeout(() => {
       onDelete(id);
-    }, 3000);
+    }, 5000);
     return () => clearTimeout(timer);
   }, []);
 
