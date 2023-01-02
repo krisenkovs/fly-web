@@ -4,28 +4,25 @@ import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
 import { CrossIcon } from 'icons';
-import React, { PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import React, { CSSProperties, PropsWithChildren, useEffect, useMemo, useState } from 'react';
 
 type Props = PropsWithChildren<{
   visible?: boolean;
   title?: string;
+  showCloseButton?: boolean;
   onClose: () => void;
+  titleAlign?: CSSProperties['textAlign'];
 }>;
 
-export function Modal({ title, visible, children, onClose }: Props) {
+export function Modal({ title, visible, children, onClose, showCloseButton = true, titleAlign = 'left' }: Props) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (visible) {
-      setShow(true);
-    }
+    setShow(!!visible);
   }, [visible]);
 
   function handleClose() {
-    setShow(false);
-    setTimeout(() => {
-      onClose?.();
-    }, 150);
+    onClose?.();
   }
 
   const overlayStyle = useMemo(() => {
@@ -36,13 +33,9 @@ export function Modal({ title, visible, children, onClose }: Props) {
     return { transform: show ? 'translateY(0)' : 'translateY(100%)' };
   }, [show]);
 
-  if (!visible) {
-    return null;
-  }
-
   return (
     <>
-      <div className={styles.overlay} style={overlayStyle} />
+      {show && <div className={styles.overlay} style={overlayStyle} />}
       <Box
         backgroundColor={COLORS.WHITE}
         className={styles.content}
@@ -54,22 +47,24 @@ export function Modal({ title, visible, children, onClose }: Props) {
       >
         <Box flexDirection="row" alignItems="center">
           <Box flex={1}>
-            <Typography color={COLORS.BLACK} weight={700} size={16} lineHeight={20}>
+            <Typography color={COLORS.BLACK} weight={700} size={16} lineHeight={20} textAlign={titleAlign}>
               {title}
             </Typography>
           </Box>
-          <TouchableOpacity onPress={handleClose}>
-            <Box
-              height={32}
-              width={32}
-              borderRadius={16}
-              justifyContent="center"
-              alignItems="center"
-              backgroundColor={COLORS.PALE_BLUE}
-            >
-              <CrossIcon width={20} height={20} color={COLORS.BLUE} />
-            </Box>
-          </TouchableOpacity>
+          {showCloseButton && (
+            <TouchableOpacity onPress={handleClose}>
+              <Box
+                height={32}
+                width={32}
+                borderRadius={16}
+                justifyContent="center"
+                alignItems="center"
+                backgroundColor={COLORS.PALE_BLUE}
+              >
+                <CrossIcon width={20} height={20} color={COLORS.BLUE} />
+              </Box>
+            </TouchableOpacity>
+          )}
         </Box>
         <Box overflow="hidden">{children}</Box>
       </Box>

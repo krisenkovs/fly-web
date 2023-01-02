@@ -1,12 +1,8 @@
 .container {
   position: absolute;
-  top: 10px;
-  width: 100%;
+  top: 8px;
+  right: 0;
+  left: 0;
   gap: 8px;
   z-index: 5;
-}
-
-.item {
-  max-width: 250px;
-  box-shadow: 0 6px 16px 0 rgb(0 0 0 / 8%), 0 3px 6px -4px rgb(0 0 0 / 12%), 0 9px 28px 8px rgb(0 0 0 / 5%);
 }

@@ -1,4 +1,3 @@
-import { COLORS } from 'constant';
 import React from 'react';
 
 type Props = {
@@ -6,7 +5,7 @@ type Props = {
   height?: number;
 };
 
-export default function UserIcon({ width = 40, height = 24 }: Props) {
+export default function VisaIcon({ width = 40, height = 24 }: Props) {
   return (
     <svg width={width} height={height} viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="40" height="24" rx="4" fill="white" />

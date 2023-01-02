@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { store } from 'web/application/store';
-import { ConfirmProvider } from 'web/components/ConfirmProvider';
 import { CookieConsent } from 'web/components/CookieConsent';
 import { NotificationManager } from 'web/components/NotificationManager';
 import { ROUTES } from 'web/constant';
@@ -39,31 +38,29 @@ export const Router = observer(() => {
 
   return (
     <Box flex={1} overflow="hidden" position="relative">
-      <ConfirmProvider>
-        <NotificationManager>
-          {store.profilePromise?.value?.isValidatedPhone ? (
-            <Switch>
-              <Route path={ROUTES.MAIN} exact component={MainPage} />
-              <Route path={ROUTES.STATION} component={StationPage} />
+      <NotificationManager>
+        {store.profilePromise?.value?.isValidatedPhone ? (
+          <Switch>
+            <Route path={ROUTES.MAIN} exact component={MainPage} />
+            <Route path={ROUTES.STATION} component={StationPage} />
 
-              <Route path={ROUTES.CHARGE} component={ChargePage} />
-              <Route path={ROUTES.PAY_ERROR} component={PayErrorPage} />
-              <Route path={ROUTES.PROFILE} component={ProfilePage} />
-              <Route path={ROUTES.SCANNER} component={ScannerPage} />
-              <Route path={ROUTES.SETTINGS} component={SettingsPage} />
-              <Route path={ROUTES.HISTORY} component={HistoryPage} />
-              <Route path={ROUTES.CAR} component={CarPage} />
-              <Route path={ROUTES.HELP} component={HelpPage} />
-              <Route path={ROUTES.ABOUT} component={AboutPage} />
-              <Route path={ROUTES.CARDS} component={CardsPage} />
-              <Route path={ROUTES.BALANCE} component={BalancePage} />
-              <Route path={ROUTES.NOTIFICATION} component={NotificationPage} />
-            </Switch>
-          ) : (
-            <VerifyPage />
-          )}
-        </NotificationManager>
-      </ConfirmProvider>
+            <Route path={ROUTES.CHARGE} component={ChargePage} />
+            <Route path={ROUTES.PAY_ERROR} component={PayErrorPage} />
+            <Route path={ROUTES.PROFILE} component={ProfilePage} />
+            <Route path={ROUTES.SCANNER} component={ScannerPage} />
+            <Route path={ROUTES.SETTINGS} component={SettingsPage} />
+            <Route path={ROUTES.HISTORY} component={HistoryPage} />
+            <Route path={ROUTES.CAR} component={CarPage} />
+            <Route path={ROUTES.HELP} component={HelpPage} />
+            <Route path={ROUTES.ABOUT} component={AboutPage} />
+            <Route path={ROUTES.CARDS} component={CardsPage} />
+            <Route path={ROUTES.BALANCE} component={BalancePage} />
+            <Route path={ROUTES.NOTIFICATION} component={NotificationPage} />
+          </Switch>
+        ) : (
+          <VerifyPage />
+        )}
+      </NotificationManager>
       <CookieConsent />
     </Box>
   );

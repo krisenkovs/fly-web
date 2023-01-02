@@ -1,11 +1,30 @@
 import styles from './styles.module.css';
 import { Box, TouchableOpacity, Typography } from 'components';
 import { COLORS } from 'constant';
-import { PlusIcon, VisaIcon } from 'icons';
+import {
+  ApplePayIcon,
+  BelcardIcon,
+  GooglePayIcon,
+  MasterCardIcon,
+  MirIcon,
+  PlusIcon,
+  SamsungPayIcon,
+  VisaIcon,
+} from 'icons';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { store as mainStore } from 'web/application/store';
 import { store } from 'web/components/CardView/store';
+
+const icons: Record<string, React.ReactElement> = {
+  visa: <VisaIcon />,
+  mastercard: <MasterCardIcon />,
+  mir: <MirIcon />,
+  belcard: <BelcardIcon />,
+  'google-pay': <GooglePayIcon />,
+  'apple-pay': <ApplePayIcon />,
+  'samsung-pay': <SamsungPayIcon />,
+};
 
 export const CardView = observer(function () {
   const { cardPromise, loadCard } = mainStore;
@@ -46,7 +65,7 @@ export const CardView = observer(function () {
       className={styles.container}
     >
       <Box alignItems="center" flex={1} flexDirection="row">
-        <VisaIcon />
+        {icons[cardPromise?.value?.brand]}
         <Box flex={1} marginLeft={12} marginRight={12}>
           <Typography color={COLORS.BLACK} weight={700} size={14} lineHeight={18}>
             {`•••• ${cardPromise?.value?.last4}`}

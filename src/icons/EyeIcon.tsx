@@ -1,22 +1,26 @@
-import React, {CSSProperties, FC} from 'react';
+import React, { CSSProperties, FC } from 'react';
 
 type Props = {
-    style?:CSSProperties
-}
+  style?: CSSProperties;
+};
 
-export const EyeIcon: FC<Props> = ({style}) => {
+export const EyeIcon: FC<Props> = ({ style }) => {
   return (
     <span style={style}>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
-          d="M16.5 16.756C15.1474 17.4846 13.6186 18 12 18C6.47715 18 2 12 2 12C2 12 4.08842 9.20123 7.17205 7.4267M19.5 14.6337C21.0559 13.2652 22 12 22 12C22 12 17.5228 6 12 6C11.6625 6 11.3289 6.02241 11 6.06448"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M2 12C2 12 5.63636 6 12 6C18.3636 6 22 12 22 12C22 12 18.3636 18 12 18C5.63636 18 2 12 2 12Z"
           stroke="#2C2E31"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
-          d="M13.3229 13.5C12.9703 13.8112 12.5072 14 12 14C10.8954 14 10 13.1046 10 12C10 11.4605 10.2136 10.9709 10.5609 10.6111"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
           stroke="#2C2E31"
           strokeWidth="2"
           strokeLinecap="round"

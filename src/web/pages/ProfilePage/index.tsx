@@ -3,7 +3,7 @@ import { Box } from 'components/Box';
 import { TouchableOpacity } from 'components/TouchableOpacity';
 import { Typography } from 'components/Typography';
 import { COLORS } from 'constant';
-import { BellIcon, CaretRightIcon, SlidersIcon } from 'icons';
+import { BellIcon, CaretRightIcon, PlusIcon, SlidersIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -126,26 +126,35 @@ export const ProfilePage = observer(() => {
             {mainStore.profilePromise?.value?.email}
           </Typography>
           <Box flex={1} />
-          <TouchableOpacity onPress={handleUp}>
-            <Box
-              height={42}
-              backgroundColor={COLORS.BLUE}
-              borderBottomLeftRadius={12}
-              borderBottomRightRadius={12}
-              flexDirection="row"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Typography color={COLORS.WHITE} size={14} weight={400} lineHeight={18}>
-                Баланс
+
+          <Box
+            height={42}
+            backgroundColor={COLORS.BLUE}
+            borderBottomLeftRadius={12}
+            borderBottomRightRadius={12}
+            paddingLeft={16}
+            paddingRight={16}
+            flexDirection="row"
+            alignItems="center"
+          >
+            <Typography color={COLORS.WHITE} size={14} weight={400} lineHeight={18}>
+              Баланс
+            </Typography>
+            <Box marginLeft={8}>
+              <Typography color={COLORS.WHITE} size={14} weight={700} lineHeight={18}>
+                {`${mainStore.accountPromise?.value?.amount?.toFixed(2) || 0} BYN`}
               </Typography>
-              <Box marginLeft={8}>
-                <Typography color={COLORS.WHITE} size={14} weight={700} lineHeight={18}>
-                  {`${mainStore.accountPromise?.value?.amount?.toFixed(2) || 0} BYN`}
-                </Typography>
-              </Box>
             </Box>
-          </TouchableOpacity>
+            <Box flex={1} />
+            <TouchableOpacity onPress={handleUp}>
+              <Box>
+                <PlusIcon color={COLORS.WHITE} width={20} height={20} />
+              </Box>
+            </TouchableOpacity>
+          </Box>
+        </Box>
+        <Box marginTop={20}>
+          <PWAButton />
         </Box>
 
         <Box flex={1} paddingTop={8}>
@@ -162,9 +171,6 @@ export const ProfilePage = observer(() => {
             </TouchableOpacity>
           ))}
         </Box>
-      </Box>
-      <Box marginBottom={48} marginLeft={16} marginRight={16}>
-        <PWAButton />
       </Box>
     </Box>
   );

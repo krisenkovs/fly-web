@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import React, { CSSProperties, PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
-  onPress?: () => void;
+  onPress?: (e?: any) => void;
   style?: CSSProperties;
   className?: string;
   disabled?: boolean;

@@ -1,4 +1,5 @@
 import { ChargeIndicator } from './ChargeIndicator';
+import { store as confirmModalStore } from './ConfirmModal/store';
 import { store as infoModalStore } from './InfoModal/store';
 import { PowerIndicator } from './PowerIndicator';
 import { store } from './store';
@@ -11,9 +12,9 @@ import { CrossIcon } from 'icons';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useConfirmModal } from 'web/components/ConfirmProvider';
 import { ROUTES } from 'web/constant';
 import { ActionButton } from 'web/pages/ChargePage/ActionButton';
+import { ConfirmModal } from 'web/pages/ChargePage/ConfirmModal';
 import { InfoMessage } from 'web/pages/ChargePage/InfoMessage';
 import { InfoModal } from 'web/pages/ChargePage/InfoModal';
 import { Title } from 'web/pages/ChargePage/Title';
@@ -22,7 +23,6 @@ import { TRANSACTION_STATUS } from 'web/types';
 
 export const ChargePage = observer(() => {
   const { push, replace } = useHistory();
-  const confirmModal = useConfirmModal();
   const {
     currentTransactionPromise,
     loadCurrentTransaction,
@@ -57,14 +57,7 @@ export const ChargePage = observer(() => {
   }
 
   function handleStop() {
-    confirmModal.open({
-      content: (
-        <Typography color={COLORS.BLACK} size={16} lineHeight={20} weight={600}>
-          Желаете остановить заправку?
-        </Typography>
-      ),
-      onOk: () => stopTransaction(),
-    });
+    confirmModalStore.show();
   }
 
   const colorIndicator = useMemo(() => {
@@ -173,6 +166,7 @@ export const ChargePage = observer(() => {
           />
         </Box>
         <InfoModal />
+        <ConfirmModal onFinish={stopTransaction} />
       </Box>
     </>
   );

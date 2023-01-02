@@ -1,7 +1,7 @@
 import styles from './styles.module.css';
 import { Box, TouchableOpacity, Typography } from 'components';
 import { COLORS } from 'constant';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 export function CookieConsent() {
   const [open, setOpen] = useState(false);
@@ -15,30 +15,48 @@ export function CookieConsent() {
     localStorage.setItem('cookie', '1');
   }
 
+  function handleCancel() {
+    setOpen(false);
+    localStorage.setItem('cookie', '0');
+  }
+
+  const contentStyle = useMemo(() => {
+    return { transform: open ? 'translateY(0)' : 'translateY(100%)' };
+  }, [open]);
+
   if (!open) return null;
 
   return (
-    <Box
-      position="absolute"
-      marginLeft={16}
-      marginRight={16}
-      marginBottom={16}
-      className={styles.container}
-      backgroundColor={COLORS.BLACK}
-      borderRadius={12}
-    >
-      <Box paddingRight={16} paddingLeft={16} paddingBottom={16} paddingTop={16}>
+    <Box position="absolute" className={styles.container} backgroundColor={COLORS.WHITE} style={contentStyle}>
+      <Box paddingRight={16} paddingLeft={16} paddingBottom={24} paddingTop={24}>
         <Box flex={1}>
-          <Typography color={COLORS.WHITE} size={14} weight={400} lineHeight={18}>
-            Сайт использует cookie
+          <Typography color={COLORS.BLACK} size={14} weight={400} lineHeight={18}>
+            Мы используем cookie файлы для наилучшей работы нашего сервиса. Используя сервис вы даёте согласие на работу
+            с этими файлами.
           </Typography>
         </Box>
-        <Box marginTop={8} flexDirection="row" justifyContent="flex-end">
+        <Box marginTop={20}>
           <TouchableOpacity onPress={handleOk}>
-            <Typography color={COLORS.WHITE} size={16} weight={600} lineHeight={24}>
-              Принять
-            </Typography>
+            <Box
+              paddingTop={10}
+              paddingBottom={10}
+              backgroundColor={COLORS.BLUE}
+              justifyContent="center"
+              alignItems="center"
+              borderRadius={8}
+            >
+              <Typography color={COLORS.WHITE} size={14} weight={700} lineHeight={18}>
+                Принять
+              </Typography>
+            </Box>
           </TouchableOpacity>
+          <Box marginTop={8} justifyContent="center" alignItems="center">
+            <TouchableOpacity onPress={handleCancel}>
+              <Typography color={COLORS.BLUE} size={14} weight={700} lineHeight={18}>
+                Отказаться
+              </Typography>
+            </TouchableOpacity>
+          </Box>
         </Box>
       </Box>
     </Box>

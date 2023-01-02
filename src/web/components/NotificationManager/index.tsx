@@ -26,7 +26,7 @@ export function NotificationManager({ children }: PropsWithChildren) {
 
   return (
     <>
-      <Box className={styles.container} justifyContent="center" alignItems="center">
+      <Box className={styles.container} paddingLeft={16} paddingRight={16}>
         {notifications.map((item) => (
           <Notification onDelete={handleDelete} key={item?.id} item={item?.options} id={item?.id} />
         ))}
