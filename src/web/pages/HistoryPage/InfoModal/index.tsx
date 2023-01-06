@@ -3,6 +3,7 @@ import { Box } from 'components/Box';
 import { Modal } from 'components/Modal';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { MESSAGE } from 'web/constant';
 import { diffDate, formatDateTime } from 'web/helpers/formatter';
 import { Field } from 'web/pages/HistoryPage/InfoModal/Field';
 import { PAYMENT_TYPE } from 'web/types';
@@ -19,6 +20,7 @@ export const InfoModal = observer(() => {
         {!data?.percLimit && <Field label="Режим заправки" value="Фиксированная сумма" />}
         {!!data?.stopTime && <Field label="Время завершения" value={formatDateTime(data?.stopTime)} />}
         {!!data?.stopTime && <Field label="Время зарядки" value={diffDate(data?.startTime, data?.stopTime)} />}
+        {!!data?.stopPurposeCode && <Field label="Причина остановки" value={MESSAGE[data.stopPurposeCode]} />}
         <Field label="Тип оплаты" value={data?.paymentType === 'CARD' ? 'Карта' : 'Баланс'} />
         {!!data?.finalPrice && <Field label="Сумма" value={`${data?.finalPrice} BYN`} />}
         {!!data?.initPrice && data?.paymentType === PAYMENT_TYPE.CARD && (

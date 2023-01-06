@@ -37,4 +37,5 @@ export const ERRORS: Record<string, string> = {
   'invalid-precheck-status': 'Ошибка старта зарядки',
 
   'system-error': 'Системная ошибка',
+  'only-one-active-transaction-required': 'Возможно только одна активная зарядка',
 };

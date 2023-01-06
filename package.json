@@ -1,6 +1,6 @@
 {
   "name": "fly-web",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "BatteryFly web",
   "main": "index.js",
   "repository": {
