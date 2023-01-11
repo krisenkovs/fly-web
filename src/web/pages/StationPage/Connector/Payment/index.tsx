@@ -3,7 +3,7 @@ import { Box } from 'components/Box';
 import { Button } from 'components/Button';
 import { COLORS } from 'constant';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { generatePath, useHistory } from 'react-router-dom';
 import { store as mainStore } from 'web/application/store';
 import { Header } from 'web/components/Header';
@@ -75,6 +75,18 @@ export const Payment = observer(() => {
     setPowerType(key as POWER_TYPE);
   }
 
+  const isDisabled = useMemo(() => {
+    if (paymentType === PAYMENT_TYPE.CARD && !mainStore?.cardPromise?.value?.brand) {
+      return true;
+    }
+    if (!percLimit) {
+      if (!sum || !power) {
+        return true;
+      }
+    }
+    return false;
+  }, [paymentType, sum, power, mainStore?.cardPromise?.value?.brand, percLimit]);
+
   return (
     <>
       <Box flex={1}>
@@ -100,7 +112,7 @@ export const Payment = observer(() => {
           <InfoText powerType={powerType} paymentType={paymentType} power={fullPower} />
           <Button
             label="Далее"
-            disabled={!((sum && power) || percLimit)}
+            disabled={isDisabled}
             onClick={preCheckTransaction}
             loading={preCheckTransactionPromise?.pending}
           />

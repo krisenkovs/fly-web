@@ -147,6 +147,7 @@ export const ChargePage = observer(() => {
             status={currentTransaction?.status}
             startDate={currentTransaction?.startTime}
             endDate={currentTransaction?.stopTime}
+            stopReason={currentTransaction?.stopPurposeCode}
           />
         </Box>
         <Box marginTop={12} paddingLeft={16} paddingRight={16} justifyContent="center" flexDirection="row">

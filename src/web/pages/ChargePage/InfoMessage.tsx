@@ -5,15 +5,16 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ERRORS } from 'web/constant';
 import { diffDate, formatTime } from 'web/helpers/formatter';
-import { TRANSACTION_STATUS } from 'web/types';
+import { STOP_PURPOSE_CODE, TRANSACTION_STATUS } from 'web/types';
 
 type Props = {
   status?: TRANSACTION_STATUS;
   startDate?: string;
   endDate?: string;
+  stopReason?: STOP_PURPOSE_CODE;
 };
 
-export const InfoMessage = observer(({ status, startDate, endDate }: Props) => {
+export const InfoMessage = observer(({ status, startDate, endDate, stopReason }: Props) => {
   switch (status) {
     case TRANSACTION_STATUS.ACTIVE:
       return (
@@ -34,11 +35,45 @@ export const InfoMessage = observer(({ status, startDate, endDate }: Props) => {
         </Typography>
       );
     case TRANSACTION_STATUS.CLOSED:
-      return (
-        <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
-          Зарядка успешно завершена
-        </Typography>
-      );
+      switch (stopReason) {
+        case STOP_PURPOSE_CODE.RUN_OUT_OF_MONEY_ON_ACCOUNT:
+          return (
+            <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
+              Закончились средства на балансе
+            </Typography>
+          );
+        case STOP_PURPOSE_CODE.MANUAL_STOP:
+          return (
+            <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
+              Ручная остановка
+            </Typography>
+          );
+        case STOP_PURPOSE_CODE.UNKNOWN_PURPOSE:
+          return (
+            <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
+              Неизвестная причина
+            </Typography>
+          );
+        case STOP_PURPOSE_CODE.BATTERY_IS_FULLY_CHARGED:
+          return (
+            <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
+              Батарея полностью заряжена
+            </Typography>
+          );
+        case STOP_PURPOSE_CODE.CHARGING_COMPLETED_ACCORDING_TO_PRECHECK:
+          return (
+            <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
+              Зарядка успешно завершена
+            </Typography>
+          );
+        default:
+          return (
+            <Typography weight={400} size={16} lineHeight={24} color={COLORS.LIGHT_BLACK} textAlign="center">
+              Зарядка успешно завершена
+            </Typography>
+          );
+      }
+
     case TRANSACTION_STATUS.ERROR:
       return (
         <Typography weight={400} size={16} lineHeight={24} color={COLORS.RED} textAlign="center">
